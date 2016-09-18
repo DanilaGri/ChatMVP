@@ -33,8 +33,8 @@ public class LoginActivity extends BaseActivity implements LoginActivityView {
 
     @Bind(R.id.login_progress)
     ProgressBar loginProgress;
-    @Bind(R.id.login)
-    AutoCompleteTextView loginView;
+    @Bind(R.id.email)
+    AutoCompleteTextView emailView;
     @Bind(R.id.password)
     EditText passwordView;
     @Bind(R.id.login_button)
@@ -55,7 +55,7 @@ public class LoginActivity extends BaseActivity implements LoginActivityView {
         getComponent().inject(this);
         presenter.attachView(this);
         passwordView.setOnEditorActionListener((textView, id, keyEvent) -> {
-            if (id == R.id.login || id == EditorInfo.IME_NULL) {
+            if (id == R.id.email || id == EditorInfo.IME_NULL) {
                 attemptLogin();
                 return true;
             }
@@ -79,27 +79,31 @@ public class LoginActivity extends BaseActivity implements LoginActivityView {
     private void attemptLogin() {
 
         // Reset errors.
-        loginView.setError(null);
+        emailView.setError(null);
         passwordView.setError(null);
 
         // Store values at the time of the login attempt.
-        String login = loginView.getText().toString();
+        String email = emailView.getText().toString();
         String password = passwordView.getText().toString();
 
         boolean cancel = false;
         View focusView = null;
 
         // Check for a valid password, if the user entered one.
-        if (TextUtils.isEmpty(password) && isPasswordValid(password)) {
+        if (TextUtils.isEmpty(password) || !isPasswordValid(password)) {
             passwordView.setError(getString(R.string.error_invalid_password));
             focusView = passwordView;
             cancel = true;
         }
 
-        // Check for a valid login.
-        if (TextUtils.isEmpty(login)) {
-            loginView.setError(getString(R.string.error_field_required));
-            focusView = loginView;
+        // Check for a valid email address.
+        if (TextUtils.isEmpty(email)) {
+            emailView.setError(getString(R.string.error_field_required));
+            focusView = emailView;
+            cancel = true;
+        } else if (!isEmailValid(email)) {
+            emailView.setError(getString(R.string.error_invalid_email));
+            focusView = emailView;
             cancel = true;
         }
 
@@ -111,13 +115,16 @@ public class LoginActivity extends BaseActivity implements LoginActivityView {
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
             showProgress(true);
-            presenter.login(login, password);
+            presenter.login(email, password);
         }
     }
 
     private boolean isPasswordValid(String password) {
-        //TODO: Replace this with your own logic
         return password.length() > 4;
+    }
+
+    private boolean isEmailValid(String email) {
+        return email.contains("@");
     }
 
     /**

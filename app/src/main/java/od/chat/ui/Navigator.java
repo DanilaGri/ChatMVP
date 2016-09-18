@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import javax.inject.Inject;
 
 import od.chat.R;
+import od.chat.ui.fragment.ChatFragment;
 
 /**
  * Created by danila on 15.08.16.
@@ -61,7 +62,10 @@ public class Navigator {
         return activity.getSupportFragmentManager();
     }
 
-
+    public void openChatScreen() {
+        ChatFragment chatFragment = ChatFragment.newInstance("test");
+        addFragment(chatFragment, ChatFragment.TAG);
+    }
 
 
 }

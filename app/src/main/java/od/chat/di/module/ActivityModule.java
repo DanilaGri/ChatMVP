@@ -6,7 +6,9 @@ import dagger.Module;
 import dagger.Provides;
 import od.chat.di.qualifier.PerActivity;
 import od.chat.presenter.LoginActivityPresenter;
+import od.chat.presenter.MainActivityPresenter;
 import od.chat.presenter.impl.LoginActivityPresenterImpl;
+import od.chat.presenter.impl.MainActivityPresenterImpl;
 import od.chat.ui.Navigator;
 
 /**
@@ -36,6 +38,12 @@ public class ActivityModule {
     @Provides
     @PerActivity
     LoginActivityPresenter provideLoginActivityPresenter(LoginActivityPresenterImpl presenter) {
+        return presenter;
+    }
+
+    @Provides
+    @PerActivity
+    MainActivityPresenter provideMainActivityPresenter(MainActivityPresenterImpl presenter) {
         return presenter;
     }
 

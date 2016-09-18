@@ -17,6 +17,19 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
+    <style name="AppTheme.SeparatorVertical">
+        <item name="android:layout_width">1px</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:background">#90909090</item>
+    </style>
+
+    <style name="AppTheme.SeparatorHorizontal">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1px</item>
+        <item name="android:background">#90909090</item>
+    </style>
+
+
     <style name="AppTheme.ButtonStyle">
         <item name="android:layout_width">250dp</item>
         <item name="android:layout_height">48dp</item>

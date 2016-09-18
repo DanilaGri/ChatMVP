@@ -4,6 +4,7 @@ import javax.inject.Inject;
 
 import od.chat.presenter.LoginActivityPresenter;
 import od.chat.ui.Navigator;
+import od.chat.ui.activity.MainActivity;
 import od.chat.utils.SharedPreferencesUtils;
 
 /**
@@ -23,5 +24,7 @@ public class LoginActivityPresenterImpl extends LoginActivityPresenter {
     @Override
     public void login(String login, String password) {
         preferencesUtils.createUserLoginSession(login, password);
+        navigator.openScreen(MainActivity.class);
+        navigator.finishActivity();
     }
 }

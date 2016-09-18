@@ -1,0 +1,89 @@
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_margin="2dp">
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/spacing_major"
+        tools:context="od.chat.ui.fragment.ChatFragment">
+
+
+        <ImageView
+            android:id="@+id/iv_icon"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true" />
+
+        <TextView
+            android:id="@+id/tv_username"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/iv_icon"
+            android:layout_marginLeft="@dimen/spacing_medium"
+            android:layout_toEndOf="@+id/iv_icon"
+            android:layout_toRightOf="@+id/iv_icon"
+            android:text="Small Text"
+            android:textColor="@color/blue_letter"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+
+        <TextView
+            android:id="@+id/tv_create_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_username"
+            android:layout_marginLeft="@dimen/spacing_medium"
+            android:layout_toEndOf="@+id/iv_icon"
+            android:layout_toRightOf="@+id/iv_icon"
+            android:text="Small Text"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+
+        <TextView
+            android:id="@+id/tv_subscription"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/iv_icon"
+            android:layout_marginBottom="@dimen/spacing_medium"
+            android:layout_marginTop="@dimen/spacing_medium"
+            android:text="Small Text"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+
+        <View
+            android:id="@+id/view"
+            style="@style/AppTheme.SeparatorHorizontal"
+            android:layout_below="@+id/tv_subscription" />
+
+        <LinearLayout
+            android:id="@+id/comment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/view"
+            android:background="?attr/selectableItemBackground"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:padding="12dp">
+
+            <ImageView
+                android:id="@+id/imageButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_chat_white_24dp" />
+
+            <TextView
+                android:id="@+id/tv_count_comment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/spacing_minor"
+                android:text="0"
+                android:textAppearance="?android:attr/textAppearanceSmall" />
+
+        </LinearLayout>
+
+    </RelativeLayout>
+</android.support.v7.widget.CardView>
