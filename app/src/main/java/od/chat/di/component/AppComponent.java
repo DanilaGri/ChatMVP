@@ -7,6 +7,7 @@ import android.content.res.Resources;
 import javax.inject.Singleton;
 
 import dagger.Component;
+import od.chat.di.module.ApiModule;
 import od.chat.di.module.AppModule;
 import od.chat.di.module.UtilsModule;
 import od.chat.utils.RxUtil;
@@ -18,6 +19,7 @@ import od.chat.utils.SharedPreferencesUtils;
 @Singleton
 @Component(modules = {
         AppModule.class,
+        ApiModule.class,
         UtilsModule.class
 })
 public interface AppComponent {
