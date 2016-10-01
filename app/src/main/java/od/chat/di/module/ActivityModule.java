@@ -5,6 +5,8 @@ import android.app.Activity;
 import dagger.Module;
 import dagger.Provides;
 import od.chat.di.qualifier.PerActivity;
+import od.chat.helper.AlertDialogsHelper;
+import od.chat.helper.impl.AlertDialogsHelperImpl;
 import od.chat.presenter.LoginActivityPresenter;
 import od.chat.presenter.MainActivityPresenter;
 import od.chat.presenter.impl.LoginActivityPresenterImpl;
@@ -45,6 +47,12 @@ public class ActivityModule {
     @PerActivity
     MainActivityPresenter provideMainActivityPresenter(MainActivityPresenterImpl presenter) {
         return presenter;
+    }
+
+    @Provides
+    @PerActivity
+    public AlertDialogsHelper provideProgressDialogHelper(Activity activity) {
+        return new AlertDialogsHelperImpl(activity);
     }
 
 }

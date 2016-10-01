@@ -173,7 +173,6 @@ public class LoginActivity extends BaseActivity implements LoginActivityView {
 
     @Override
     public void showError() {
-        Toast.makeText(this, "Ошибка авторизации", Toast.LENGTH_SHORT).show();
         showProgress(false);
     }
 }

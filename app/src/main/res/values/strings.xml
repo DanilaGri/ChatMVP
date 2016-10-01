@@ -17,6 +17,8 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
+    <string name="error.message.network">Отсутствует подключение к Интернету</string>
+    <string name="error.message.service">Истек таймаут подключения к сервису</string>
     <string name="title_activity_questions_answers">QuestionsAnswersActivity</string>
     <string name="error_invalid_email">This email address is invalid</string>
     <string name="error_invalid_password">This password is invalid</string>

@@ -5,6 +5,7 @@ import android.app.Activity;
 import dagger.Component;
 import od.chat.di.module.FragmentModule;
 import od.chat.di.qualifier.PerFragment;
+import od.chat.helper.AlertDialogsHelper;
 import od.chat.ui.Navigator;
 import od.chat.ui.fragment.ChatFragment;
 
@@ -15,6 +16,8 @@ import od.chat.ui.fragment.ChatFragment;
 @Component(dependencies = {ActivityComponent.class}, modules = {FragmentModule.class})
 public interface FragmentComponent {
     Activity getActivity();
+
+    AlertDialogsHelper getAlertDialogsHelper();
 
     Navigator getNavigator();
 
