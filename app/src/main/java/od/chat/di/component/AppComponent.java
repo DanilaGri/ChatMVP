@@ -9,7 +9,9 @@ import javax.inject.Singleton;
 import dagger.Component;
 import od.chat.di.module.ApiModule;
 import od.chat.di.module.AppModule;
+import od.chat.di.module.HelperModule;
 import od.chat.di.module.UtilsModule;
+import od.chat.helper.ChatHelper;
 import od.chat.utils.RxUtil;
 import od.chat.utils.SharedPreferencesUtils;
 
@@ -20,6 +22,7 @@ import od.chat.utils.SharedPreferencesUtils;
 @Component(modules = {
         AppModule.class,
         ApiModule.class,
+        HelperModule.class,
         UtilsModule.class
 })
 public interface AppComponent {
@@ -33,4 +36,6 @@ public interface AppComponent {
     SharedPreferencesUtils getSharedPreferencesUtils();
 
     RxUtil getRxUtil();
+
+    ChatHelper getChatHelper();
 }

@@ -54,13 +54,15 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         Chat item = chatList.get(position);
-        holder.tvUsername.setText(item.getUserSurname() != null ? item.getUserSurname() : "");
+        holder.tvUsername.setText(item.getUserName() != null && item.getUserSurname() != null
+                ? item.getUserName() + " " + item.getUserSurname() : "");
         holder.tvCreateDate.setText(item.getTimestamp() != null ? item.getTimestamp() : "");
         holder.tvSubscription.setText(item.getDescription() != null ? item.getDescription() : "");
+        holder.tvSubscription.setText(item.getTitle() != null ? item.getTitle() : "");
 //        holder.tvUsername.setText(item.getUserSurname() != null ? item.getUserSurname() : "");
 
         Glide.with(context)
-                .load("https://cfcdnpull-creativefreedoml.netdna-ssl.com/wp-content/uploads/2013/03/00-android-4-0_icons.png").asBitmap().centerCrop()
+                .load(item.getUserAvatar()).asBitmap().centerCrop()
                 .into(new BitmapImageViewTarget(holder.ivIcon) {
                     @Override
                     protected void setResource(Bitmap resource) {
@@ -70,6 +72,10 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
                         holder.ivIcon.setImageDrawable(circularBitmapDrawable);
                     }
                 });
+
+        Glide.with(context)
+                .load(item.getImage()).asBitmap()
+                .into(holder.ivPostImage);
 
     }
 
@@ -85,8 +91,12 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
         TextView tvUsername;
         @Bind(R.id.tv_create_date)
         TextView tvCreateDate;
+        @Bind(R.id.tv_title)
+        TextView tvTitle;
         @Bind(R.id.tv_subscription)
         TextView tvSubscription;
+        @Bind(R.id.iv_post_image)
+        ImageView ivPostImage;
         @Bind(R.id.view)
         View view;
         @Bind(R.id.imageButton)

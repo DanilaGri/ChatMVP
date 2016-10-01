@@ -7,6 +7,7 @@ import android.content.res.Resources;
 import dagger.Component;
 import od.chat.di.module.ActivityModule;
 import od.chat.di.qualifier.PerActivity;
+import od.chat.helper.ChatHelper;
 import od.chat.ui.Navigator;
 import od.chat.ui.activity.LoginActivity;
 import od.chat.ui.activity.MainActivity;
@@ -31,6 +32,8 @@ public interface ActivityComponent {
     SharedPreferencesUtils getSharedPreferencesUtils();
 
     RxUtil getRxUtil();
+
+    ChatHelper getChatHelper();
 
     void inject(LoginActivity loginActivity);
 

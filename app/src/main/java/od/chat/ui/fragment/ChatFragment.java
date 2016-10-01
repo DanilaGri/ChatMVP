@@ -76,6 +76,9 @@ public class ChatFragment extends BaseFragment implements ChatView, OnAdapterLis
         presenter.attachView(this);
         presenter.loadChat();
         rvChat.setLayoutManager(new LinearLayoutManager(getActivity()));
+        swipeChat.setOnRefreshListener(() -> {
+            presenter.loadChat();
+        });
         return view;
     }
 
@@ -90,10 +93,16 @@ public class ChatFragment extends BaseFragment implements ChatView, OnAdapterLis
     public void showChat(List<Chat> chatList) {
         ChatAdapter chatAdapter = new ChatAdapter(getActivity(), chatList, this);
         rvChat.setAdapter(chatAdapter);
+        swipeChat.setRefreshing(false);
     }
 
     @Override
     public <T> void onClick(T t) {
 
+    }
+
+    @Override
+    public void showError() {
+        swipeChat.setRefreshing(false);
     }
 }

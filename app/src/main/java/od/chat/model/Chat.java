@@ -7,56 +7,30 @@ import com.google.gson.annotations.SerializedName;
  * Created by danila on 18.09.16.
  */
 public class Chat {
-    @SerializedName("0")
-    @Expose
-    private String _0;
     @SerializedName("id")
     @Expose
     private String id;
-    @SerializedName("1")
-    @Expose
-    private String _1;
     @SerializedName("title")
     @Expose
     private String title;
-    @SerializedName("2")
-    @Expose
-    private String _2;
     @SerializedName("description")
     @Expose
     private String description;
-    @SerializedName("3")
+    @SerializedName("image")
     @Expose
-    private String _3;
+    private String image;
     @SerializedName("timestamp")
     @Expose
     private String timestamp;
-    @SerializedName("4")
-    @Expose
-    private String _4;
     @SerializedName("user_name")
     @Expose
     private String userName;
-    @SerializedName("5")
-    @Expose
-    private String _5;
     @SerializedName("user_surname")
     @Expose
     private String userSurname;
-
-    /**
-     * @return The _0
-     */
-    public String get0() {
-        return _0;
-    }
-
-    /**
-     * @param _0 The 0
-     */
-    public void set0(String _0) {
-        this._0 = _0;
-    }
+    @SerializedName("user_avatar")
+    @Expose
+    private String userAvatar;
 
     /**
      * @return The id
@@ -70,20 +44,6 @@ public class Chat {
      */
     public void setId(String id) {
         this.id = id;
-    }
-
-    /**
-     * @return The _1
-     */
-    public String get1() {
-        return _1;
-    }
-
-    /**
-     * @param _1 The 1
-     */
-    public void set1(String _1) {
-        this._1 = _1;
     }
 
     /**
@@ -101,20 +61,6 @@ public class Chat {
     }
 
     /**
-     * @return The _2
-     */
-    public String get2() {
-        return _2;
-    }
-
-    /**
-     * @param _2 The 2
-     */
-    public void set2(String _2) {
-        this._2 = _2;
-    }
-
-    /**
      * @return The description
      */
     public String getDescription() {
@@ -129,17 +75,17 @@ public class Chat {
     }
 
     /**
-     * @return The _3
+     * @return The image
      */
-    public String get3() {
-        return _3;
+    public String getImage() {
+        return image;
     }
 
     /**
-     * @param _3 The 3
+     * @param image The image
      */
-    public void set3(String _3) {
-        this._3 = _3;
+    public void setImage(String image) {
+        this.image = image;
     }
 
     /**
@@ -157,20 +103,6 @@ public class Chat {
     }
 
     /**
-     * @return The _4
-     */
-    public String get4() {
-        return _4;
-    }
-
-    /**
-     * @param _4 The 4
-     */
-    public void set4(String _4) {
-        this._4 = _4;
-    }
-
-    /**
      * @return The userName
      */
     public String getUserName() {
@@ -182,20 +114,6 @@ public class Chat {
      */
     public void setUserName(String userName) {
         this.userName = userName;
-    }
-
-    /**
-     * @return The _5
-     */
-    public String get5() {
-        return _5;
-    }
-
-    /**
-     * @param _5 The 5
-     */
-    public void set5(String _5) {
-        this._5 = _5;
     }
 
     /**
@@ -211,4 +129,19 @@ public class Chat {
     public void setUserSurname(String userSurname) {
         this.userSurname = userSurname;
     }
+
+    /**
+     * @return The userAvatar
+     */
+    public String getUserAvatar() {
+        return userAvatar;
+    }
+
+    /**
+     * @param userAvatar The user_avatar
+     */
+    public void setUserAvatar(String userAvatar) {
+        this.userAvatar = userAvatar;
+    }
+
 }
