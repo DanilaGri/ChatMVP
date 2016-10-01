@@ -15,6 +15,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.ScrollView;
+import android.widget.Toast;
 
 import javax.inject.Inject;
 
@@ -24,6 +25,7 @@ import butterknife.OnClick;
 import od.chat.R;
 import od.chat.presenter.LoginActivityPresenter;
 import od.chat.ui.view.LoginActivityView;
+import od.chat.utils.AndroidUtils;
 
 
 /**
@@ -89,8 +91,8 @@ public class LoginActivity extends BaseActivity implements LoginActivityView {
         boolean cancel = false;
         View focusView = null;
 
-        // Check for a valid password, if the user entered one.
-        if (TextUtils.isEmpty(password) || !isPasswordValid(password)) {
+        // Check for a valid password, if the user entered one.|| !isPasswordValid(password)
+        if (TextUtils.isEmpty(password)) {
             passwordView.setError(getString(R.string.error_invalid_password));
             focusView = passwordView;
             cancel = true;
@@ -166,6 +168,13 @@ public class LoginActivity extends BaseActivity implements LoginActivityView {
     @OnClick(R.id.login_button)
     public void onClick() {
         attemptLogin();
+        AndroidUtils.hideKeyboard(getCurrentFocus());
+    }
+
+    @Override
+    public void showError() {
+        Toast.makeText(this, "Ошибка авторизации", Toast.LENGTH_SHORT).show();
+        showProgress(false);
     }
 }
 

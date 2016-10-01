@@ -19,7 +19,7 @@
     </string>
     <string name="title_activity_questions_answers">QuestionsAnswersActivity</string>
     <string name="error_invalid_email">This email address is invalid</string>
-    <string name="error_invalid_password">This password is too short</string>
+    <string name="error_invalid_password">This password is invalid</string>
     <string name="title_activity_login_activityd">Sign in</string>
 
 </resources>

@@ -4,7 +4,9 @@ import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
+import od.chat.helper.AuthHelper;
 import od.chat.helper.ChatHelper;
+import od.chat.helper.impl.AuthHelperImpl;
 import od.chat.helper.impl.ChatHelperImpl;
 import od.chat.network.Api;
 import od.chat.utils.RxUtil;
@@ -18,5 +20,11 @@ public class HelperModule {
     @Singleton
     public ChatHelper provideHandbookHelper(RxUtil rxUtil, Api api) {
         return new ChatHelperImpl(rxUtil, api);
+    }
+
+    @Provides
+    @Singleton
+    public AuthHelper provideAuthHelper(RxUtil rxUtil, Api api) {
+        return new AuthHelperImpl(rxUtil, api);
     }
 }
