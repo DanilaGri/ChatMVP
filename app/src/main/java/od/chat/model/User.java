@@ -31,126 +31,98 @@ public class User {
     private String password;
 
     /**
-     *
-     * @return
-     * The id
+     * @return The id
      */
     public String getId() {
         return id;
     }
 
     /**
-     *
-     * @param id
-     * The id
+     * @param id The id
      */
     public void setId(String id) {
         this.id = id;
     }
 
     /**
-     *
-     * @return
-     * The email
+     * @return The email
      */
     public String getEmail() {
         return email;
     }
 
     /**
-     *
-     * @param email
-     * The email
+     * @param email The email
      */
     public void setEmail(String email) {
         this.email = email;
     }
 
     /**
-     *
-     * @return
-     * The name
+     * @return The name
      */
     public String getName() {
         return name;
     }
 
     /**
-     *
-     * @param name
-     * The name
+     * @param name The name
      */
     public void setName(String name) {
         this.name = name;
     }
 
     /**
-     *
-     * @return
-     * The surname
+     * @return The surname
      */
     public String getSurname() {
         return surname;
     }
 
     /**
-     *
-     * @param surname
-     * The surname
+     * @param surname The surname
      */
     public void setSurname(String surname) {
         this.surname = surname;
     }
 
     /**
-     *
-     * @return
-     * The avatar
+     * @return The avatar
      */
     public String getAvatar() {
         return avatar;
     }
 
     /**
-     *
-     * @param avatar
-     * The avatar
+     * @param avatar The avatar
      */
     public void setAvatar(String avatar) {
         this.avatar = avatar;
     }
 
     /**
-     *
-     * @return
-     * The type
+     * @return The type
      */
     public String getType() {
         return type;
     }
 
     /**
-     *
-     * @param type
-     * The type
+     * @param type The type
      */
     public void setType(String type) {
         this.type = type;
     }
 
     /**
-     *
-     * @return
-     * The password
+     * @return The password
      */
     public String getPassword() {
         return password;
     }
 
     /**
-     *
-     * @param password
-     * The password
+     * @param password The password
      */
     public void setPassword(String password) {
         this.password = password;

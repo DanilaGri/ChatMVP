@@ -8,5 +8,6 @@ import od.chat.ui.view.CommentView;
 
 public abstract class CommentPresenter extends BasePresenter<CommentView> {
     public abstract void loadComments(String id);
+
     public abstract void sendComment(String text);
 }

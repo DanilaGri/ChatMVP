@@ -18,7 +18,6 @@ import butterknife.ButterKnife;
 import od.chat.R;
 import od.chat.listener.OnAdapterListener;
 import od.chat.model.Chat;
-import od.chat.model.Comment;
 import od.chat.presenter.ChatPresenter;
 import od.chat.ui.adapter.ChatAdapter;
 import od.chat.ui.view.ChatView;
@@ -99,7 +98,7 @@ public class ChatFragment extends BaseFragment implements ChatView, OnAdapterLis
 
     @Override
     public <T> void onClick(T t) {
-        presenter.openComments(((Chat)t).getId());
+        presenter.openComments(((Chat) t).getId());
     }
 
     @Override

@@ -9,15 +9,12 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-
 import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import od.chat.R;
 import od.chat.listener.OnAdapterListener;
-import od.chat.model.Chat;
 import od.chat.model.Comment;
 
 /**
@@ -82,6 +79,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
         View view;
         @Bind(R.id.comment)
         CardView comment;
+
         public ViewHolder(View view) {
             super(view);
             ButterKnife.bind(this, view);

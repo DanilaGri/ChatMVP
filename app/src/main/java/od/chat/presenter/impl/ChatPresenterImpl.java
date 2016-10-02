@@ -10,7 +10,6 @@ import od.chat.presenter.ChatPresenter;
 import od.chat.ui.Navigator;
 import od.chat.utils.SharedPreferencesUtils;
 import rx.Observer;
-import rx.Subscription;
 
 /**
  * Created by danila on 18.09.16.

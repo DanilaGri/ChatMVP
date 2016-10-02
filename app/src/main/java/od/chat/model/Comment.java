@@ -25,90 +25,70 @@ public class Comment {
     private String userId;
 
     /**
-     *
-     * @return
-     * The id
+     * @return The id
      */
     public String getId() {
         return id;
     }
 
     /**
-     *
-     * @param id
-     * The id
+     * @param id The id
      */
     public void setId(String id) {
         this.id = id;
     }
 
     /**
-     *
-     * @return
-     * The text
+     * @return The text
      */
     public String getText() {
         return text;
     }
 
     /**
-     *
-     * @param text
-     * The text
+     * @param text The text
      */
     public void setText(String text) {
         this.text = text;
     }
 
     /**
-     *
-     * @return
-     * The timestamp
+     * @return The timestamp
      */
     public String getTimestamp() {
         return timestamp;
     }
 
     /**
-     *
-     * @param timestamp
-     * The timestamp
+     * @param timestamp The timestamp
      */
     public void setTimestamp(String timestamp) {
         this.timestamp = timestamp;
     }
 
     /**
-     *
-     * @return
-     * The newsId
+     * @return The newsId
      */
     public String getNewsId() {
         return newsId;
     }
 
     /**
-     *
-     * @param newsId
-     * The news_id
+     * @param newsId The news_id
      */
     public void setNewsId(String newsId) {
         this.newsId = newsId;
     }
 
     /**
-     *
-     * @return
-     * The userId
+     * @return The userId
      */
     public String getUserId() {
         return userId;
     }
 
     /**
-     *
-     * @param userId
-     * The user_id
+     * @param userId The user_id
      */
     public void setUserId(String userId) {
         this.userId = userId;

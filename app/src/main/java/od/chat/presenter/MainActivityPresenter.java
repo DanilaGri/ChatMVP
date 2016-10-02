@@ -8,5 +8,7 @@ import od.chat.ui.view.MainActivityView;
 public abstract class MainActivityPresenter extends BasePresenter<MainActivityView> {
     public abstract void openChatScreen();
 
+    public abstract void setupUserInfo();
+
     public abstract void openLoginScreen();
 }

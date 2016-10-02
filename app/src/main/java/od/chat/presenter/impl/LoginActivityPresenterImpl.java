@@ -48,7 +48,7 @@ public class LoginActivityPresenterImpl extends LoginActivityPresenter {
 
             @Override
             public void onNext(User user) {
-                if(user == null){
+                if (user == null) {
                     view.showError();
                     alertDialogsHelper.errorTxtMsg("Ошибка авторизации");
                 } else {
@@ -62,7 +62,7 @@ public class LoginActivityPresenterImpl extends LoginActivityPresenter {
 
     @Override
     public void start() {
-        if(preferencesUtils.isUserLoggedIn()){
+        if (preferencesUtils.isUserLoggedIn()) {
             navigator.openScreen(MainActivity.class);
             navigator.finishActivity();
         }

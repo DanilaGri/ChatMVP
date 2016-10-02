@@ -14,7 +14,6 @@ import od.chat.helper.CommentHelper;
 import od.chat.ui.Navigator;
 import od.chat.ui.activity.LoginActivity;
 import od.chat.ui.activity.MainActivity;
-import od.chat.ui.adapter.CommentAdapter;
 import od.chat.utils.RxUtil;
 import od.chat.utils.SharedPreferencesUtils;
 

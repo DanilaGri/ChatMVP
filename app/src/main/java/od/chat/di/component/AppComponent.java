@@ -40,6 +40,8 @@ public interface AppComponent {
     RxUtil getRxUtil();
 
     ChatHelper getChatHelper();
+
     CommentHelper getCommentHelper();
+
     AuthHelper getAuthHelper();
 }

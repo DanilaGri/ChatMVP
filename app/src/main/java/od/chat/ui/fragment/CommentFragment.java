@@ -12,7 +12,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import java.util.List;
 
@@ -112,7 +111,7 @@ public class CommentFragment extends BaseFragment implements CommentView, OnAdap
 
             @Override
             public void afterTextChanged(Editable s) {
-                if(etAddComment.length() > 0){
+                if (etAddComment.length() > 0) {
                     ivSend.setEnabled(true);
                 } else {
                     ivSend.setEnabled(false);

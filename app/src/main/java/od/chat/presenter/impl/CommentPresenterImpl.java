@@ -32,21 +32,21 @@ public class CommentPresenterImpl extends CommentPresenter {
         if (subscription != null) subscription.unsubscribe();
         subscription = commentHelper.getComments(id)
                 .subscribe(new Observer<List<Comment>>() {
-            @Override
-            public void onCompleted() {
+                    @Override
+                    public void onCompleted() {
 
-            }
+                    }
 
-            @Override
-            public void onError(Throwable e) {
+                    @Override
+                    public void onError(Throwable e) {
 
-            }
+                    }
 
-            @Override
-            public void onNext(List<Comment> commentList) {
-                view.showComments(commentList);
-            }
-        });
+                    @Override
+                    public void onNext(List<Comment> commentList) {
+                        view.showComments(commentList);
+                    }
+                });
     }
 
     @Override
@@ -54,7 +54,7 @@ public class CommentPresenterImpl extends CommentPresenter {
         if (subscription != null) subscription.unsubscribe();
         view.showLoad();
         subscription = commentHelper.sendComment(preferencesUtils.getUser().getId(),
-                postId,text).subscribe(new Observer<String>() {
+                postId, text).subscribe(new Observer<String>() {
             @Override
             public void onCompleted() {
 
@@ -67,7 +67,7 @@ public class CommentPresenterImpl extends CommentPresenter {
 
             @Override
             public void onNext(String s) {
-                if(s.equals("true")){
+                if (s.equals("true")) {
                     loadComments(postId);
                 }
             }
