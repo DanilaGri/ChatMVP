@@ -53,9 +53,18 @@ public class LoginActivityPresenterImpl extends LoginActivityPresenter {
                     alertDialogsHelper.errorTxtMsg("Ошибка авторизации");
                 } else {
                     navigator.openScreen(MainActivity.class);
+                    preferencesUtils.saveUser(user);
                     navigator.finishActivity();
                 }
             }
         });
+    }
+
+    @Override
+    public void start() {
+        if(preferencesUtils.isUserLoggedIn()){
+            navigator.openScreen(MainActivity.class);
+            navigator.finishActivity();
+        }
     }
 }

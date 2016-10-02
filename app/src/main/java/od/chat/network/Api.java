@@ -24,4 +24,9 @@ public interface Api {
 
     @GET("read_comments.php")
     Observable<List<Comment>> getComments(@Query("id") String id);
+
+    @GET("create_comment.php")
+    Observable<String> sendComment(@Query("user_id") String userId,
+                                   @Query("post_id") String postId,
+                                   @Query("text") String text);
 }

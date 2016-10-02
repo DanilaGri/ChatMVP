@@ -7,4 +7,5 @@ import od.chat.ui.view.LoginActivityView;
  */
 public abstract class LoginActivityPresenter extends BasePresenter<LoginActivityView> {
     public abstract void login(String login, String password);
+    public abstract void start();
 }

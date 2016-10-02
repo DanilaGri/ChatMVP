@@ -56,6 +56,7 @@ public class LoginActivity extends BaseActivity implements LoginActivityView {
         ButterKnife.bind(this);
         getComponent().inject(this);
         presenter.attachView(this);
+        presenter.start();
         passwordView.setOnEditorActionListener((textView, id, keyEvent) -> {
             if (id == R.id.email || id == EditorInfo.IME_NULL) {
                 attemptLogin();

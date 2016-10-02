@@ -1,13 +1,31 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<RelativeLayout android:layout_height="match_parent"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="od.chat.ui.fragment.CommentFragment">
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
+    <include layout="@layout/fragment_chat"
+        android:layout_above="@+id/et_add_comment"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_width="match_parent" />
 
-</FrameLayout>
+    <EditText
+        android:id="@+id/et_add_comment"
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:minHeight="48dp"
+        android:layout_height="wrap_content"
+        android:hint="Добавте комментарий"
+        android:imeActionId="@+id/email"
+        android:inputType="text"
+        android:layout_toLeftOf="@+id/iv_send"
+        android:layout_toStartOf="@+id/iv_send" />
+
+    <ImageView android:layout_height="48dp"
+        android:layout_width="48dp"
+        android:id="@+id/iv_send"
+        android:background="?attr/selectableItemBackground"
+        android:padding="3dp"
+        android:src="@drawable/ic_send_black_36dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"/>
+
+    </RelativeLayout>
