@@ -10,9 +10,11 @@ import od.chat.di.qualifier.PerActivity;
 import od.chat.helper.AlertDialogsHelper;
 import od.chat.helper.AuthHelper;
 import od.chat.helper.ChatHelper;
+import od.chat.helper.CommentHelper;
 import od.chat.ui.Navigator;
 import od.chat.ui.activity.LoginActivity;
 import od.chat.ui.activity.MainActivity;
+import od.chat.ui.adapter.CommentAdapter;
 import od.chat.utils.RxUtil;
 import od.chat.utils.SharedPreferencesUtils;
 
@@ -38,6 +40,8 @@ public interface ActivityComponent {
     RxUtil getRxUtil();
 
     ChatHelper getChatHelper();
+
+    CommentHelper getCommentHelper();
 
     AuthHelper getAuthHelper();
 

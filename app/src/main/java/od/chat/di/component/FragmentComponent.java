@@ -8,6 +8,7 @@ import od.chat.di.qualifier.PerFragment;
 import od.chat.helper.AlertDialogsHelper;
 import od.chat.ui.Navigator;
 import od.chat.ui.fragment.ChatFragment;
+import od.chat.ui.fragment.CommentFragment;
 
 /**
  * Created by danila on 12.08.16.
@@ -22,4 +23,6 @@ public interface FragmentComponent {
     Navigator getNavigator();
 
     void inject(ChatFragment fragment);
+
+    void inject(CommentFragment commentFragment);
 }

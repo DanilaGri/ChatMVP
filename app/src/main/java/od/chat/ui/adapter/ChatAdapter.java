@@ -109,8 +109,8 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
         public ViewHolder(View view) {
             super(view);
             ButterKnife.bind(this, view);
-            comment.setOnClickListener((View v) -> {
-//                listener.onClick(doctorList.get(getAdapterPosition()));
+            imageButton.setOnClickListener((View v) -> {
+                listener.onClick(chatList.get(getAdapterPosition()));
             });
         }
     }

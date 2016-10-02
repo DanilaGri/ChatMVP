@@ -17,44 +17,37 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import od.chat.R;
 import od.chat.listener.OnAdapterListener;
-import od.chat.model.Chat;
 import od.chat.model.Comment;
-import od.chat.presenter.ChatPresenter;
+import od.chat.presenter.CommentPresenter;
 import od.chat.ui.adapter.ChatAdapter;
-import od.chat.ui.view.ChatView;
+import od.chat.ui.adapter.CommentAdapter;
+import od.chat.ui.view.CommentView;
 
 /**
  * A simple {@link BaseFragment} subclass.
- * Use the {@link ChatFragment#newInstance} factory method to
+ * Use the {@link CommentFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ChatFragment extends BaseFragment implements ChatView, OnAdapterListener {
-    private static final String ARG_PARAM1 = "param1";
-    public static final String TAG = ChatFragment.class.getSimpleName();
+public class CommentFragment extends BaseFragment implements CommentView, OnAdapterListener {
+    private static final String ARG_ID = "ARG_ID";
+    public static final String TAG = CommentFragment.class.getSimpleName();
     @Bind(R.id.rv_chat)
     RecyclerView rvChat;
     @Bind(R.id.swipe_chat)
     SwipeRefreshLayout swipeChat;
-    private String mParam1;
+    private String id;
 
     @Inject
-    ChatPresenter presenter;
+    CommentPresenter presenter;
 
-    public ChatFragment() {
+    public CommentFragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @return A new instance of fragment ChatFragment.
-     */
-    public static ChatFragment newInstance(String param1) {
-        ChatFragment fragment = new ChatFragment();
+    public static CommentFragment newInstance(String id) {
+        CommentFragment fragment = new CommentFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
+        args.putString(ARG_ID, id);
         fragment.setArguments(args);
         return fragment;
     }
@@ -63,7 +56,7 @@ public class ChatFragment extends BaseFragment implements ChatView, OnAdapterLis
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
+            id = getArguments().getString(ARG_ID);
         }
     }
 
@@ -75,35 +68,34 @@ public class ChatFragment extends BaseFragment implements ChatView, OnAdapterLis
         ButterKnife.bind(this, view);
         getComponent().inject(this);
         presenter.attachView(this);
-        presenter.loadChat();
+        presenter.loadComments(id);
         rvChat.setLayoutManager(new LinearLayoutManager(getActivity()));
         swipeChat.setOnRefreshListener(() -> {
-            presenter.loadChat();
+            presenter.loadComments(id);
         });
         return view;
     }
 
     @Override
     public void onDestroyView() {
-        presenter.detachView();
         super.onDestroyView();
         ButterKnife.unbind(this);
     }
 
     @Override
-    public void showChat(List<Chat> chatList) {
-        ChatAdapter chatAdapter = new ChatAdapter(getActivity(), chatList, this);
-        rvChat.setAdapter(chatAdapter);
+    public void showComments(List<Comment> commentList) {
+        CommentAdapter commentAdapter = new CommentAdapter(getActivity(), commentList, this);
+        rvChat.setAdapter(commentAdapter);
         swipeChat.setRefreshing(false);
-    }
-
-    @Override
-    public <T> void onClick(T t) {
-        presenter.openComments(((Chat)t).getId());
     }
 
     @Override
     public void showError() {
-        swipeChat.setRefreshing(false);
+
+    }
+
+    @Override
+    public <T> void onClick(T t) {
+
     }
 }

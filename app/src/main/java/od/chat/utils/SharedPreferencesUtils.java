@@ -3,9 +3,13 @@ package od.chat.utils;
 import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 
+import com.google.gson.Gson;
+
 import java.util.HashMap;
 
 import javax.inject.Inject;
+
+import od.chat.model.User;
 
 /**
  * Created by danila on 12.08.16.
@@ -13,6 +17,7 @@ import javax.inject.Inject;
 public class SharedPreferencesUtils {
 
     public static final String KEY_NAME = "name";
+    public static final String USER = "user";
     public static final String KEY_PASSWORD = "pass";
     // All Shared Preferences Keys
     private static final String IS_USER_LOGIN = "IsUserLoggedIn";
@@ -62,5 +67,27 @@ public class SharedPreferencesUtils {
 
         // return user
         return user;
+    }
+
+    public void saveUser(User user) {
+        SharedPreferences.Editor prefsEditor = sharedPreferences.edit();
+        Gson gson = new Gson();
+        String json = gson.toJson(user);
+        prefsEditor.putString(USER, json);
+        prefsEditor.commit();
+    }
+
+    public User getUser() {
+        Gson gson = new Gson();
+        String json = sharedPreferences.getString(USER, "");
+        User pacient = gson.fromJson(json, User.class);
+        return pacient;
+    }
+
+    public void deletePatient() {
+
+        SharedPreferences.Editor sharedPreferencesEditor = sharedPreferences.edit();
+        sharedPreferencesEditor.remove(USER);
+        sharedPreferencesEditor.commit();
     }
 }

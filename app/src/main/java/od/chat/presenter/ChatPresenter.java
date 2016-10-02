@@ -7,4 +7,5 @@ import od.chat.ui.view.ChatView;
  */
 public abstract class ChatPresenter extends BasePresenter<ChatView> {
     public abstract void loadChat();
+    public abstract void openComments(String id);
 }

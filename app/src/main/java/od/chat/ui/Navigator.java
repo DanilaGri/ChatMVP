@@ -10,6 +10,7 @@ import javax.inject.Inject;
 
 import od.chat.R;
 import od.chat.ui.fragment.ChatFragment;
+import od.chat.ui.fragment.CommentFragment;
 
 /**
  * Created by danila on 15.08.16.
@@ -65,6 +66,11 @@ public class Navigator {
     public void openChatScreen() {
         ChatFragment chatFragment = ChatFragment.newInstance("test");
         addFragment(chatFragment, ChatFragment.TAG);
+    }
+
+    public void openCommentScreen(String id) {
+        CommentFragment chatFragment = CommentFragment.newInstance(id);
+        replaceFragment(chatFragment, CommentFragment.TAG);
     }
 
 

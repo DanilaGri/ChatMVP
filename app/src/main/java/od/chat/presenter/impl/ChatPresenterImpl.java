@@ -7,6 +7,7 @@ import javax.inject.Inject;
 import od.chat.helper.ChatHelper;
 import od.chat.model.Chat;
 import od.chat.presenter.ChatPresenter;
+import od.chat.ui.Navigator;
 import od.chat.utils.SharedPreferencesUtils;
 import rx.Observer;
 import rx.Subscription;
@@ -18,13 +19,14 @@ public class ChatPresenterImpl extends ChatPresenter {
 
     private SharedPreferencesUtils preferencesUtils;
     private ChatHelper chatHelper;
-    private Subscription subscription;
+    private Navigator navigator;
 
     @Inject
     public ChatPresenterImpl(SharedPreferencesUtils preferencesUtils,
-                             ChatHelper chatHelper) {
+                             ChatHelper chatHelper, Navigator navigator) {
         this.preferencesUtils = preferencesUtils;
         this.chatHelper = chatHelper;
+        this.navigator = navigator;
     }
 
     @Override
@@ -57,5 +59,10 @@ public class ChatPresenterImpl extends ChatPresenter {
                 view.showChat(chatResponse);
             }
         });
+    }
+
+    @Override
+    public void openComments(String id) {
+        navigator.openCommentScreen(id);
     }
 }

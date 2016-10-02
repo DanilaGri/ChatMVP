@@ -6,8 +6,10 @@ import dagger.Module;
 import dagger.Provides;
 import od.chat.helper.AuthHelper;
 import od.chat.helper.ChatHelper;
+import od.chat.helper.CommentHelper;
 import od.chat.helper.impl.AuthHelperImpl;
 import od.chat.helper.impl.ChatHelperImpl;
+import od.chat.helper.impl.CommentHelperImpl;
 import od.chat.network.Api;
 import od.chat.utils.RxUtil;
 
@@ -26,5 +28,11 @@ public class HelperModule {
     @Singleton
     public AuthHelper provideAuthHelper(RxUtil rxUtil, Api api) {
         return new AuthHelperImpl(rxUtil, api);
+    }
+
+    @Provides
+    @Singleton
+    public CommentHelper provideCommentHelper(RxUtil rxUtil, Api api) {
+        return new CommentHelperImpl(rxUtil, api);
     }
 }
