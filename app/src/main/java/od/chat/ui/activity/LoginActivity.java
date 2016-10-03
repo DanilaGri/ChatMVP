@@ -175,5 +175,10 @@ public class LoginActivity extends BaseActivity implements LoginActivityView {
     public void showError() {
         showProgress(false);
     }
+
+    @OnClick(R.id.tv_sign_up)
+    public void onSignClick() {
+        presenter.signUp();
+    }
 }
 

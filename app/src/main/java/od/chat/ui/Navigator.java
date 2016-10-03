@@ -11,6 +11,7 @@ import javax.inject.Inject;
 import od.chat.R;
 import od.chat.ui.fragment.ChatFragment;
 import od.chat.ui.fragment.CommentFragment;
+import od.chat.ui.activity.SignUpActivity;
 
 /**
  * Created by danila on 15.08.16.
@@ -73,5 +74,8 @@ public class Navigator {
         replaceFragment(chatFragment, CommentFragment.TAG);
     }
 
+    public void openSignUp() {
+        openScreen(SignUpActivity.class);
+    }
 
 }

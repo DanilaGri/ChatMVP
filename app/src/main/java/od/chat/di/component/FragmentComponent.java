@@ -9,6 +9,7 @@ import od.chat.helper.AlertDialogsHelper;
 import od.chat.ui.Navigator;
 import od.chat.ui.fragment.ChatFragment;
 import od.chat.ui.fragment.CommentFragment;
+import od.chat.ui.activity.SignUpActivity;
 
 /**
  * Created by danila on 12.08.16.
@@ -25,4 +26,5 @@ public interface FragmentComponent {
     void inject(ChatFragment fragment);
 
     void inject(CommentFragment commentFragment);
+
 }

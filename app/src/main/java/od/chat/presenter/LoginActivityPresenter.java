@@ -9,4 +9,5 @@ public abstract class LoginActivityPresenter extends BasePresenter<LoginActivity
     public abstract void login(String login, String password);
 
     public abstract void start();
+    public abstract void signUp();
 }

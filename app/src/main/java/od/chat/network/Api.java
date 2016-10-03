@@ -29,4 +29,12 @@ public interface Api {
     Observable<String> sendComment(@Query("user_id") String userId,
                                    @Query("post_id") String postId,
                                    @Query("text") String text);
+
+    @GET("create_user.php")
+    Observable<String> createUser(@Query("email")String email ,
+                                  @Query("password") String password ,
+                                  @Query("name")String name ,
+                                  @Query("surname")String surname ,
+                                  @Query("avatar")String avatar);
+
 }

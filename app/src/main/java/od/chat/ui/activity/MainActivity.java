@@ -48,7 +48,6 @@ public class MainActivity extends BaseActivity
         presenter.attachView(this);
         presenter.setupUserInfo();
         presenter.openChatScreen();
-        setSupportActionBar(toolbar);
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);

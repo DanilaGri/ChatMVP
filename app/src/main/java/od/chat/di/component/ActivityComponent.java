@@ -11,9 +11,11 @@ import od.chat.helper.AlertDialogsHelper;
 import od.chat.helper.AuthHelper;
 import od.chat.helper.ChatHelper;
 import od.chat.helper.CommentHelper;
+import od.chat.helper.SignUpHelper;
 import od.chat.ui.Navigator;
 import od.chat.ui.activity.LoginActivity;
 import od.chat.ui.activity.MainActivity;
+import od.chat.ui.activity.SignUpActivity;
 import od.chat.utils.RxUtil;
 import od.chat.utils.SharedPreferencesUtils;
 
@@ -40,6 +42,8 @@ public interface ActivityComponent {
 
     ChatHelper getChatHelper();
 
+    SignUpHelper getSignUpHelper();
+
     CommentHelper getCommentHelper();
 
     AuthHelper getAuthHelper();
@@ -47,4 +51,6 @@ public interface ActivityComponent {
     void inject(LoginActivity loginActivity);
 
     void inject(MainActivity mainActivity);
+
+    void inject(SignUpActivity signUpActivity);
 }
