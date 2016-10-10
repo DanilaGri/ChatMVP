@@ -11,7 +11,7 @@ import od.chat.helper.AlertDialogsHelper;
 import od.chat.helper.AuthHelper;
 import od.chat.helper.ChatHelper;
 import od.chat.helper.CommentHelper;
-import od.chat.helper.SignUpHelper;
+import od.chat.helper.UserHelper;
 import od.chat.ui.Navigator;
 import od.chat.ui.activity.LoginActivity;
 import od.chat.ui.activity.MainActivity;
@@ -42,7 +42,7 @@ public interface ActivityComponent {
 
     ChatHelper getChatHelper();
 
-    SignUpHelper getSignUpHelper();
+    UserHelper getSignUpHelper();
 
     CommentHelper getCommentHelper();
 

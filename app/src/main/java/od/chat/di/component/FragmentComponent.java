@@ -10,6 +10,8 @@ import od.chat.ui.Navigator;
 import od.chat.ui.fragment.ChatFragment;
 import od.chat.ui.fragment.CommentFragment;
 import od.chat.ui.activity.SignUpActivity;
+import od.chat.ui.fragment.PrivateCabinetFragment;
+import od.chat.ui.fragment.UpdateUserFragment;
 
 /**
  * Created by danila on 12.08.16.
@@ -27,4 +29,7 @@ public interface FragmentComponent {
 
     void inject(CommentFragment commentFragment);
 
+    void inject(PrivateCabinetFragment privateCabinetFragment);
+
+    void inject(UpdateUserFragment updateUserFragment);
 }

@@ -1,12 +1,16 @@
-package od.chat.ui.activity;
+package od.chat.ui.fragment;
 
 
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 
@@ -16,15 +20,20 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import od.chat.R;
 import od.chat.model.User;
-import od.chat.presenter.SignUpPresenter;
-import od.chat.ui.view.SignUpView;
+import od.chat.presenter.UpdateUserPresenter;
+import od.chat.ui.view.UpdateUserView;
 
-public class SignUpActivity extends BaseActivity implements SignUpView {
+/**
+ * A simple {@link Fragment} subclass.
+ */
+public class UpdateUserFragment extends BaseFragment implements UpdateUserView {
 
-    public static final String IS_SIGN = "isSign";
-    private boolean isSign;
+    public static final String TAG = UpdateUserFragment.class.getSimpleName();
+
     @Inject
-    SignUpPresenter presenter;
+    UpdateUserPresenter presenter;
+    @Bind(R.id.toolbar)
+    Toolbar toolbar;
     @Bind(R.id.email)
     AutoCompleteTextView email;
     @Bind(R.id.password)
@@ -37,42 +46,58 @@ public class SignUpActivity extends BaseActivity implements SignUpView {
     AutoCompleteTextView sureName;
     @Bind(R.id.avatar)
     AutoCompleteTextView avatar;
-    @Bind(R.id.toolbar)
-    Toolbar toolbar;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sign_up);
-        // Inflate the layout for this fragment
-        ButterKnife.bind(this);
-        getComponent().inject(this);
-        presenter.attachView(this);
-        if (getIntent().hasExtra(IS_SIGN)) {
-            isSign = getIntent().getBooleanExtra(IS_SIGN, false);
-            if(!isSign){
-                presenter.setupUserInfo();
-            }
-        }
-
-        setupToolbar(isSign ? "Регистрация" : "Личный кабинет", toolbar);
+    public UpdateUserFragment() {
+        // Required empty public constructor
     }
 
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
 
     @Override
-    protected void onDestroy() {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        View view = inflater.inflate(R.layout.activity_sign_up, container, false);
+        ButterKnife.bind(this, view);
+        getComponent().inject(this);
+        presenter.attachView(this);
+        presenter.setupUserInfo();
+        toolbar.setVisibility(View.GONE);
+        setupTitle("Edit User");
+        return view;
+    }
+
+    @Override
+    public void onDestroyView() {
         presenter.detachView();
-        super.onDestroy();
+        super.onDestroyView();
         ButterKnife.unbind(this);
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        // Do something that differs the Activity's menu here
         inflater.inflate(R.menu.menu_save, menu);
-        return true;
+        super.onCreateOptionsMenu(menu, inflater);
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_save:
+                if (setupInputValues()) {
+                    presenter.updateUser(email.getText().toString(), password.getText().toString(),
+                            name.getText().toString(), sureName.getText().toString(),
+                            avatar.getText().toString());
+                }
+        }
+
+        return false;
+    }
     private boolean setupInputValues() {
         boolean flag;
         String field = "";
@@ -109,7 +134,7 @@ public class SignUpActivity extends BaseActivity implements SignUpView {
                 msg = "Заполните поле: " + field;
             }
 
-            new AlertDialog.Builder(this)
+            new AlertDialog.Builder(getActivity())
                     .setMessage(msg)
                     .setCancelable(false)
                     .setPositiveButton(android.R.string.ok,
@@ -121,29 +146,12 @@ public class SignUpActivity extends BaseActivity implements SignUpView {
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-
-            case R.id.menu_save:
-                if (setupInputValues()) {
-                    presenter.signUp(email.getText().toString(), password.getText().toString(),
-                            name.getText().toString(), sureName.getText().toString(),
-                            avatar.getText().toString(), isSign);
-                }
-            default:
-                break;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
-    @Override
     public void setupUser(User user) {
-        email.setText(user.getEmail());
-        password.setText(user.getPassword());
-        passwordRepeat.setText(user.getPassword());
-        name.setText(user.getName());
-        sureName.setText(user.getSurname());
-        avatar.setText(user.getAvatar());
+        password.setText(user.getPassword() != null ? user.getPassword() : "");
+        passwordRepeat.setText(user.getPassword() != null ? user.getPassword() : "");
+        email.setText(user.getEmail() != null ? user.getEmail() : "");
+        name.setText(user.getName()!= null ? user.getName() : "");
+        sureName.setText(user.getSurname()!= null ? user.getSurname() : "");
+        avatar.setText(user.getAvatar()!= null ? user.getAvatar() : "");
     }
 }

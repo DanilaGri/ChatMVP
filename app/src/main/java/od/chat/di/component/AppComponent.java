@@ -14,7 +14,7 @@ import od.chat.di.module.UtilsModule;
 import od.chat.helper.AuthHelper;
 import od.chat.helper.ChatHelper;
 import od.chat.helper.CommentHelper;
-import od.chat.helper.SignUpHelper;
+import od.chat.helper.UserHelper;
 import od.chat.utils.RxUtil;
 import od.chat.utils.SharedPreferencesUtils;
 
@@ -46,5 +46,5 @@ public interface AppComponent {
 
     AuthHelper getAuthHelper();
 
-    SignUpHelper getSignUpHelper();
+    UserHelper getSignUpHelper();
 }

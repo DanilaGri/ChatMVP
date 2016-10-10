@@ -7,11 +7,11 @@ import dagger.Provides;
 import od.chat.helper.AuthHelper;
 import od.chat.helper.ChatHelper;
 import od.chat.helper.CommentHelper;
-import od.chat.helper.SignUpHelper;
+import od.chat.helper.UserHelper;
 import od.chat.helper.impl.AuthHelperImpl;
 import od.chat.helper.impl.ChatHelperImpl;
 import od.chat.helper.impl.CommentHelperImpl;
-import od.chat.helper.impl.SignUpHelperImpl;
+import od.chat.helper.impl.UserHelperImpl;
 import od.chat.network.Api;
 import od.chat.utils.RxUtil;
 
@@ -40,7 +40,7 @@ public class HelperModule {
 
     @Provides
     @Singleton
-    public SignUpHelper provideSignUpHelper(RxUtil rxUtil, Api api) {
-        return new SignUpHelperImpl(rxUtil, api);
+    public UserHelper provideSignUpHelper(RxUtil rxUtil, Api api) {
+        return new UserHelperImpl(rxUtil, api);
     }
 }

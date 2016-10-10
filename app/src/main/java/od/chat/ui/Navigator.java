@@ -12,6 +12,8 @@ import od.chat.R;
 import od.chat.ui.fragment.ChatFragment;
 import od.chat.ui.fragment.CommentFragment;
 import od.chat.ui.activity.SignUpActivity;
+import od.chat.ui.fragment.PrivateCabinetFragment;
+import od.chat.ui.fragment.UpdateUserFragment;
 
 /**
  * Created by danila on 15.08.16.
@@ -66,7 +68,12 @@ public class Navigator {
 
     public void openChatScreen() {
         ChatFragment chatFragment = ChatFragment.newInstance("test");
-        addFragment(chatFragment, ChatFragment.TAG);
+        replaceFragment(chatFragment, ChatFragment.TAG);
+    }
+
+    public void openPrivateCabinetScreen() {
+        PrivateCabinetFragment fragment = new PrivateCabinetFragment();
+        replaceFragment(fragment, PrivateCabinetFragment.TAG);
     }
 
     public void openCommentScreen(String id) {
@@ -74,8 +81,14 @@ public class Navigator {
         replaceFragment(chatFragment, CommentFragment.TAG);
     }
 
-    public void openSignUp() {
-        openScreen(SignUpActivity.class);
+    public void openUpdateScreen() {
+        UpdateUserFragment fragment = new UpdateUserFragment();
+        replaceFragment(fragment, UpdateUserFragment.TAG);
     }
+
+    public void openSignUp(boolean isSign) {
+        Intent intent = new Intent(activity, SignUpActivity.class);
+        intent.putExtra(SignUpActivity.IS_SIGN, isSign);
+        activity.startActivity(intent);    }
 
 }

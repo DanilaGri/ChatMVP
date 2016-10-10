@@ -7,6 +7,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:padding="@dimen/spacing_major"
     tools:context="od.chat.ui.activity.SignUpActivity">
 
     <include layout="@layout/toolbar"/>
@@ -98,8 +99,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="avatar"
-            android:inputType="text"
-            android:maxLines="1" />
+            android:inputType="textMultiLine" />
 
     </android.support.design.widget.TextInputLayout>
 

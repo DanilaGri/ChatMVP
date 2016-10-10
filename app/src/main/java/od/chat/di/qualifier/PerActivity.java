@@ -11,9 +11,7 @@ import javax.inject.Scope;
 
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
-/**
- * Created by danila on 08.11.15.
- */
+
 @Scope
 @Retention(RUNTIME)
 public @interface PerActivity {

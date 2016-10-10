@@ -6,9 +6,6 @@ import android.net.ConnectivityManager;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
-/**
- * Created by danila on 10.11.15.
- */
 public class AndroidUtils {
     public static void showKeyboard(final View view) {
         if (view == null) {

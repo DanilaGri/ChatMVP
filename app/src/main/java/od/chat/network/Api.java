@@ -37,4 +37,15 @@ public interface Api {
                                   @Query("surname")String surname ,
                                   @Query("avatar")String avatar);
 
+    @GET("update_user.php")
+    Observable<String> updateUser(@Query("id")String id ,
+                                  @Query("email")String email ,
+                                  @Query("password") String password ,
+                                  @Query("name")String name ,
+                                  @Query("surname")String surname ,
+                                  @Query("avatar")String avatar);
+
+    @GET("delete_user.php")
+    Observable<String> deleteUser(@Query("id") String id);
+
 }

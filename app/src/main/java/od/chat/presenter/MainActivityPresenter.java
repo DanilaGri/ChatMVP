@@ -10,5 +10,7 @@ public abstract class MainActivityPresenter extends BasePresenter<MainActivityVi
 
     public abstract void setupUserInfo();
 
+    public abstract void openPrivateCabinet();
+
     public abstract void openLoginScreen();
 }

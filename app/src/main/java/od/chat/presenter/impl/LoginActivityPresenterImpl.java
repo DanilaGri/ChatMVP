@@ -70,6 +70,6 @@ public class LoginActivityPresenterImpl extends LoginActivityPresenter {
 
     @Override
     public void signUp() {
-        navigator.openSignUp();
+        navigator.openSignUp(true);
     }
 }

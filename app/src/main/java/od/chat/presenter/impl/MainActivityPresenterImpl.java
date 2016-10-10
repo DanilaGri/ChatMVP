@@ -32,6 +32,12 @@ public class MainActivityPresenterImpl extends MainActivityPresenter {
     }
 
     @Override
+    public void openPrivateCabinet() {
+//        navigator.openSignUp(false);
+        navigator.openPrivateCabinetScreen();
+    }
+
+    @Override
     public void openLoginScreen() {
         navigator.openScreen(LoginActivity.class);
         preferencesUtils.logOut();

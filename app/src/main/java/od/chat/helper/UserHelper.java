@@ -6,7 +6,12 @@ import rx.Observable;
  * Created by danila on 02.10.16.
  */
 
-public interface SignUpHelper {
+public interface UserHelper {
     Observable<String> createUser(String email, String password, String name, String surname,
                                   String avatar);
+
+    Observable<String> updateUser(String  id, String email, String password, String name, String surname,
+                                  String avatar);
+
+    Observable<String> deleteUser(String id);
 }
