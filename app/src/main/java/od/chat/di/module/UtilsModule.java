@@ -8,8 +8,10 @@ import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
+import od.chat.utils.AndroidUtils;
 import od.chat.utils.RxUtil;
 import od.chat.utils.SharedPreferencesUtils;
+import od.chat.utils.impl.AndroidUtilsImpl;
 
 /**
  * Created by danila on 12.08.16.
@@ -32,6 +34,12 @@ public class UtilsModule {
     @Singleton
     SharedPreferencesUtils provideSharedPreferencesUtils(SharedPreferences prefs) {
         return new SharedPreferencesUtils(prefs);
+    }
+
+    @Provides
+    @Singleton
+    AndroidUtils provideAndroidUtils(AndroidUtilsImpl androidUtils) {
+        return androidUtils;
     }
 }
 

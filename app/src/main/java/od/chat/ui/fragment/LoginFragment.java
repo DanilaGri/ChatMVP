@@ -50,6 +50,8 @@ public class LoginFragment extends BaseFragment implements LoginView {
 
     @Inject
     LoginPresenter presenter;
+    @Inject
+    AndroidUtils androidUtils;
     @Bind(R.id.ll_login)
     LinearLayout llLogin;
 
@@ -188,7 +190,7 @@ public class LoginFragment extends BaseFragment implements LoginView {
     @OnClick(R.id.tv_login)
     public void onClick() {
         attemptLogin();
-        AndroidUtils.hideKeyboard(getView());
+        androidUtils.hideKeyboard(getView());
     }
 
     @Override

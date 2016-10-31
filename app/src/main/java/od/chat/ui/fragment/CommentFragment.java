@@ -49,6 +49,9 @@ public class CommentFragment extends BaseFragment implements CommentView, OnAdap
     @Inject
     CommentPresenter presenter;
 
+    @Inject
+    AndroidUtils androidUtils;
+
     public CommentFragment() {
         // Required empty public constructor
     }
@@ -96,7 +99,7 @@ public class CommentFragment extends BaseFragment implements CommentView, OnAdap
         CommentAdapter commentAdapter = new CommentAdapter(getActivity(), commentList, this);
         rvChat.setAdapter(commentAdapter);
         swipeChat.setRefreshing(false);
-        AndroidUtils.hideKeyboard(getView());
+        androidUtils.hideKeyboard(getView());
         etAddComment.setText("");
         etAddComment.addTextChangedListener(new TextWatcher() {
             @Override
@@ -128,7 +131,7 @@ public class CommentFragment extends BaseFragment implements CommentView, OnAdap
     @Override
     public void showError() {
         swipeChat.setRefreshing(false);
-        AndroidUtils.hideKeyboard(getView());
+        androidUtils.hideKeyboard(getView());
     }
 
     @Override

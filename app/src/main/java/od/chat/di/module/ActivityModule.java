@@ -12,6 +12,7 @@ import od.chat.presenter.StartActivityPresenter;
 import od.chat.presenter.impl.MainActivityPresenterImpl;
 import od.chat.presenter.impl.StartActivityPresenterImpl;
 import od.chat.ui.Navigator;
+import od.chat.utils.AndroidUtils;
 
 /**
  * Created by danila on 26.06.16.
@@ -51,8 +52,8 @@ public class ActivityModule {
 
     @Provides
     @PerActivity
-    public AlertDialogsHelper provideProgressDialogHelper(Activity activity) {
-        return new AlertDialogsHelperImpl(activity);
+    public AlertDialogsHelper provideProgressDialogHelper(Activity activity, AndroidUtils androidUtils) {
+        return new AlertDialogsHelperImpl(activity, androidUtils);
     }
 
 }

@@ -18,10 +18,12 @@ import od.chat.utils.AndroidUtils;
 public class AlertDialogsHelperImpl implements AlertDialogsHelper {
 
     private Activity activity;
+    private AndroidUtils androidUtils;
 
     @Inject
-    public AlertDialogsHelperImpl(Activity activity) {
+    public AlertDialogsHelperImpl(Activity activity, AndroidUtils androidUtils) {
         this.activity = activity;
+        this.androidUtils = androidUtils;
     }
 
     @Override
@@ -36,7 +38,7 @@ public class AlertDialogsHelperImpl implements AlertDialogsHelper {
 
     private void showDialog(Throwable e) {
         String error = e.getMessage();
-        if (!AndroidUtils.isNetworkConnected(activity)) {
+        if (!androidUtils.isNetworkConnected()) {
             error = activity.getResources().getText(R.string.error_message_network).toString();
         } else if (e instanceof IOException) {
             error = activity.getResources().getText(R.string.error_message_service).toString();

@@ -15,6 +15,7 @@ import od.chat.helper.UserHelper;
 import od.chat.ui.Navigator;
 import od.chat.ui.activity.MainActivity;
 import od.chat.ui.activity.StartActivity;
+import od.chat.utils.AndroidUtils;
 import od.chat.utils.RxUtil;
 import od.chat.utils.SharedPreferencesUtils;
 
@@ -26,6 +27,9 @@ import od.chat.utils.SharedPreferencesUtils;
 public interface ActivityComponent {
 
     AlertDialogsHelper getAlertDialogsHelper();
+
+    AndroidUtils getAndroidUtils();
+
 
     Activity getActivity();
 

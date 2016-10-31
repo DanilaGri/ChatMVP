@@ -18,6 +18,7 @@ import od.chat.R;
 import od.chat.model.Chat;
 import od.chat.presenter.PostEditPresenter;
 import od.chat.ui.view.PostEditView;
+import od.chat.utils.AndroidUtils;
 
 /**
  * A simple {@link BaseFragment} subclass.
@@ -36,6 +37,8 @@ public class PostEditFragment extends BaseFragment implements PostEditView {
     @Bind(R.id.url)
     AutoCompleteTextView imageUrl;
 
+    @Inject
+    AndroidUtils androidUtils;
     @Inject
     PostEditPresenter presenter;
 
@@ -84,6 +87,12 @@ public class PostEditFragment extends BaseFragment implements PostEditView {
     public void onDetach() {
         presenter.detachView();
         super.onDetach();
+    }
+
+    @Override
+    public void onPause() {
+        androidUtils.hideKeyboard(getView());
+        super.onPause();
     }
 
     @Override
