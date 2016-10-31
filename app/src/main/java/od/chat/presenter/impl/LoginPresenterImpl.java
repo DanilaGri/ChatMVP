@@ -5,7 +5,7 @@ import javax.inject.Inject;
 import od.chat.helper.AlertDialogsHelper;
 import od.chat.helper.AuthHelper;
 import od.chat.model.User;
-import od.chat.presenter.LoginActivityPresenter;
+import od.chat.presenter.LoginPresenter;
 import od.chat.ui.Navigator;
 import od.chat.ui.activity.MainActivity;
 import od.chat.utils.SharedPreferencesUtils;
@@ -14,7 +14,7 @@ import rx.Observer;
 /**
  * Created by danila on 15.08.16.
  */
-public class LoginActivityPresenterImpl extends LoginActivityPresenter {
+public class LoginPresenterImpl extends LoginPresenter {
 
     private Navigator navigator;
     private SharedPreferencesUtils preferencesUtils;
@@ -22,8 +22,8 @@ public class LoginActivityPresenterImpl extends LoginActivityPresenter {
     private AlertDialogsHelper alertDialogsHelper;
 
     @Inject
-    public LoginActivityPresenterImpl(Navigator navigator, SharedPreferencesUtils preferencesUtils,
-                                      AuthHelper authHelper, AlertDialogsHelper alertDialogsHelper) {
+    public LoginPresenterImpl(Navigator navigator, SharedPreferencesUtils preferencesUtils,
+                              AuthHelper authHelper, AlertDialogsHelper alertDialogsHelper) {
         this.navigator = navigator;
         this.preferencesUtils = preferencesUtils;
         this.authHelper = authHelper;
@@ -58,14 +58,6 @@ public class LoginActivityPresenterImpl extends LoginActivityPresenter {
                 }
             }
         });
-    }
-
-    @Override
-    public void start() {
-        if (preferencesUtils.isUserLoggedIn()) {
-            navigator.openScreen(MainActivity.class);
-            navigator.finishActivity();
-        }
     }
 
     @Override

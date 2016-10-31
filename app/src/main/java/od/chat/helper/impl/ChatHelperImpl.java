@@ -23,7 +23,22 @@ public class ChatHelperImpl implements ChatHelper {
     }
 
     @Override
-    public Observable<List<Chat>> getChat() {
-        return repository.getChat().compose(rxUtil.applySchedulers());
+    public Observable<List<Chat>> getChat(int zero) {
+        return repository.getChat(zero).compose(rxUtil.applySchedulers());
+    }
+
+    @Override
+    public Observable<String> deletePost(String id) {
+        return repository.deletePost(id).compose(rxUtil.applySchedulers());
+    }
+
+    @Override
+    public Observable<String> updatePost(String id, String title, String description, String image) {
+        return repository.updatePost(id, title, description, image).compose(rxUtil.applySchedulers());
+    }
+
+    @Override
+    public Observable<String> addPost(String userId, String title, String description, String image) {
+        return repository.createPost(userId, title, description, image).compose(rxUtil.applySchedulers());
     }
 }

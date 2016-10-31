@@ -1,5 +1,6 @@
 package od.chat.presenter.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -44,7 +45,11 @@ public class CommentPresenterImpl extends CommentPresenter {
 
                     @Override
                     public void onNext(List<Comment> commentList) {
-                        view.showComments(commentList);
+                        if (commentList == null) {
+                            view.showComments(new ArrayList<>());
+                        } else {
+                            view.showComments(commentList);
+                        }
                     }
                 });
     }

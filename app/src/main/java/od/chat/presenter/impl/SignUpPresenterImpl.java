@@ -32,7 +32,7 @@ public class SignUpPresenterImpl extends SignUpPresenter {
     public void signUp(String email, String password, String name, String surname, String avatar,
                        boolean isSign) {
         if (subscription != null) subscription.unsubscribe();
-        if(isSign) {
+        if (isSign) {
             subscription = helper.createUser(email, password, name, surname, avatar)
                     .subscribe(new Observer<String>() {
                         @Override
@@ -55,7 +55,7 @@ public class SignUpPresenterImpl extends SignUpPresenter {
                         }
                     });
         } else {
-            subscription = helper.updateUser(preferencesUtils.getUser().getId(),email, password,
+            subscription = helper.updateUser(preferencesUtils.getUser().getId(), email, password,
                     name, surname, avatar)
                     .subscribe(new Observer<String>() {
                         @Override

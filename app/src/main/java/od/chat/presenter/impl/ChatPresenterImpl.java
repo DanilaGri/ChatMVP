@@ -1,5 +1,6 @@
 package od.chat.presenter.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -19,6 +20,8 @@ public class ChatPresenterImpl extends ChatPresenter {
     private SharedPreferencesUtils preferencesUtils;
     private ChatHelper chatHelper;
     private Navigator navigator;
+    private int zero;
+    private List<Chat> chatList = new ArrayList<>();
 
     @Inject
     public ChatPresenterImpl(SharedPreferencesUtils preferencesUtils,
@@ -29,7 +32,8 @@ public class ChatPresenterImpl extends ChatPresenter {
     }
 
     @Override
-    public void loadChat() {
+    public void loadChat(int zero) {
+        this.zero = zero;
 //        Gson gson = new Gson();
 //        Chat list1 = null;
 //        Chat list2 = null;
@@ -42,7 +46,7 @@ public class ChatPresenterImpl extends ChatPresenter {
 //            view.showChat(list);
 //        }
         if (subscription != null) subscription.unsubscribe();
-        subscription = chatHelper.getChat().subscribe(new Observer<List<Chat>>() {
+        subscription = chatHelper.getChat(zero).subscribe(new Observer<List<Chat>>() {
             @Override
             public void onCompleted() {
 
@@ -55,13 +59,50 @@ public class ChatPresenterImpl extends ChatPresenter {
 
             @Override
             public void onNext(List<Chat> chatResponse) {
-                view.showChat(chatResponse);
+                chatList.addAll(chatResponse);
+                view.showChat(chatList);
             }
         });
     }
 
     @Override
+    public void viewPost(Chat chat) {
+        navigator.openUpdateScreen(chat);
+    }
+
+    @Override
+    public void deletePost(String id) {
+        if (subscription != null) subscription.unsubscribe();
+        subscription = chatHelper.deletePost(id).subscribe(new Observer<String>() {
+            @Override
+            public void onCompleted() {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                view.showError();
+            }
+
+            @Override
+            public void onNext(String response) {
+                loadChat(zero);
+            }
+        });
+    }
+
+    @Override
+    public void addPost() {
+        navigator.openUpdateScreen(null);
+    }
+
+    @Override
     public void openComments(String id) {
         navigator.openCommentScreen(id);
+    }
+
+    @Override
+    public void readUser(String id) {
+        navigator.openReadUser(id);
     }
 }

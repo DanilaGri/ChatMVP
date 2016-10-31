@@ -1,12 +1,15 @@
 package od.chat.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 /**
  * Created by danila on 18.09.16.
  */
-public class Chat {
+public class Chat implements Parcelable {
     @SerializedName("id")
     @Expose
     private String id;
@@ -22,6 +25,9 @@ public class Chat {
     @SerializedName("timestamp")
     @Expose
     private String timestamp;
+    @SerializedName("user_id")
+    @Expose
+    private String userId;
     @SerializedName("user_name")
     @Expose
     private String userName;
@@ -31,6 +37,34 @@ public class Chat {
     @SerializedName("user_avatar")
     @Expose
     private String userAvatar;
+    @SerializedName("comments_count")
+    @Expose
+    private String commentsCount;
+
+    protected Chat(Parcel in) {
+        id = in.readString();
+        title = in.readString();
+        description = in.readString();
+        image = in.readString();
+        timestamp = in.readString();
+        userId = in.readString();
+        userName = in.readString();
+        userSurname = in.readString();
+        userAvatar = in.readString();
+        commentsCount = in.readString();
+    }
+
+    public static final Creator<Chat> CREATOR = new Creator<Chat>() {
+        @Override
+        public Chat createFromParcel(Parcel in) {
+            return new Chat(in);
+        }
+
+        @Override
+        public Chat[] newArray(int size) {
+            return new Chat[size];
+        }
+    };
 
     /**
      * @return The id
@@ -103,6 +137,20 @@ public class Chat {
     }
 
     /**
+     * @return The userId
+     */
+    public String getUserId() {
+        return userId;
+    }
+
+    /**
+     * @param userId The user_id
+     */
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    /**
      * @return The userName
      */
     public String getUserName() {
@@ -144,4 +192,36 @@ public class Chat {
         this.userAvatar = userAvatar;
     }
 
+    /**
+     * @return The commentsCount
+     */
+    public String getCommentsCount() {
+        return commentsCount;
+    }
+
+    /**
+     * @param commentsCount The comments_count
+     */
+    public void setCommentsCount(String commentsCount) {
+        this.commentsCount = commentsCount;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(id);
+        parcel.writeString(title);
+        parcel.writeString(description);
+        parcel.writeString(image);
+        parcel.writeString(timestamp);
+        parcel.writeString(userId);
+        parcel.writeString(userName);
+        parcel.writeString(userSurname);
+        parcel.writeString(userAvatar);
+        parcel.writeString(commentsCount);
+    }
 }

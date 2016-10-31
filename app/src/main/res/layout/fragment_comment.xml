@@ -13,7 +13,7 @@
         android:layout_width="match_parent"
         android:minHeight="48dp"
         android:layout_height="wrap_content"
-        android:hint="Добавте комментарий"
+        android:hint="Добавьте комментарий"
         android:imeActionId="@+id/email"
         android:inputType="text"
         android:layout_toLeftOf="@+id/iv_send"

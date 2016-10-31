@@ -1,9 +1,7 @@
 package od.chat.helper.impl;
 
-import java.util.List;
-
 import od.chat.helper.UserHelper;
-import od.chat.model.Comment;
+import od.chat.model.User;
 import od.chat.network.Api;
 import od.chat.utils.RxUtil;
 import rx.Observable;
@@ -31,12 +29,17 @@ public class UserHelperImpl implements UserHelper {
 
     @Override
     public Observable<String> updateUser(String id, String email, String password, String name, String surname, String avatar) {
-        return repository.updateUser(id,email, password, name, surname, avatar)
+        return repository.updateUser(id, email, password, name, surname, avatar)
                 .compose(rxUtil.applySchedulers());
     }
 
     @Override
     public Observable<String> deleteUser(String id) {
         return repository.deleteUser(id).compose(rxUtil.applySchedulers());
+    }
+
+    @Override
+    public Observable<User> readUser(String id) {
+        return repository.readUser(id).compose(rxUtil.applySchedulers());
     }
 }

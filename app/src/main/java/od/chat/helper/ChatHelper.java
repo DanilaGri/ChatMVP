@@ -11,5 +11,11 @@ import rx.Observable;
  */
 
 public interface ChatHelper {
-    Observable<List<Chat>> getChat();
+    Observable<List<Chat>> getChat(int zero);
+
+    Observable<String> deletePost(String id);
+
+    Observable<String> updatePost(String id, String title, String description, String image);
+
+    Observable<String> addPost(String userId, String title, String description, String image);
 }

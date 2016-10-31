@@ -9,8 +9,10 @@ import od.chat.helper.AlertDialogsHelper;
 import od.chat.ui.Navigator;
 import od.chat.ui.fragment.ChatFragment;
 import od.chat.ui.fragment.CommentFragment;
-import od.chat.ui.activity.SignUpActivity;
+import od.chat.ui.fragment.LoginFragment;
+import od.chat.ui.fragment.PostEditFragment;
 import od.chat.ui.fragment.PrivateCabinetFragment;
+import od.chat.ui.fragment.SignUpFragment;
 import od.chat.ui.fragment.UpdateUserFragment;
 
 /**
@@ -32,4 +34,10 @@ public interface FragmentComponent {
     void inject(PrivateCabinetFragment privateCabinetFragment);
 
     void inject(UpdateUserFragment updateUserFragment);
+
+    void inject(PostEditFragment postEditFragment);
+
+    void inject(LoginFragment loginFragment);
+
+    void inject(SignUpFragment signUpFragment);
 }

@@ -8,6 +8,7 @@ import od.chat.ui.view.UpdateUserView;
 
 public abstract class UpdateUserPresenter extends BasePresenter<UpdateUserView> {
     public abstract void updateUser(String email, String password, String name, String surname,
-                                String avatar);
+                                    String avatar);
+
     public abstract void setupUserInfo();
 }

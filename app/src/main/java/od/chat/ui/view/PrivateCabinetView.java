@@ -8,5 +8,8 @@ import od.chat.model.User;
 
 public interface PrivateCabinetView {
     void showUser(User user);
+
     void updateUser(User user);
+
+    void showLoad();
 }

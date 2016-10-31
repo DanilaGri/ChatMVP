@@ -18,6 +18,7 @@ public class UpdateUserPresenterImpl extends UpdateUserPresenter {
     private SharedPreferencesUtils preferencesUtils;
     private UserHelper helper;
     private AlertDialogsHelper alertDialogsHelper;
+
     @Inject
     public UpdateUserPresenterImpl(Navigator navigator, SharedPreferencesUtils preferencesUtils,
                                    UserHelper helper, AlertDialogsHelper alertDialogsHelper) {
@@ -30,7 +31,7 @@ public class UpdateUserPresenterImpl extends UpdateUserPresenter {
     @Override
     public void updateUser(String email, String password, String name, String surname, String avatar) {
         if (subscription != null) subscription.unsubscribe();
-        subscription = helper.updateUser(preferencesUtils.getUser().getId(),email, password,
+        subscription = helper.updateUser(preferencesUtils.getUser().getId(), email, password,
                 name, surname, avatar)
                 .subscribe(new Observer<String>() {
                     @Override

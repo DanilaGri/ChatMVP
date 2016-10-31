@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -20,7 +21,7 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import od.chat.R;
-import od.chat.listener.OnAdapterListener;
+import od.chat.listener.OnChatAdapterListener;
 import od.chat.model.Chat;
 
 /**
@@ -31,9 +32,9 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
     private LayoutInflater mLayoutInflater;
     private List<Chat> chatList;
     private Context context;
-    private OnAdapterListener listener;
+    private OnChatAdapterListener listener;
 
-    public ChatAdapter(Context context, List<Chat> chatList, OnAdapterListener listener) {
+    public ChatAdapter(Context context, List<Chat> chatList, OnChatAdapterListener listener) {
         super();
         mLayoutInflater = LayoutInflater.from(context);
         this.context = context;
@@ -58,8 +59,8 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
                 ? item.getUserName() + " " + item.getUserSurname() : "");
         holder.tvCreateDate.setText(item.getTimestamp() != null ? item.getTimestamp() : "");
         holder.tvSubscription.setText(item.getDescription() != null ? item.getDescription() : "");
-        holder.tvSubscription.setText(item.getTitle() != null ? item.getTitle() : "");
-//        holder.tvUsername.setText(item.getUserSurname() != null ? item.getUserSurname() : "");
+        holder.tvTitle.setText(item.getTitle() != null ? item.getTitle() : "");
+        holder.tvCountComment.setText(item.getCommentsCount() != null ? item.getCommentsCount() : "");
 
         Glide.with(context)
                 .load(item.getUserAvatar()).asBitmap().centerCrop()
@@ -105,13 +106,33 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
         TextView tvCountComment;
         @Bind(R.id.comment)
         LinearLayout comment;
+        @Bind(R.id.rl_comment)
+        RelativeLayout rlComment;
+        @Bind(R.id.img_delete)
+        ImageView imgDelete;
+        @Bind(R.id.img_edit)
+        ImageView imgEdit;
 
         public ViewHolder(View view) {
             super(view);
             ButterKnife.bind(this, view);
             imageButton.setOnClickListener((View v) -> {
+                listener.onClick(chatList.get(getAdapterPosition()).getId());
+            });
+
+            imgEdit.setOnClickListener((View v) -> {
                 listener.onClick(chatList.get(getAdapterPosition()));
             });
+
+            imgDelete.setOnClickListener((View v) -> {
+                listener.deletePost(chatList.get(getAdapterPosition()).getId());
+            });
+
+            ivIcon.setOnClickListener((View v) -> {
+                listener.viewUser(chatList.get(getAdapterPosition()).getUserId());
+            });
+
+
         }
     }
 }

@@ -1,20 +1,22 @@
-package od.chat.ui.activity;
+package od.chat.ui.fragment;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.os.Build;
-import android.os.Build.VERSION;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.AutoCompleteTextView;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.ScrollView;
+import android.widget.TextView;
 
 import javax.inject.Inject;
 
@@ -22,40 +24,52 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import od.chat.R;
-import od.chat.presenter.LoginActivityPresenter;
-import od.chat.ui.view.LoginActivityView;
+import od.chat.presenter.LoginPresenter;
+import od.chat.ui.view.LoginView;
 import od.chat.utils.AndroidUtils;
 
-
 /**
- * A login screen that offers login via email/password.
+ * Created by danila on 22.10.16.
  */
-public class LoginActivity extends BaseActivity implements LoginActivityView {
 
-    @Bind(R.id.login_progress)
+public class LoginFragment extends BaseFragment implements LoginView {
+    public static final String TAG = LoginFragment.class.getSimpleName();
+
+    @Bind(R.id.progress)
     ProgressBar loginProgress;
     @Bind(R.id.email)
     AutoCompleteTextView emailView;
     @Bind(R.id.password)
     EditText passwordView;
-    @Bind(R.id.login_button)
-    Button loginButton;
+    @Bind(R.id.tv_login)
+    TextView loginButton;
     @Bind(R.id.email_login_form)
     LinearLayout loginFormView;
     @Bind(R.id.login_form)
     ScrollView loginForm;
 
     @Inject
-    LoginActivityPresenter presenter;
+    LoginPresenter presenter;
+    @Bind(R.id.ll_login)
+    LinearLayout llLogin;
+
+    public LoginFragment() {
+    }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activ_login);
-        ButterKnife.bind(this);
+
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        View view = inflater.inflate(R.layout.activ_login, container, false);
+        ButterKnife.bind(this, view);
         getComponent().inject(this);
         presenter.attachView(this);
-        presenter.start();
         passwordView.setOnEditorActionListener((textView, id, keyEvent) -> {
             if (id == R.id.email || id == EditorInfo.IME_NULL) {
                 attemptLogin();
@@ -63,12 +77,18 @@ public class LoginActivity extends BaseActivity implements LoginActivityView {
             }
             return false;
         });
-        Button mEmailSignInButton = (Button) findViewById(R.id.login_button);
-        mEmailSignInButton.setOnClickListener(view -> attemptLogin());
+        Toolbar toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
+        toolbar.setVisibility(View.GONE);
+//        FlowingGradientClass grad = new FlowingGradientClass();
+//        grad.setBackgroundResource(R.drawable.translate)
+//                .onLinearLayout(llLogin)
+//                .setTransitionDuration(3000)
+//                .start();
+        return view;
     }
 
     @Override
-    protected void onDestroy() {
+    public void onDestroy() {
         presenter.detachView();
         super.onDestroy();
     }
@@ -137,7 +157,7 @@ public class LoginActivity extends BaseActivity implements LoginActivityView {
         // On Honeycomb MR2 we have the ViewPropertyAnimator APIs, which allow
         // for very easy animations. If available, use these APIs to fade-in
         // the progress spinner.
-        if (VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
             int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
 
             loginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
@@ -165,10 +185,10 @@ public class LoginActivity extends BaseActivity implements LoginActivityView {
         }
     }
 
-    @OnClick(R.id.login_button)
+    @OnClick(R.id.tv_login)
     public void onClick() {
         attemptLogin();
-        AndroidUtils.hideKeyboard(getCurrentFocus());
+        AndroidUtils.hideKeyboard(getView());
     }
 
     @Override
@@ -180,5 +200,15 @@ public class LoginActivity extends BaseActivity implements LoginActivityView {
     public void onSignClick() {
         presenter.signUp();
     }
-}
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        ButterKnife.unbind(this);
+    }
+
+    @OnClick(R.id.tv_login)
+    public void onLogin() {
+        attemptLogin();
+    }
+}

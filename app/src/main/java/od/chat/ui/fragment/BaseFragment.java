@@ -3,7 +3,9 @@ package od.chat.ui.fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.view.View;
 
+import od.chat.R;
 import od.chat.di.HasComponent;
 import od.chat.di.component.DaggerFragmentComponent;
 import od.chat.di.component.FragmentComponent;
@@ -38,5 +40,14 @@ public class BaseFragment extends Fragment implements HasComponent<FragmentCompo
 
     public void setupTitle(String title) {
         getActivity().setTitle(title);
+    }
+
+    protected void setupToolbar(String title, android.support.v7.widget.Toolbar toolbar) {
+        toolbar.setNavigationIcon(R.drawable.ic_chevron_left_white_36dp);
+        toolbar.setNavigationOnClickListener((View v) -> {
+            getFragmentManager().popBackStack();
+        });
+
+        setupTitle(title);
     }
 }

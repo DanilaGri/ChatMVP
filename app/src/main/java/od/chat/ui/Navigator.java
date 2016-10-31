@@ -9,10 +9,13 @@ import android.support.v7.app.AppCompatActivity;
 import javax.inject.Inject;
 
 import od.chat.R;
+import od.chat.model.Chat;
 import od.chat.ui.fragment.ChatFragment;
 import od.chat.ui.fragment.CommentFragment;
-import od.chat.ui.activity.SignUpActivity;
+import od.chat.ui.fragment.LoginFragment;
+import od.chat.ui.fragment.PostEditFragment;
 import od.chat.ui.fragment.PrivateCabinetFragment;
+import od.chat.ui.fragment.SignUpFragment;
 import od.chat.ui.fragment.UpdateUserFragment;
 
 /**
@@ -66,13 +69,30 @@ public class Navigator {
         return activity.getSupportFragmentManager();
     }
 
+    public Fragment getFragmentByTag(String tag) {
+        return getFragmentManager().findFragmentByTag(tag);
+    }
+
     public void openChatScreen() {
-        ChatFragment chatFragment = ChatFragment.newInstance("test");
+        ChatFragment chatFragment;
+        if (getFragmentByTag(ChatFragment.TAG) != null) {
+            chatFragment = (ChatFragment) getFragmentByTag(ChatFragment.TAG);
+        } else {
+            chatFragment = ChatFragment.newInstance("test");
+        }
         replaceFragment(chatFragment, ChatFragment.TAG);
     }
 
     public void openPrivateCabinetScreen() {
-        PrivateCabinetFragment fragment = new PrivateCabinetFragment();
+        PrivateCabinetFragment fragment;
+        if (getFragmentByTag(PrivateCabinetFragment.TAG) == null) {
+            fragment = new PrivateCabinetFragment();
+            replaceFragment(fragment, PrivateCabinetFragment.TAG);
+        }
+    }
+
+    public void openReadUser(String id) {
+        PrivateCabinetFragment fragment = PrivateCabinetFragment.newInstance(id);
         replaceFragment(fragment, PrivateCabinetFragment.TAG);
     }
 
@@ -86,9 +106,19 @@ public class Navigator {
         replaceFragment(fragment, UpdateUserFragment.TAG);
     }
 
+    public void openLoginScreen() {
+        LoginFragment fragment = new LoginFragment();
+        addFragment(fragment, LoginFragment.TAG);
+    }
+
+    public void openUpdateScreen(Chat chat) {
+        PostEditFragment fragment = PostEditFragment.newInstance(chat);
+        replaceFragment(fragment, PostEditFragment.TAG);
+    }
+
     public void openSignUp(boolean isSign) {
-        Intent intent = new Intent(activity, SignUpActivity.class);
-        intent.putExtra(SignUpActivity.IS_SIGN, isSign);
-        activity.startActivity(intent);    }
+        SignUpFragment fragment = SignUpFragment.newInstance(isSign);
+        replaceFragment(fragment, SignUpFragment.TAG);
+    }
 
 }

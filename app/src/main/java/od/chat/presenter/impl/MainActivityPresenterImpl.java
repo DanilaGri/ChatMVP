@@ -4,7 +4,7 @@ import javax.inject.Inject;
 
 import od.chat.presenter.MainActivityPresenter;
 import od.chat.ui.Navigator;
-import od.chat.ui.activity.LoginActivity;
+import od.chat.ui.activity.StartActivity;
 import od.chat.utils.SharedPreferencesUtils;
 
 /**
@@ -39,7 +39,7 @@ public class MainActivityPresenterImpl extends MainActivityPresenter {
 
     @Override
     public void openLoginScreen() {
-        navigator.openScreen(LoginActivity.class);
+        navigator.openScreen(StartActivity.class);
         preferencesUtils.logOut();
         navigator.finishActivity();
     }

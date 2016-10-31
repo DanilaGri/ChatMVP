@@ -5,7 +5,11 @@ import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -17,6 +21,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import od.chat.R;
 import od.chat.listener.OnAdapterListener;
+import od.chat.listener.OnChatAdapterListener;
 import od.chat.model.Chat;
 import od.chat.presenter.ChatPresenter;
 import od.chat.ui.adapter.ChatAdapter;
@@ -27,7 +32,7 @@ import od.chat.ui.view.ChatView;
  * Use the {@link ChatFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ChatFragment extends BaseFragment implements ChatView, OnAdapterListener {
+public class ChatFragment extends BaseFragment implements ChatView, OnAdapterListener, OnChatAdapterListener {
     private static final String ARG_PARAM1 = "param1";
     public static final String TAG = ChatFragment.class.getSimpleName();
     @Bind(R.id.rv_chat)
@@ -38,6 +43,7 @@ public class ChatFragment extends BaseFragment implements ChatView, OnAdapterLis
 
     @Inject
     ChatPresenter presenter;
+    private LinearLayoutManager mLayoutManager;
 
     public ChatFragment() {
         // Required empty public constructor
@@ -64,6 +70,7 @@ public class ChatFragment extends BaseFragment implements ChatView, OnAdapterLis
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
         }
+        setHasOptionsMenu(true);
     }
 
     @Override
@@ -74,11 +81,19 @@ public class ChatFragment extends BaseFragment implements ChatView, OnAdapterLis
         ButterKnife.bind(this, view);
         getComponent().inject(this);
         presenter.attachView(this);
-        presenter.loadChat();
-        rvChat.setLayoutManager(new LinearLayoutManager(getActivity()));
+        mLayoutManager = new LinearLayoutManager(getActivity());
+        rvChat.setLayoutManager(mLayoutManager);
         swipeChat.setOnRefreshListener(() -> {
-            presenter.loadChat();
+            presenter.loadChat(rvChat.getAdapter().getItemCount());
         });
+        swipeChat.post(() -> {
+            swipeChat.setRefreshing(true);
+            presenter.loadChat(10);
+
+        });
+
+        rvChat.addOnScrollListener(onScrollListener);
+        setupTitle("Посты");
         return view;
     }
 
@@ -90,6 +105,25 @@ public class ChatFragment extends BaseFragment implements ChatView, OnAdapterLis
     }
 
     @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        // Do something that differs the Activity's menu here
+        inflater.inflate(R.menu.menu_main, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_add:
+                presenter.addPost();
+            default:
+                break;
+        }
+
+        return false;
+    }
+
+    @Override
     public void showChat(List<Chat> chatList) {
         ChatAdapter chatAdapter = new ChatAdapter(getActivity(), chatList, this);
         rvChat.setAdapter(chatAdapter);
@@ -98,11 +132,55 @@ public class ChatFragment extends BaseFragment implements ChatView, OnAdapterLis
 
     @Override
     public <T> void onClick(T t) {
-        presenter.openComments(((Chat) t).getId());
+        if (t instanceof String) {
+            presenter.openComments((String) t);
+        } else if (t instanceof Chat) {
+            presenter.viewPost((Chat) t);
+        }
+    }
+
+    @Override
+    public void deletePost(String id) {
+        swipeChat.setRefreshing(true);
+        presenter.deletePost(id);
+    }
+
+    @Override
+    public void viewUser(String id) {
+        presenter.readUser(id);
     }
 
     @Override
     public void showError() {
         swipeChat.setRefreshing(false);
     }
+
+    @Override
+    public void onStop() {
+        swipeChat.setRefreshing(false);
+        super.onStop();
+    }
+
+
+    int totalItemCount = 0;
+
+    final RecyclerView.OnScrollListener onScrollListener = new RecyclerView.OnScrollListener() {
+        @Override
+        public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+            int position = mLayoutManager.findLastVisibleItemPosition();
+            Log.e("totalItemCountDOooo", String.valueOf(totalItemCount));
+            if (totalItemCount < position) {
+                Log.e("totalItemCount", String.valueOf(totalItemCount));
+                totalItemCount = position;
+                int updatePosition = recyclerView.getAdapter().getItemCount() - 1;
+                Log.e("RecyclerView", String.valueOf(dy));
+                if (position >= updatePosition && dy > 0) {
+                    presenter.loadChat(updatePosition + 6);
+                    swipeChat.setRefreshing(true);
+                }
+            }
+
+        }
+
+    };
 }

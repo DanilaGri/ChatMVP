@@ -8,7 +8,7 @@ import od.chat.ui.view.SignUpView;
 
 public abstract class SignUpPresenter extends BasePresenter<SignUpView> {
     public abstract void signUp(String email, String password, String name, String surname,
-                                 String avatar, boolean isSign);
+                                String avatar, boolean isSign);
 
     public abstract void setupUserInfo();
 }

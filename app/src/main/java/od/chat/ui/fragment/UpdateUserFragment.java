@@ -4,7 +4,6 @@ package od.chat.ui.fragment;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -32,8 +31,6 @@ public class UpdateUserFragment extends BaseFragment implements UpdateUserView {
 
     @Inject
     UpdateUserPresenter presenter;
-    @Bind(R.id.toolbar)
-    Toolbar toolbar;
     @Bind(R.id.email)
     AutoCompleteTextView email;
     @Bind(R.id.password)
@@ -61,12 +58,11 @@ public class UpdateUserFragment extends BaseFragment implements UpdateUserView {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.activity_sign_up, container, false);
+        View view = inflater.inflate(R.layout.fragment_sign_up, container, false);
         ButterKnife.bind(this, view);
         getComponent().inject(this);
         presenter.attachView(this);
         presenter.setupUserInfo();
-        toolbar.setVisibility(View.GONE);
         setupTitle("Edit User");
         return view;
     }
@@ -98,6 +94,7 @@ public class UpdateUserFragment extends BaseFragment implements UpdateUserView {
 
         return false;
     }
+
     private boolean setupInputValues() {
         boolean flag;
         String field = "";
@@ -150,8 +147,8 @@ public class UpdateUserFragment extends BaseFragment implements UpdateUserView {
         password.setText(user.getPassword() != null ? user.getPassword() : "");
         passwordRepeat.setText(user.getPassword() != null ? user.getPassword() : "");
         email.setText(user.getEmail() != null ? user.getEmail() : "");
-        name.setText(user.getName()!= null ? user.getName() : "");
-        sureName.setText(user.getSurname()!= null ? user.getSurname() : "");
-        avatar.setText(user.getAvatar()!= null ? user.getAvatar() : "");
+        name.setText(user.getName() != null ? user.getName() : "");
+        sureName.setText(user.getSurname() != null ? user.getSurname() : "");
+        avatar.setText(user.getAvatar() != null ? user.getAvatar() : "");
     }
 }
