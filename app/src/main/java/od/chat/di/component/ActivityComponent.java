@@ -16,6 +16,7 @@ import od.chat.ui.Navigator;
 import od.chat.ui.activity.MainActivity;
 import od.chat.ui.activity.StartActivity;
 import od.chat.utils.AndroidUtils;
+import od.chat.utils.ProgressDialogHelper;
 import od.chat.utils.RxUtil;
 import od.chat.utils.SharedPreferencesUtils;
 
@@ -30,6 +31,7 @@ public interface ActivityComponent {
 
     AndroidUtils getAndroidUtils();
 
+    ProgressDialogHelper getProgressDialogHelper();
 
     Activity getActivity();
 

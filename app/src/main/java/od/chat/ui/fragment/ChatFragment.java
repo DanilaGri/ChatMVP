@@ -167,17 +167,26 @@ public class ChatFragment extends BaseFragment implements ChatView, OnAdapterLis
     final RecyclerView.OnScrollListener onScrollListener = new RecyclerView.OnScrollListener() {
         @Override
         public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-            int position = mLayoutManager.findLastVisibleItemPosition();
-            Log.e("totalItemCountDOooo", String.valueOf(totalItemCount));
-            if (totalItemCount < position) {
-                Log.e("totalItemCount", String.valueOf(totalItemCount));
-                totalItemCount = position;
-                int updatePosition = recyclerView.getAdapter().getItemCount() - 1;
-                Log.e("RecyclerView", String.valueOf(dy));
-                if (position >= updatePosition && dy > 0) {
-                    presenter.loadChat(updatePosition + 6);
+//            int position = mLayoutManager.findLastVisibleItemPosition();
+//            Log.e("totalItemCountDOooo", String.valueOf(totalItemCount));
+//            if (totalItemCount < position) {
+//                Log.e("totalItemCount", String.valueOf(totalItemCount));
+//                totalItemCount = position;
+//                int updatePosition = recyclerView.getAdapter().getItemCount() - 1;
+//                Log.e("RecyclerView", String.valueOf(dy));
+//                if (position >= updatePosition && dy > 0) {
+//                    presenter.loadChat(updatePosition + 6);
+//                    swipeChat.setRefreshing(true);
+//                }
+//            }
+            int updatePosition = recyclerView.getAdapter().getItemCount() - 1;
+            int visibleItemCount = mLayoutManager.getChildCount();
+            int totalItemCount = mLayoutManager.getItemCount();
+            int pastVisibleItemPosition = mLayoutManager.findFirstVisibleItemPosition();
+
+            if (pastVisibleItemPosition + visibleItemCount > totalItemCount) {
+                presenter.loadChat(updatePosition + 6);
                     swipeChat.setRefreshing(true);
-                }
             }
 
         }
