@@ -41,6 +41,8 @@ public class Chat implements Parcelable {
     @Expose
     private String commentsCount;
 
+    public Chat(){}
+
     protected Chat(Parcel in) {
         id = in.readString();
         title = in.readString();
