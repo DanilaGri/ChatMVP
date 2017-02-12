@@ -15,7 +15,7 @@ public interface ChatHelper {
 
     Observable<String> deletePost(String id);
 
-    Observable<String> updatePost(String id, String title, String description, String image);
+    Observable<Chat> updatePost(String id, String title, String description, String image);
 
     Observable<String> addPost(String userId, String title, String description, String image);
 }

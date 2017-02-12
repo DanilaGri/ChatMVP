@@ -3,6 +3,7 @@ package od.chat.presenter.impl;
 import javax.inject.Inject;
 
 import od.chat.helper.ChatHelper;
+import od.chat.model.Chat;
 import od.chat.presenter.PostEditPresenter;
 import od.chat.ui.Navigator;
 import od.chat.utils.ProgressDialogHelper;
@@ -33,7 +34,7 @@ public class PostEditPresenterImpl extends PostEditPresenter {
     public void edit(String id, String title, String description, String image) {
         if (subscription != null) subscription.unsubscribe();
         subscription = chatHelper.updatePost(id, title, description, image)
-                .subscribe(new Observer<String>() {
+                .subscribe(new Observer<Chat>() {
                     @Override
                     public void onCompleted() {
 
@@ -46,7 +47,7 @@ public class PostEditPresenterImpl extends PostEditPresenter {
                     }
 
                     @Override
-                    public void onNext(String response) {
+                    public void onNext(Chat response) {
                         progressDialogHelper.hideDialog();
                         navigator.onBackPressed();
                     }

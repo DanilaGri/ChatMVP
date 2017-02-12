@@ -33,7 +33,7 @@ public class ChatHelperImpl implements ChatHelper {
     }
 
     @Override
-    public Observable<String> updatePost(String id, String title, String description, String image) {
+    public Observable<Chat> updatePost(String id, String title, String description, String image) {
         return repository.updatePost(id, title, description, image).compose(rxUtil.applySchedulers());
     }
 

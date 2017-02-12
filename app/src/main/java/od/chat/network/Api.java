@@ -58,7 +58,7 @@ public interface Api {
     Observable<String> deletePost(@Query("id") String id);
 
     @GET("update_post.php")
-    Observable<String> updatePost(@Query("id") String id,
+    Observable<Chat> updatePost(@Query("id") String id,
                                   @Query("title") String title,
                                   @Query("description") String description,
                                   @Query("image") String image);

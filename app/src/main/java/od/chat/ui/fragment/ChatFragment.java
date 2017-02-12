@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -84,11 +85,11 @@ public class ChatFragment extends BaseFragment implements ChatView, OnAdapterLis
         mLayoutManager = new LinearLayoutManager(getActivity());
         rvChat.setLayoutManager(mLayoutManager);
         swipeChat.setOnRefreshListener(() -> {
-            presenter.loadChat(rvChat.getAdapter().getItemCount());
+            presenter.loadChat(0);
         });
         swipeChat.post(() -> {
             swipeChat.setRefreshing(true);
-            presenter.loadChat(10);
+            presenter.loadChat(0);
 
         });
 
@@ -125,6 +126,7 @@ public class ChatFragment extends BaseFragment implements ChatView, OnAdapterLis
 
     @Override
     public void showChat(List<Chat> chatList) {
+        if(chatList == null) chatList = new ArrayList<>();
         ChatAdapter chatAdapter = new ChatAdapter(getActivity(), chatList, this);
         rvChat.setAdapter(chatAdapter);
         swipeChat.setRefreshing(false);
@@ -179,7 +181,7 @@ public class ChatFragment extends BaseFragment implements ChatView, OnAdapterLis
 //                    swipeChat.setRefreshing(true);
 //                }
 //            }
-            int updatePosition = recyclerView.getAdapter().getItemCount() - 1;
+      /**      int updatePosition = recyclerView.getAdapter().getItemCount() - 1;
             int visibleItemCount = mLayoutManager.getChildCount();
             int totalItemCount = mLayoutManager.getItemCount();
             int pastVisibleItemPosition = mLayoutManager.findFirstVisibleItemPosition();
@@ -187,7 +189,7 @@ public class ChatFragment extends BaseFragment implements ChatView, OnAdapterLis
             if (pastVisibleItemPosition + visibleItemCount > totalItemCount) {
                 presenter.loadChat(updatePosition + 6);
                     swipeChat.setRefreshing(true);
-            }
+            }*/
 
         }
 

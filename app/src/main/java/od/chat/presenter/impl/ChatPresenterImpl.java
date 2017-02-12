@@ -59,6 +59,7 @@ public class ChatPresenterImpl extends ChatPresenter {
 
             @Override
             public void onNext(List<Chat> chatResponse) {
+                chatList.clear();
                 chatList.addAll(chatResponse);
                 view.showChat(chatList);
             }
