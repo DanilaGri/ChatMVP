@@ -28,7 +28,7 @@ public class UserHelperImpl implements UserHelper {
     }
 
     @Override
-    public Observable<String> updateUser(String id, String email, String password, String name, String surname, String avatar) {
+    public Observable<User> updateUser(String id, String email, String password, String name, String surname, String avatar) {
         return repository.updateUser(id, email, password, name, surname, avatar)
                 .compose(rxUtil.applySchedulers());
     }

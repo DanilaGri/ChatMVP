@@ -73,8 +73,6 @@ public class MainActivity extends BaseActivity
 
         if (id == R.id.nav_private_cabinet) {
             presenter.openPrivateCabinet();
-        } else if (id == R.id.nav_gallery) {
-
         } else if (id == R.id.nav_exit) {
             presenter.openLoginScreen();
         }

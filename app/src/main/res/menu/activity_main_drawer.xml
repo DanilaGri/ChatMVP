@@ -4,12 +4,8 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_private_cabinet"
-            android:icon="@drawable/ic_menu_camera"
+            android:icon="@drawable/ic_account_box_black_24dp"
             android:title="Личный кабинет" />
-        <item
-            android:id="@+id/nav_gallery"
-            android:icon="@drawable/ic_menu_gallery"
-            android:title="Gallery" />
     </group>
     <group
         android:id="@+id/menu_bottom"

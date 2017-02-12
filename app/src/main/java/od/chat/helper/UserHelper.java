@@ -11,8 +11,8 @@ public interface UserHelper {
     Observable<String> createUser(String email, String password, String name, String surname,
                                   String avatar);
 
-    Observable<String> updateUser(String id, String email, String password, String name, String surname,
-                                  String avatar);
+    Observable<User> updateUser(String id, String email, String password, String name, String surname,
+                                String avatar);
 
     Observable<String> deleteUser(String id);
 

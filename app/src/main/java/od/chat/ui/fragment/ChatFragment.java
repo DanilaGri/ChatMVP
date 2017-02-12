@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -126,7 +125,7 @@ public class ChatFragment extends BaseFragment implements ChatView, OnAdapterLis
 
     @Override
     public void showChat(List<Chat> chatList) {
-        if(chatList == null) chatList = new ArrayList<>();
+        if (chatList == null) chatList = new ArrayList<>();
         ChatAdapter chatAdapter = new ChatAdapter(getActivity(), chatList, this);
         rvChat.setAdapter(chatAdapter);
         swipeChat.setRefreshing(false);
@@ -181,15 +180,15 @@ public class ChatFragment extends BaseFragment implements ChatView, OnAdapterLis
 //                    swipeChat.setRefreshing(true);
 //                }
 //            }
-      /**      int updatePosition = recyclerView.getAdapter().getItemCount() - 1;
-            int visibleItemCount = mLayoutManager.getChildCount();
-            int totalItemCount = mLayoutManager.getItemCount();
-            int pastVisibleItemPosition = mLayoutManager.findFirstVisibleItemPosition();
+            /**      int updatePosition = recyclerView.getAdapter().getItemCount() - 1;
+             int visibleItemCount = mLayoutManager.getChildCount();
+             int totalItemCount = mLayoutManager.getItemCount();
+             int pastVisibleItemPosition = mLayoutManager.findFirstVisibleItemPosition();
 
-            if (pastVisibleItemPosition + visibleItemCount > totalItemCount) {
-                presenter.loadChat(updatePosition + 6);
-                    swipeChat.setRefreshing(true);
-            }*/
+             if (pastVisibleItemPosition + visibleItemCount > totalItemCount) {
+             presenter.loadChat(updatePosition + 6);
+             swipeChat.setRefreshing(true);
+             }*/
 
         }
 

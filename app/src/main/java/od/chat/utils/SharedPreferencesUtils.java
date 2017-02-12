@@ -80,12 +80,12 @@ public class SharedPreferencesUtils {
     public User getUser() {
         Gson gson = new Gson();
         String json = sharedPreferences.getString(USER, "");
-        User pacient = gson.fromJson(json, User.class);
-        return pacient;
+        User user = gson.fromJson(json, User.class);
+        return user;
     }
 
-    public void deletePatient() {
-
+    public void deleteUser() {
+        logOut();
         SharedPreferences.Editor sharedPreferencesEditor = sharedPreferences.edit();
         sharedPreferencesEditor.remove(USER);
         sharedPreferencesEditor.commit();

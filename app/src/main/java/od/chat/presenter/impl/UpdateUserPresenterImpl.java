@@ -4,6 +4,7 @@ import javax.inject.Inject;
 
 import od.chat.helper.AlertDialogsHelper;
 import od.chat.helper.UserHelper;
+import od.chat.model.User;
 import od.chat.presenter.UpdateUserPresenter;
 import od.chat.ui.Navigator;
 import od.chat.utils.SharedPreferencesUtils;
@@ -33,7 +34,7 @@ public class UpdateUserPresenterImpl extends UpdateUserPresenter {
         if (subscription != null) subscription.unsubscribe();
         subscription = helper.updateUser(preferencesUtils.getUser().getId(), email, password,
                 name, surname, avatar)
-                .subscribe(new Observer<String>() {
+                .subscribe(new Observer<User>() {
                     @Override
                     public void onCompleted() {
 
@@ -45,8 +46,8 @@ public class UpdateUserPresenterImpl extends UpdateUserPresenter {
                     }
 
                     @Override
-                    public void onNext(String s) {
-                        if ("true".equals(s)) {
+                    public void onNext(User user) {
+                        if (user != null) {
                             navigator.onBackPressed();
                         } else {
                             alertDialogsHelper.errorTxtMsg("Ошибка обновления");

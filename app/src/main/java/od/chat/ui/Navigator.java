@@ -10,6 +10,7 @@ import javax.inject.Inject;
 
 import od.chat.R;
 import od.chat.model.Chat;
+import od.chat.ui.activity.StartActivity;
 import od.chat.ui.fragment.ChatFragment;
 import od.chat.ui.fragment.CommentFragment;
 import od.chat.ui.fragment.LoginFragment;
@@ -119,6 +120,12 @@ public class Navigator {
     public void openSignUp(boolean isSign) {
         SignUpFragment fragment = SignUpFragment.newInstance(isSign);
         replaceFragment(fragment, SignUpFragment.TAG);
+    }
+
+    public void logout() {
+        Intent intent = new Intent(activity, StartActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        activity.startActivity(intent);
     }
 
 }

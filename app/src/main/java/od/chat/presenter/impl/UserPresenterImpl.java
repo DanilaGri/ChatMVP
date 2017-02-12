@@ -79,7 +79,8 @@ public class UserPresenterImpl extends UserPresenter {
                     @Override
                     public void onNext(String s) {
                         if ("true".equals(s)) {
-                            navigator.onBackPressed();
+                            preferencesUtils.deleteUser();
+                            navigator.logout();
                         } else {
                             alertDialogsHelper.errorTxtMsg("Ошибка регистрации");
                         }

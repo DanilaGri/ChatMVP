@@ -41,12 +41,12 @@ public interface Api {
                                   @Query("avatar") String avatar);
 
     @GET("update_user.php")
-    Observable<String> updateUser(@Query("id") String id,
-                                  @Query("email") String email,
-                                  @Query("password") String password,
-                                  @Query("name") String name,
-                                  @Query("surname") String surname,
-                                  @Query("avatar") String avatar);
+    Observable<User> updateUser(@Query("id") String id,
+                                @Query("email") String email,
+                                @Query("password") String password,
+                                @Query("name") String name,
+                                @Query("surname") String surname,
+                                @Query("avatar") String avatar);
 
     @GET("delete_user.php")
     Observable<String> deleteUser(@Query("id") String id);
@@ -59,9 +59,9 @@ public interface Api {
 
     @GET("update_post.php")
     Observable<Chat> updatePost(@Query("id") String id,
-                                  @Query("title") String title,
-                                  @Query("description") String description,
-                                  @Query("image") String image);
+                                @Query("title") String title,
+                                @Query("description") String description,
+                                @Query("image") String image);
 
     @GET("create_post.php")
     Observable<String> createPost(@Query("user_id") String id,
