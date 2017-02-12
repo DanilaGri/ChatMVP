@@ -17,80 +17,72 @@ public class Comment {
     @SerializedName("timestamp")
     @Expose
     private String timestamp;
-    @SerializedName("news_id")
-    @Expose
-    private String newsId;
     @SerializedName("user_id")
     @Expose
     private String userId;
+    @SerializedName("user_name")
+    @Expose
+    private String userName;
+    @SerializedName("user_surname")
+    @Expose
+    private String userSurname;
+    @SerializedName("user_avatar")
+    @Expose
+    private String userAvatar;
 
-    /**
-     * @return The id
-     */
     public String getId() {
         return id;
     }
 
-    /**
-     * @param id The id
-     */
     public void setId(String id) {
         this.id = id;
     }
 
-    /**
-     * @return The text
-     */
     public String getText() {
         return text;
     }
 
-    /**
-     * @param text The text
-     */
     public void setText(String text) {
         this.text = text;
     }
 
-    /**
-     * @return The timestamp
-     */
     public String getTimestamp() {
         return timestamp;
     }
 
-    /**
-     * @param timestamp The timestamp
-     */
     public void setTimestamp(String timestamp) {
         this.timestamp = timestamp;
     }
 
-    /**
-     * @return The newsId
-     */
-    public String getNewsId() {
-        return newsId;
-    }
-
-    /**
-     * @param newsId The news_id
-     */
-    public void setNewsId(String newsId) {
-        this.newsId = newsId;
-    }
-
-    /**
-     * @return The userId
-     */
     public String getUserId() {
         return userId;
     }
 
-    /**
-     * @param userId The user_id
-     */
     public void setUserId(String userId) {
         this.userId = userId;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public String getUserSurname() {
+        return userSurname;
+    }
+
+    public void setUserSurname(String userSurname) {
+        this.userSurname = userSurname;
+    }
+
+    public String getUserAvatar() {
+        return userAvatar;
+    }
+
+    public void setUserAvatar(String userAvatar) {
+        this.userAvatar = userAvatar;
     }
 }

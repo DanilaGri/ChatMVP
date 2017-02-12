@@ -9,6 +9,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+
 import java.util.List;
 
 import butterknife.Bind;
@@ -49,14 +51,14 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         Comment item = commentList.get(position);
-//        holder.tvUsername.setText(item.getUserName() != null && item.getUserSurname() != null
-//                ? item.getUserName() + " " + item.getUserSurname() : "");
+        holder.tvUsername.setText(item.getUserName() != null && item.getUserSurname() != null
+                ? item.getUserName() + " " + item.getUserSurname() : "");
         holder.tvCreateDateComment.setText(item.getTimestamp() != null ? item.getTimestamp() : "");
         holder.tvTxtComment.setText(item.getText() != null ? item.getText() : "");
-//        holder.tvSubscription.setText(item.getDescription() != null ? item.getDescription() : "");
-//        Glide.with(context)
-//                .load(item.getImage()).asBitmap()
-//                .into(holder.ivPostImage);
+        holder.tvCreateDateComment.setText(item.getTimestamp() != null ? item.getTimestamp() : "");
+        Glide.with(context)
+                .load(item.getUserAvatar()).asBitmap()
+                .into(holder.ivComment);
 
     }
 
@@ -75,17 +77,13 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
         TextView tvCreateDateComment;
         @Bind(R.id.tv_txt_comment)
         TextView tvTxtComment;
-        @Bind(R.id.view)
-        View view;
-        @Bind(R.id.comment)
-        CardView comment;
 
         public ViewHolder(View view) {
             super(view);
             ButterKnife.bind(this, view);
-            comment.setOnClickListener((View v) -> {
-//                listener.onClick(doctorList.get(getAdapterPosition()));
-            });
+//            comment.setOnClickListener((View v) -> {
+////                listener.onClick(doctorList.get(getAdapterPosition()));
+//            });
         }
     }
 }
