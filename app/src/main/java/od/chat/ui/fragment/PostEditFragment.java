@@ -9,14 +9,20 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AutoCompleteTextView;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.TextView;
+
+import org.greenrobot.eventbus.EventBus;
 
 import javax.inject.Inject;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import od.chat.R;
+import od.chat.event.UpdateEvent;
 import od.chat.model.Chat;
 import od.chat.presenter.PostEditPresenter;
 import od.chat.ui.view.PostEditView;
@@ -33,6 +39,14 @@ public class PostEditFragment extends BaseFragment implements PostEditView {
 
     @Bind(R.id.ll_post)
     LinearLayout llPost;
+    @Bind(R.id.tv_no_data)
+    TextView tvNoData;
+    @Bind(R.id.progress)
+    ProgressBar progress;
+    @Bind(R.id.btn_update)
+    Button btnUpdate;
+    @Bind(R.id.ll_progress_bar)
+    LinearLayout llProgressBar;
 
     private Chat chat;
     @Bind(R.id.title)
@@ -76,6 +90,7 @@ public class PostEditFragment extends BaseFragment implements PostEditView {
         ButterKnife.bind(this, view);
         getComponent().inject(this);
         presenter.attachView(this);
+        llProgressBar.setVisibility(View.GONE);
         if (chat != null) {
             setupTitle("Редактирование поста");
             subscription.setText(chat.getDescription() != null ? chat.getDescription() : "");
@@ -128,14 +143,19 @@ public class PostEditFragment extends BaseFragment implements PostEditView {
     @Override
     public void showError() {
         llPost.setVisibility(View.VISIBLE);
-//        progress.setVisibility(View.GONE);
+        llProgressBar.setVisibility(View.GONE);
     }
 
     @Override
     public void showLoad() {
         llPost.setVisibility(View.GONE);
-//        progress.setVisibility(View.VISIBLE);
+        llProgressBar.setVisibility(View.VISIBLE);
         androidUtils.hideKeyboard(getView());
+    }
+
+    @Override
+    public void update() {
+        EventBus.getDefault().postSticky(new UpdateEvent());
     }
 
     @Override

@@ -6,4 +6,5 @@ package od.chat.ui.view;
 
 public interface PostEditView extends BaseView {
     void showLoad();
+    void update();
 }
