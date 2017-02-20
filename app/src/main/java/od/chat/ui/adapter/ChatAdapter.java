@@ -29,17 +29,20 @@ import od.chat.model.Chat;
  */
 public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
 
-    private LayoutInflater mLayoutInflater;
+     private LayoutInflater mLayoutInflater;
     private List<Chat> chatList;
     private Context context;
     private OnChatAdapterListener listener;
+    private String userId;
 
-    public ChatAdapter(Context context, List<Chat> chatList, OnChatAdapterListener listener) {
+    public ChatAdapter(Context context, List<Chat> chatList, OnChatAdapterListener listener,
+                       String userId) {
         super();
         mLayoutInflater = LayoutInflater.from(context);
         this.context = context;
         this.chatList = chatList;
         this.listener = listener;
+        this.userId = userId;
     }
 
     public void setDoctorList(List<Chat> chatList) {
@@ -78,6 +81,14 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
                 .load(item.getImage()).asBitmap()
                 .into(holder.ivPostImage);
 
+        if (item.getUserId().equals(userId)) {
+            holder.imgEdit.setVisibility(View.VISIBLE);
+            holder.imgDelete.setVisibility(View.VISIBLE);
+        } else {
+            holder.imgEdit.setVisibility(View.GONE);
+            holder.imgDelete.setVisibility(View.GONE);
+        }
+
     }
 
     @Override
@@ -92,26 +103,24 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
         TextView tvUsername;
         @Bind(R.id.tv_create_date)
         TextView tvCreateDate;
+        @Bind(R.id.iv_post_image)
+        ImageView ivPostImage;
+        @Bind(R.id.img_delete)
+        ImageView imgDelete;
+        @Bind(R.id.img_edit)
+        ImageView imgEdit;
+        @Bind(R.id.rl_comment)
+        RelativeLayout rlComment;
         @Bind(R.id.tv_title)
         TextView tvTitle;
         @Bind(R.id.tv_subscription)
         TextView tvSubscription;
-        @Bind(R.id.iv_post_image)
-        ImageView ivPostImage;
         @Bind(R.id.view)
         View view;
         @Bind(R.id.imageButton)
         ImageView imageButton;
         @Bind(R.id.tv_count_comment)
         TextView tvCountComment;
-        @Bind(R.id.comment)
-        LinearLayout comment;
-        @Bind(R.id.rl_comment)
-        RelativeLayout rlComment;
-        @Bind(R.id.img_delete)
-        ImageView imgDelete;
-        @Bind(R.id.img_edit)
-        ImageView imgEdit;
 
         public ViewHolder(View view) {
             super(view);

@@ -79,7 +79,7 @@ public class Navigator {
         if (getFragmentByTag(ChatFragment.TAG) != null) {
             chatFragment = (ChatFragment) getFragmentByTag(ChatFragment.TAG);
         } else {
-            chatFragment = ChatFragment.newInstance("test");
+            chatFragment = ChatFragment.newInstance("title_item");
         }
         replaceFragment(chatFragment, ChatFragment.TAG);
     }

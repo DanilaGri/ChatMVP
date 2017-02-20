@@ -32,7 +32,7 @@ public class ChatPresenterImpl extends ChatPresenter {
     }
 
     @Override
-    public void loadChat(int zero) {
+    public void loadChat(int zero, boolean isFromCache) {
         this.zero = zero;
 //        Gson gson = new Gson();
 //        Chat list1 = null;
@@ -45,6 +45,13 @@ public class ChatPresenterImpl extends ChatPresenter {
 //            list.add(list2);
 //            view.showChat(list);
 //        }
+
+        if(isFromCache){
+           if (chatList != null) {
+               view.showChat(chatList);
+           }
+          return;
+        }
         if (subscription != null) subscription.unsubscribe();
         subscription = chatHelper.getChat(zero).subscribe(new Observer<List<Chat>>() {
             @Override
@@ -87,7 +94,7 @@ public class ChatPresenterImpl extends ChatPresenter {
 
             @Override
             public void onNext(String response) {
-                loadChat(zero);
+                loadChat(zero,false);
             }
         });
     }
@@ -105,5 +112,10 @@ public class ChatPresenterImpl extends ChatPresenter {
     @Override
     public void readUser(String id) {
         navigator.openReadUser(id);
+    }
+
+    @Override
+    public String getUserId() {
+        return preferencesUtils.getUser().getId();
     }
 }

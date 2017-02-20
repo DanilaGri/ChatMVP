@@ -57,6 +57,9 @@ public interface Api {
     @GET("delete_post.php")
     Observable<String> deletePost(@Query("id") String id);
 
+    @GET("delete_comment.php")
+    Observable<String> deleteComment(@Query("id") String id);
+
     @GET("update_post.php")
     Observable<Chat> updatePost(@Query("id") String id,
                                 @Query("title") String title,

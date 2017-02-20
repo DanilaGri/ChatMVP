@@ -55,6 +55,30 @@ public class CommentPresenterImpl extends CommentPresenter {
     }
 
     @Override
+    public void deleteComment(String id) {
+        if (subscription != null) subscription.unsubscribe();
+        view.showLoad();
+        subscription = commentHelper.deleteComment(id).subscribe(new Observer<String>() {
+            @Override
+            public void onCompleted() {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                view.showError();
+            }
+
+            @Override
+            public void onNext(String response) {
+                loadComments(postId);
+                view.update();
+
+            }
+        });
+    }
+
+    @Override
     public void sendComment(String text) {
         if (subscription != null) subscription.unsubscribe();
         view.showLoad();
@@ -74,8 +98,14 @@ public class CommentPresenterImpl extends CommentPresenter {
             public void onNext(String s) {
                 if (s.equals("true")) {
                     loadComments(postId);
+                    view.update();
                 }
             }
         });
+    }
+
+    @Override
+    public String getUserId() {
+        return preferencesUtils.getUser().getId();
     }
 }

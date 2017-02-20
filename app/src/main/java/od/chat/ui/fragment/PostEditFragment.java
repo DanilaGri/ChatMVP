@@ -30,8 +30,7 @@ import od.chat.utils.AndroidUtils;
 public class PostEditFragment extends BaseFragment implements PostEditView {
     private static final String ARG_POST = "arg_post";
     public static final String TAG = PostEditFragment.class.getSimpleName();
-    @Bind(R.id.progress)
-    ProgressBar progress;
+
     @Bind(R.id.ll_post)
     LinearLayout llPost;
 
@@ -129,13 +128,13 @@ public class PostEditFragment extends BaseFragment implements PostEditView {
     @Override
     public void showError() {
         llPost.setVisibility(View.VISIBLE);
-        progress.setVisibility(View.GONE);
+//        progress.setVisibility(View.GONE);
     }
 
     @Override
     public void showLoad() {
         llPost.setVisibility(View.GONE);
-        progress.setVisibility(View.VISIBLE);
+//        progress.setVisibility(View.VISIBLE);
         androidUtils.hideKeyboard(getView());
     }
 

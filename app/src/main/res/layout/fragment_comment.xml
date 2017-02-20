@@ -5,17 +5,18 @@
     <include layout="@layout/fragment_chat"
         android:layout_above="@+id/et_add_comment"
         android:layout_height="match_parent"
-        android:layout_width="match_parent" />
+        android:layout_width="wrap_content" />
 
     <EditText
         android:id="@+id/et_add_comment"
+        android:layout_marginLeft="@dimen/spacing_major"
         android:layout_alignParentBottom="true"
         android:layout_width="match_parent"
         android:minHeight="48dp"
         android:layout_height="wrap_content"
         android:hint="Добавьте комментарий"
         android:imeActionId="@+id/email"
-        android:inputType="text"
+        android:inputType="textMultiLine"
         android:layout_toLeftOf="@+id/iv_send"
         android:layout_toStartOf="@+id/iv_send" />
 
@@ -23,8 +24,9 @@
         android:layout_width="48dp"
         android:id="@+id/iv_send"
         android:background="?attr/selectableItemBackground"
-        android:padding="3dp"
+        android:padding="@dimen/spacing_tiny"
         android:src="@drawable/ic_send_black_36dp"
+        android:layout_marginRight="@dimen/spacing_major"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"/>
 

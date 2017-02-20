@@ -12,4 +12,6 @@ public interface CommentView extends BaseView {
     void showComments(List<Comment> commentList);
 
     void showLoad();
+
+    void update();
 }

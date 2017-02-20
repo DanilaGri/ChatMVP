@@ -12,6 +12,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,6 +23,7 @@ import javax.inject.Inject;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import od.chat.R;
+import od.chat.event.UpdateEvent;
 import od.chat.listener.OnAdapterListener;
 import od.chat.listener.OnChatAdapterListener;
 import od.chat.model.Chat;
@@ -40,6 +44,7 @@ public class ChatFragment extends BaseFragment implements ChatView, OnAdapterLis
     @Bind(R.id.swipe_chat)
     SwipeRefreshLayout swipeChat;
     private String mParam1;
+    private boolean isFromCache = false;
 
     @Inject
     ChatPresenter presenter;
@@ -81,20 +86,35 @@ public class ChatFragment extends BaseFragment implements ChatView, OnAdapterLis
         ButterKnife.bind(this, view);
         getComponent().inject(this);
         presenter.attachView(this);
+
         mLayoutManager = new LinearLayoutManager(getActivity());
         rvChat.setLayoutManager(mLayoutManager);
         swipeChat.setOnRefreshListener(() -> {
-            presenter.loadChat(0);
+            presenter.loadChat(0, false);
         });
         swipeChat.post(() -> {
             swipeChat.setRefreshing(true);
-            presenter.loadChat(0);
-
+            presenter.loadChat(0, isFromCache);
+            isFromCache = true;
         });
 
         rvChat.addOnScrollListener(onScrollListener);
         setupTitle("Посты");
         return view;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
+
+
+    @Override
+    public void onStop() {
+        swipeChat.setRefreshing(false);
+        EventBus.getDefault().unregister(this);
+        super.onStop();
     }
 
     @Override
@@ -126,7 +146,8 @@ public class ChatFragment extends BaseFragment implements ChatView, OnAdapterLis
     @Override
     public void showChat(List<Chat> chatList) {
         if (chatList == null) chatList = new ArrayList<>();
-        ChatAdapter chatAdapter = new ChatAdapter(getActivity(), chatList, this);
+        ChatAdapter chatAdapter
+                = new ChatAdapter(getActivity(), chatList, this, presenter.getUserId());
         rvChat.setAdapter(chatAdapter);
         swipeChat.setRefreshing(false);
     }
@@ -156,12 +177,11 @@ public class ChatFragment extends BaseFragment implements ChatView, OnAdapterLis
         swipeChat.setRefreshing(false);
     }
 
-    @Override
-    public void onStop() {
-        swipeChat.setRefreshing(false);
-        super.onStop();
+    @Subscribe(sticky = true)
+    public void onUpdateEvent(UpdateEvent event){
+        EventBus.getDefault().removeStickyEvent(event);
+        presenter.loadChat(0, false);
     }
-
 
     int totalItemCount = 0;
 

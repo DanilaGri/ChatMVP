@@ -6,6 +6,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -15,7 +17,7 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import od.chat.R;
-import od.chat.listener.OnAdapterListener;
+import od.chat.listener.OnCommentAdapterListener;
 import od.chat.model.Comment;
 
 /**
@@ -27,14 +29,17 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
     private LayoutInflater mLayoutInflater;
     private List<Comment> commentList;
     private Context context;
-    private OnAdapterListener listener;
+    private OnCommentAdapterListener listener;
+    private String userId;
 
-    public CommentAdapter(Context context, List<Comment> commentList, OnAdapterListener listener) {
+    public CommentAdapter(Context context, List<Comment> commentList,
+                          OnCommentAdapterListener listener, String userId) {
         super();
         mLayoutInflater = LayoutInflater.from(context);
         this.context = context;
         this.commentList = commentList;
         this.listener = listener;
+        this.userId = userId;
     }
 
     public void setCommentList(List<Comment> commentList) {
@@ -52,12 +57,19 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
         Comment item = commentList.get(position);
         holder.tvUsername.setText(item.getUserName() != null && item.getUserSurname() != null
                 ? item.getUserName() + " " + item.getUserSurname() : "");
-        holder.tvCreateDateComment.setText(item.getTimestamp() != null ? item.getTimestamp() : "");
-        holder.tvTxtComment.setText(item.getText() != null ? item.getText() : "");
-        holder.tvCreateDateComment.setText(item.getTimestamp() != null ? item.getTimestamp() : "");
+        holder.tvCreateDate.setText(item.getTimestamp() != null ? item.getTimestamp() : "");
+        holder.tvSubscriptionComment.setText(item.getText() != null ? item.getText() : "");
         Glide.with(context)
                 .load(item.getUserAvatar()).asBitmap()
-                .into(holder.ivComment);
+                .into(holder.ivIcon);
+
+        if (item.getUserId().equals(userId)) {
+            holder.imgEdit.setVisibility(View.VISIBLE);
+            holder.imgDelete.setVisibility(View.VISIBLE);
+        } else {
+            holder.imgEdit.setVisibility(View.GONE);
+            holder.imgDelete.setVisibility(View.GONE);
+        }
 
     }
 
@@ -68,14 +80,22 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        @Bind(R.id.iv_comment)
-        ImageView ivComment;
+        @Bind(R.id.iv_icon)
+        ImageView ivIcon;
         @Bind(R.id.tv_username)
         TextView tvUsername;
-        @Bind(R.id.tv_create_date_comment)
-        TextView tvCreateDateComment;
-        @Bind(R.id.tv_txt_comment)
-        TextView tvTxtComment;
+        @Bind(R.id.tv_create_date)
+        TextView tvCreateDate;
+        @Bind(R.id.img_delete)
+        ImageView imgDelete;
+        @Bind(R.id.img_edit)
+        ImageView imgEdit;
+        @Bind(R.id.rl_comment)
+        RelativeLayout rlComment;
+        @Bind(R.id.tv_subscription_comment)
+        TextView tvSubscriptionComment;
+        @Bind(R.id.ll_comment)
+        LinearLayout llComment;
 
         public ViewHolder(View view) {
             super(view);
@@ -83,6 +103,10 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
 //            comment.setOnClickListener((View v) -> {
 ////                listener.onClick(doctorList.get(getAdapterPosition()));
 //            });
+
+            imgDelete.setOnClickListener((View v) -> {
+                listener.deleteComment(commentList.get(getAdapterPosition()).getId());
+            });
         }
     }
 }

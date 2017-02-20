@@ -30,4 +30,9 @@ public class CommentHelperImpl implements CommentHelper {
     public Observable<String> sendComment(String userId, String postId, String text) {
         return repository.sendComment(userId, postId, text).compose(rxUtil.applySchedulers());
     }
+
+    @Override
+    public Observable<String> deleteComment(String id) {
+        return repository.deleteComment(id).compose(rxUtil.applySchedulers());
+    }
 }

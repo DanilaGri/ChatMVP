@@ -13,4 +13,6 @@ public interface CommentHelper {
     Observable<List<Comment>> getComments(String id);
 
     Observable<String> sendComment(String user_id, String post_id, String text);
+
+    Observable<String> deleteComment(String id);
 }

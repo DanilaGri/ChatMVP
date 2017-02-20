@@ -13,6 +13,8 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.util.List;
 
 import javax.inject.Inject;
@@ -21,7 +23,9 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import od.chat.R;
+import od.chat.event.UpdateEvent;
 import od.chat.listener.OnAdapterListener;
+import od.chat.listener.OnCommentAdapterListener;
 import od.chat.model.Comment;
 import od.chat.presenter.CommentPresenter;
 import od.chat.ui.adapter.CommentAdapter;
@@ -33,7 +37,7 @@ import od.chat.utils.AndroidUtils;
  * Use the {@link CommentFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class CommentFragment extends BaseFragment implements CommentView, OnAdapterListener {
+public class CommentFragment extends BaseFragment implements CommentView, OnCommentAdapterListener {
     private static final String ARG_ID = "ARG_ID";
     public static final String TAG = CommentFragment.class.getSimpleName();
     @Bind(R.id.rv_chat)
@@ -80,7 +84,10 @@ public class CommentFragment extends BaseFragment implements CommentView, OnAdap
         ButterKnife.bind(this, view);
         getComponent().inject(this);
         presenter.attachView(this);
-        presenter.loadComments(id);
+        swipeChat.post(() -> {
+            swipeChat.setRefreshing(true);
+            presenter.loadComments(id);
+        });
         rvChat.setLayoutManager(new LinearLayoutManager(getActivity()));
         swipeChat.setOnRefreshListener(() -> {
             presenter.loadComments(id);
@@ -96,7 +103,8 @@ public class CommentFragment extends BaseFragment implements CommentView, OnAdap
 
     @Override
     public void showComments(List<Comment> commentList) {
-        CommentAdapter commentAdapter = new CommentAdapter(getActivity(), commentList, this);
+        CommentAdapter commentAdapter =
+                new CommentAdapter(getActivity(), commentList, this, presenter.getUserId());
         rvChat.setAdapter(commentAdapter);
         swipeChat.setRefreshing(false);
         androidUtils.hideKeyboard(getView());
@@ -129,14 +137,14 @@ public class CommentFragment extends BaseFragment implements CommentView, OnAdap
     }
 
     @Override
-    public void showError() {
-        swipeChat.setRefreshing(false);
-        androidUtils.hideKeyboard(getView());
+    public void update() {
+        EventBus.getDefault().postSticky(new UpdateEvent());
     }
 
     @Override
-    public <T> void onClick(T t) {
-
+    public void showError() {
+        swipeChat.setRefreshing(false);
+        androidUtils.hideKeyboard(getView());
     }
 
     @OnClick({R.id.et_add_comment, R.id.iv_send})
@@ -146,5 +154,10 @@ public class CommentFragment extends BaseFragment implements CommentView, OnAdap
                 presenter.sendComment(etAddComment.getText().toString());
                 break;
         }
+    }
+
+    @Override
+    public void deleteComment(String id) {
+        presenter.deleteComment(id);
     }
 }
