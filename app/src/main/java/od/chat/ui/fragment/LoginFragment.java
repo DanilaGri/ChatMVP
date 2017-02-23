@@ -14,7 +14,6 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
@@ -53,6 +52,10 @@ public class LoginFragment extends BaseFragment implements LoginView {
     AndroidUtils androidUtils;
     @Bind(R.id.ll_login)
     LinearLayout llLogin;
+    @Bind(R.id.ll_progress_bar)
+    LinearLayout loginProgress;
+    @Bind(R.id.tv_sign_up)
+    TextView tvSignUp;
 
     public LoginFragment() {
     }
@@ -155,35 +158,35 @@ public class LoginFragment extends BaseFragment implements LoginView {
      */
     @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
     private void showProgress(final boolean show) {
-//        // On Honeycomb MR2 we have the ViewPropertyAnimator APIs, which allow
-//        // for very easy animations. If available, use these APIs to fade-in
-//        // the progress spinner.
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
-//            int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
-//
-//            loginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
-//            loginFormView.animate().setDuration(shortAnimTime).alpha(
-//                    show ? 0 : 1).setListener(new AnimatorListenerAdapter() {
-//                @Override
-//                public void onAnimationEnd(Animator animation) {
-//                    loginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
-//                }
-//            });
-//
-//            loginProgress.setVisibility(show ? View.VISIBLE : View.GONE);
-//            loginProgress.animate().setDuration(shortAnimTime).alpha(
-//                    show ? 1 : 0).setListener(new AnimatorListenerAdapter() {
-//                @Override
-//                public void onAnimationEnd(Animator animation) {
-//                    loginProgress.setVisibility(show ? View.VISIBLE : View.GONE);
-//                }
-//            });
-//        } else {
-//            // The ViewPropertyAnimator APIs are not available, so simply show
-//            // and hide the relevant UI components.
-//            loginProgress.setVisibility(show ? View.VISIBLE : View.GONE);
-//            loginForm.setVisibility(show ? View.GONE : View.VISIBLE);
-//        }
+        // On Honeycomb MR2 we have the ViewPropertyAnimator APIs, which allow
+        // for very easy animations. If available, use these APIs to fade-in
+        // the progress spinner.
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
+            int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
+
+            loginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
+            loginFormView.animate().setDuration(shortAnimTime).alpha(
+                    show ? 0 : 1).setListener(new AnimatorListenerAdapter() {
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    loginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
+                }
+            });
+
+            loginProgress.setVisibility(show ? View.VISIBLE : View.GONE);
+            loginProgress.animate().setDuration(shortAnimTime).alpha(
+                    show ? 1 : 0).setListener(new AnimatorListenerAdapter() {
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    loginProgress.setVisibility(show ? View.VISIBLE : View.GONE);
+                }
+            });
+        } else {
+            // The ViewPropertyAnimator APIs are not available, so simply show
+            // and hide the relevant UI components.
+            loginProgress.setVisibility(show ? View.VISIBLE : View.GONE);
+            loginForm.setVisibility(show ? View.GONE : View.VISIBLE);
+        }
     }
 
     @OnClick(R.id.tv_login)
