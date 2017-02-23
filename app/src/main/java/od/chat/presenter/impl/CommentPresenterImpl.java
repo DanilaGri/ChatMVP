@@ -8,6 +8,7 @@ import javax.inject.Inject;
 import od.chat.helper.CommentHelper;
 import od.chat.model.Comment;
 import od.chat.presenter.CommentPresenter;
+import od.chat.ui.Navigator;
 import od.chat.utils.SharedPreferencesUtils;
 import rx.Observer;
 
@@ -19,12 +20,14 @@ public class CommentPresenterImpl extends CommentPresenter {
     private SharedPreferencesUtils preferencesUtils;
     private CommentHelper commentHelper;
     private String postId;
+    private Navigator navigator;
 
     @Inject
     public CommentPresenterImpl(SharedPreferencesUtils preferencesUtils,
-                                CommentHelper commentHelper) {
+                                CommentHelper commentHelper, Navigator navigator) {
         this.preferencesUtils = preferencesUtils;
         this.commentHelper = commentHelper;
+        this.navigator = navigator;
     }
 
     @Override
@@ -76,6 +79,11 @@ public class CommentPresenterImpl extends CommentPresenter {
 
             }
         });
+    }
+
+    @Override
+    public void editComment(String id, String text) {
+        navigator.openEdit(id, text);
     }
 
     @Override

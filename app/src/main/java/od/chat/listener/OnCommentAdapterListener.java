@@ -6,4 +6,5 @@ package od.chat.listener;
 
 public interface OnCommentAdapterListener {
     void deleteComment(String id);
+    void editComment(String id, String text);
 }

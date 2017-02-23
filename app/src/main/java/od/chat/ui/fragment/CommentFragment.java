@@ -173,4 +173,9 @@ public class CommentFragment extends BaseFragment implements CommentView, OnComm
     public void deleteComment(String id) {
         presenter.deleteComment(id);
     }
+
+    @Override
+    public void editComment(String id, String text) {
+        presenter.editComment(id, text);
+    }
 }

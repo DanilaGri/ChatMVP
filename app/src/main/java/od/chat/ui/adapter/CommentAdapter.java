@@ -100,12 +100,14 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
         public ViewHolder(View view) {
             super(view);
             ButterKnife.bind(this, view);
-//            comment.setOnClickListener((View v) -> {
-////                listener.onClick(doctorList.get(getAdapterPosition()));
-//            });
 
             imgDelete.setOnClickListener((View v) -> {
                 listener.deleteComment(commentList.get(getAdapterPosition()).getId());
+            });
+
+            imgEdit.setOnClickListener((View v) -> {
+                listener.editComment(commentList.get(getAdapterPosition()).getId(),
+                        commentList.get(getAdapterPosition()).getText());
             });
         }
     }

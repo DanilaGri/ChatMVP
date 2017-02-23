@@ -13,6 +13,7 @@ import od.chat.model.Chat;
 import od.chat.ui.activity.StartActivity;
 import od.chat.ui.fragment.ChatFragment;
 import od.chat.ui.fragment.CommentFragment;
+import od.chat.ui.fragment.EditCommentFragment;
 import od.chat.ui.fragment.LoginFragment;
 import od.chat.ui.fragment.PostEditFragment;
 import od.chat.ui.fragment.PrivateCabinetFragment;
@@ -128,4 +129,8 @@ public class Navigator {
         activity.startActivity(intent);
     }
 
+    public void openEdit(String id, String text) {
+        EditCommentFragment fragment = EditCommentFragment.newInstance(id, text);
+        replaceFragment(fragment, EditCommentFragment.TAG);
+    }
 }

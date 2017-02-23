@@ -60,6 +60,9 @@ public interface Api {
     @GET("delete_comment.php")
     Observable<String> deleteComment(@Query("id") String id);
 
+    @GET("update_comment.php")
+    Observable<Comment> editComment(@Query("id") String id, @Query("text") String text);
+
     @GET("update_post.php")
     Observable<Chat> updatePost(@Query("id") String id,
                                 @Query("title") String title,

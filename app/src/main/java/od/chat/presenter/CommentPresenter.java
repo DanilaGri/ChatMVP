@@ -11,6 +11,8 @@ public abstract class CommentPresenter extends BasePresenter<CommentView> {
 
     public abstract void deleteComment(String id);
 
+    public abstract void editComment(String id, String text);
+
     public abstract void sendComment(String text);
 
     public abstract String getUserId();
