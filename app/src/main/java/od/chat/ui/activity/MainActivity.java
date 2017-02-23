@@ -17,11 +17,15 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.BitmapImageViewTarget;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+
 import javax.inject.Inject;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import od.chat.R;
+import od.chat.event.UpdateUser;
 import od.chat.model.User;
 import od.chat.presenter.MainActivityPresenter;
 import od.chat.ui.view.MainActivityView;
@@ -37,7 +41,7 @@ public class MainActivity extends BaseActivity
     NavigationView navView;
     @Bind(R.id.drawer_layout)
     DrawerLayout drawerLayout;
-
+    LinearLayout hView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -83,18 +87,27 @@ public class MainActivity extends BaseActivity
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
     protected void onDestroy() {
         presenter.detachView();
         super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 
     @Override
     public void setupUserInfo(User user) {
-        LinearLayout hView = (LinearLayout) navView.inflateHeaderView(R.layout.nav_header_main);
+        if(hView == null) {
+            hView = (LinearLayout) navView.inflateHeaderView(R.layout.nav_header_main);
+        }
         TextView tvUser = (TextView) hView.findViewById(R.id.tv_username);
         TextView tvMail = (TextView) hView.findViewById(R.id.tv_user_mail);
         ImageView imgUser = (ImageView) hView.findViewById(R.id.image_user);
-        Glide.with(this)
+              Glide.with(this)
                 .load(user.getAvatar()).asBitmap()
                 .into(new BitmapImageViewTarget(imgUser) {
                     @Override
@@ -109,5 +122,10 @@ public class MainActivity extends BaseActivity
         tvUser.setText(user.getName() != null && user.getSurname() != null
                 ? user.getName() + " " + user.getSurname() : "");
         tvMail.setText(user.getEmail() != null ? user.getEmail() : "");
+    }
+    @Subscribe(sticky = true)
+    public void updateUser(UpdateUser user){
+        EventBus.getDefault().removeStickyEvent(user);
+        setupUserInfo(user.getUser());
     }
 }

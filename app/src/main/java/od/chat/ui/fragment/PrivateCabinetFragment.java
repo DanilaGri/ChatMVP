@@ -12,15 +12,18 @@ import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 
 import com.bumptech.glide.Glide;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import javax.inject.Inject;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import od.chat.R;
+import od.chat.event.UpdateUser;
 import od.chat.model.User;
 import od.chat.presenter.UserPresenter;
 import od.chat.ui.view.PrivateCabinetView;
@@ -50,8 +53,10 @@ public class PrivateCabinetFragment extends BaseFragment implements PrivateCabin
     AutoCompleteTextView avatar;
     @Bind(R.id.ll_user)
     LinearLayout llUser;
-    @Bind(R.id.progress)
-    ProgressBar progress;
+    @Bind(R.id.ll_progress_bar)
+    LinearLayout llProgressBar;
+    @Bind(R.id.img_user)
+    ImageView imgUser;
     private String idUser;
 
     public PrivateCabinetFragment() {
@@ -91,9 +96,16 @@ public class PrivateCabinetFragment extends BaseFragment implements PrivateCabin
             setupTitle("Личный кабинет");
         }
         llUser.setVisibility(View.GONE);
-        progress.setVisibility(View.VISIBLE);
+        llProgressBar.setVisibility(View.VISIBLE);
         presenter.loadUser(idUser);
         return view;
+    }
+
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
     }
 
     @Override
@@ -101,6 +113,7 @@ public class PrivateCabinetFragment extends BaseFragment implements PrivateCabin
         presenter.detachView();
         super.onDestroyView();
         ButterKnife.unbind(this);
+        EventBus.getDefault().unregister(this);
     }
 
     @Override
@@ -127,7 +140,7 @@ public class PrivateCabinetFragment extends BaseFragment implements PrivateCabin
     @Override
     public void showUser(User user) {
         llUser.setVisibility(View.VISIBLE);
-        progress.setVisibility(View.GONE);
+        llProgressBar.setVisibility(View.GONE);
         password.setVisibility(View.GONE);
         passwordRepeat.setVisibility(View.GONE);
         setupUserParam(user);
@@ -143,11 +156,10 @@ public class PrivateCabinetFragment extends BaseFragment implements PrivateCabin
         name.setText(user.getName() != null ? user.getName() : "");
         sureName.setText(user.getSurname() != null ? user.getSurname() : "");
         avatar.setVisibility(View.GONE);
-        ImageView image = new ImageView(getActivity());
-        llUser.addView(image, 0);
+        imgUser.setVisibility(View.VISIBLE);
         Glide.with(getActivity())
                 .load(user.getAvatar()).asBitmap()
-                .into(image);
+                .into(imgUser);
     }
 
     @Override
@@ -162,6 +174,13 @@ public class PrivateCabinetFragment extends BaseFragment implements PrivateCabin
     @Override
     public void showLoad() {
         llUser.setVisibility(View.GONE);
-        progress.setVisibility(View.VISIBLE);
+        llProgressBar.setVisibility(View.VISIBLE);
+    }
+
+    @Subscribe(sticky = true)
+    public void updateUserEvent(User user) {
+        EventBus.getDefault().removeStickyEvent(user);
+        showUser(user);
+        EventBus.getDefault().postSticky(new UpdateUser(user));
     }
 }

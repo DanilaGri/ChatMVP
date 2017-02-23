@@ -12,6 +12,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+
+import org.greenrobot.eventbus.EventBus;
 
 import javax.inject.Inject;
 
@@ -21,6 +24,7 @@ import od.chat.R;
 import od.chat.model.User;
 import od.chat.presenter.UpdateUserPresenter;
 import od.chat.ui.view.UpdateUserView;
+import od.chat.utils.AndroidUtils;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -31,6 +35,8 @@ public class UpdateUserFragment extends BaseFragment implements UpdateUserView {
 
     @Inject
     UpdateUserPresenter presenter;
+    @Inject
+    AndroidUtils androidUtils;
     @Bind(R.id.email)
     AutoCompleteTextView email;
     @Bind(R.id.password)
@@ -43,6 +49,8 @@ public class UpdateUserFragment extends BaseFragment implements UpdateUserView {
     AutoCompleteTextView sureName;
     @Bind(R.id.avatar)
     AutoCompleteTextView avatar;
+    @Bind(R.id.ll_progress_bar)
+    LinearLayout llProgressBar;
 
     public UpdateUserFragment() {
         // Required empty public constructor
@@ -68,6 +76,12 @@ public class UpdateUserFragment extends BaseFragment implements UpdateUserView {
     }
 
     @Override
+    public void onPause() {
+        super.onPause();
+        androidUtils.hideKeyboard(getView());
+    }
+
+    @Override
     public void onDestroyView() {
         presenter.detachView();
         super.onDestroyView();
@@ -86,6 +100,8 @@ public class UpdateUserFragment extends BaseFragment implements UpdateUserView {
         switch (item.getItemId()) {
             case R.id.menu_save:
                 if (setupInputValues()) {
+                    llProgressBar.setVisibility(View.VISIBLE);
+                    androidUtils.hideKeyboard(getView());
                     presenter.updateUser(email.getText().toString(), password.getText().toString(),
                             name.getText().toString(), sureName.getText().toString(),
                             avatar.getText().toString());
@@ -150,5 +166,16 @@ public class UpdateUserFragment extends BaseFragment implements UpdateUserView {
         name.setText(user.getName() != null ? user.getName() : "");
         sureName.setText(user.getSurname() != null ? user.getSurname() : "");
         avatar.setText(user.getAvatar() != null ? user.getAvatar() : "");
+    }
+
+    @Override
+    public void onSuccessUpdate(User user) {
+        EventBus.getDefault().postSticky(user);
+        getActivity().onBackPressed();
+    }
+
+    @Override
+    public void showError() {
+        llProgressBar.setVisibility(View.GONE);
     }
 }

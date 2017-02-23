@@ -43,12 +43,14 @@ public class UpdateUserPresenterImpl extends UpdateUserPresenter {
                     @Override
                     public void onError(Throwable e) {
                         e.getLocalizedMessage();
+                        view.showError();
                     }
 
                     @Override
                     public void onNext(User user) {
                         if (user != null) {
-                            navigator.onBackPressed();
+                            view.onSuccessUpdate(user);
+                            preferencesUtils.saveUser(user);
                         } else {
                             alertDialogsHelper.errorTxtMsg("Ошибка обновления");
                         }

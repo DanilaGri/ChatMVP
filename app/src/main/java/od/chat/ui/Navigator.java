@@ -86,11 +86,11 @@ public class Navigator {
     }
 
     public void openPrivateCabinetScreen() {
-        PrivateCabinetFragment fragment;
-        if (getFragmentByTag(PrivateCabinetFragment.TAG) == null) {
-            fragment = new PrivateCabinetFragment();
+//        PrivateCabinetFragment fragment;
+//        if (getFragmentByTag(PrivateCabinetFragment.TAG) == null) {
+            PrivateCabinetFragment  fragment = new PrivateCabinetFragment();
             replaceFragment(fragment, PrivateCabinetFragment.TAG);
-        }
+//        }
     }
 
     public void openReadUser(String id) {
