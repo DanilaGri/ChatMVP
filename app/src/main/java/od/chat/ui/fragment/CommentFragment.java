@@ -12,6 +12,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -24,7 +26,6 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import od.chat.R;
 import od.chat.event.UpdateEvent;
-import od.chat.listener.OnAdapterListener;
 import od.chat.listener.OnCommentAdapterListener;
 import od.chat.model.Comment;
 import od.chat.presenter.CommentPresenter;
@@ -48,6 +49,10 @@ public class CommentFragment extends BaseFragment implements CommentView, OnComm
     EditText etAddComment;
     @Bind(R.id.iv_send)
     ImageView ivSend;
+    @Bind(R.id.ll_progress_bar)
+    LinearLayout llProgressBar;
+    @Bind(R.id.tv_no_comments)
+    TextView tvNoComments;
     private String id;
 
     @Inject
@@ -92,6 +97,7 @@ public class CommentFragment extends BaseFragment implements CommentView, OnComm
         swipeChat.setOnRefreshListener(() -> {
             presenter.loadComments(id);
         });
+        setupTitle("Комментарии");
         return view;
     }
 
@@ -103,10 +109,16 @@ public class CommentFragment extends BaseFragment implements CommentView, OnComm
 
     @Override
     public void showComments(List<Comment> commentList) {
+        if(commentList.isEmpty()){
+            tvNoComments.setVisibility(View.VISIBLE);
+        } else {
+            tvNoComments.setVisibility(View.GONE);
+        }
         CommentAdapter commentAdapter =
                 new CommentAdapter(getActivity(), commentList, this, presenter.getUserId());
         rvChat.setAdapter(commentAdapter);
         swipeChat.setRefreshing(false);
+        llProgressBar.setVisibility(View.GONE);
         androidUtils.hideKeyboard(getView());
         etAddComment.setText("");
         etAddComment.addTextChangedListener(new TextWatcher() {
@@ -133,7 +145,7 @@ public class CommentFragment extends BaseFragment implements CommentView, OnComm
 
     @Override
     public void showLoad() {
-        swipeChat.setRefreshing(true);
+        llProgressBar.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -144,6 +156,7 @@ public class CommentFragment extends BaseFragment implements CommentView, OnComm
     @Override
     public void showError() {
         swipeChat.setRefreshing(false);
+        llProgressBar.setVisibility(View.GONE);
         androidUtils.hideKeyboard(getView());
     }
 
