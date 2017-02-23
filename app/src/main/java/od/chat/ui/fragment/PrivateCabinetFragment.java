@@ -101,11 +101,12 @@ public class PrivateCabinetFragment extends BaseFragment implements PrivateCabin
         return view;
     }
 
-
     @Override
     public void onStart() {
         super.onStart();
-        EventBus.getDefault().register(this);
+        if (!EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().register(this);
+        }
     }
 
     @Override
@@ -113,7 +114,9 @@ public class PrivateCabinetFragment extends BaseFragment implements PrivateCabin
         presenter.detachView();
         super.onDestroyView();
         ButterKnife.unbind(this);
-        EventBus.getDefault().unregister(this);
+        if (EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().unregister(this);
+        }
     }
 
     @Override
@@ -129,6 +132,7 @@ public class PrivateCabinetFragment extends BaseFragment implements PrivateCabin
             case R.id.menu_edit:
                 presenter.editUser();
             case R.id.menu_delete:
+                llProgressBar.setVisibility(View.VISIBLE);
                 presenter.deleteUser();
             default:
                 break;
@@ -182,5 +186,10 @@ public class PrivateCabinetFragment extends BaseFragment implements PrivateCabin
         EventBus.getDefault().removeStickyEvent(user);
         showUser(user);
         EventBus.getDefault().postSticky(new UpdateUser(user));
+    }
+
+    @Override
+    public void showError() {
+        llProgressBar.setVisibility(View.GONE);
     }
 }

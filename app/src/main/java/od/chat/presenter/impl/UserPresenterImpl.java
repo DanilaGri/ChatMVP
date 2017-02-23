@@ -73,7 +73,7 @@ public class UserPresenterImpl extends UserPresenter {
 
                     @Override
                     public void onError(Throwable e) {
-
+                        view.showError();
                     }
 
                     @Override

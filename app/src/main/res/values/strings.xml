@@ -33,6 +33,6 @@
     <string name="loading">Загрузка...</string>
     <string name="msg_error_load_data">Error load data!</string>
     <string name="msg_empty_comments">List comments is empty!</string>
-    <string name="update">update</string>
+    <string name="update">try again</string>
 
 </resources>

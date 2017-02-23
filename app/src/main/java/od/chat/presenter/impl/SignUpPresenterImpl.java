@@ -43,7 +43,7 @@ public class SignUpPresenterImpl extends SignUpPresenter {
 
                         @Override
                         public void onError(Throwable e) {
-
+                            view.showError();
                         }
 
                         @Override

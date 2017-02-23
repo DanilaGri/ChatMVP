@@ -54,8 +54,8 @@ public class ActivityModule {
 
     @Provides
     @PerActivity
-    public AlertDialogsHelper provideAlertDialogHelper(Activity activity, AndroidUtils androidUtils) {
-        return new AlertDialogsHelperImpl(activity, androidUtils);
+    public AlertDialogsHelper provideAlertDialogHelper(Activity activity) {
+        return new AlertDialogsHelperImpl(activity);
     }
 
     @Provides

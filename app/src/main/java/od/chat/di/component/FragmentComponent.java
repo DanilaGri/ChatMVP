@@ -15,6 +15,7 @@ import od.chat.ui.fragment.PostEditFragment;
 import od.chat.ui.fragment.PrivateCabinetFragment;
 import od.chat.ui.fragment.SignUpFragment;
 import od.chat.ui.fragment.UpdateUserFragment;
+import od.chat.utils.AndroidUtils;
 
 /**
  * Created by danila on 12.08.16.
@@ -25,6 +26,8 @@ public interface FragmentComponent {
     Activity getActivity();
 
     AlertDialogsHelper getAlertDialogsHelper();
+
+    AndroidUtils getAndroidUtils();
 
     Navigator getNavigator();
 

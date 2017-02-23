@@ -1,9 +1,12 @@
 package od.chat.helper.impl;
 
 import android.app.Activity;
+import android.content.Context;
+import android.net.ConnectivityManager;
 import android.support.v7.app.AlertDialog;
 
 import java.io.IOException;
+import java.net.UnknownHostException;
 
 import javax.inject.Inject;
 
@@ -18,12 +21,10 @@ import od.chat.utils.AndroidUtils;
 public class AlertDialogsHelperImpl implements AlertDialogsHelper {
 
     private Activity activity;
-    private AndroidUtils androidUtils;
 
     @Inject
-    public AlertDialogsHelperImpl(Activity activity, AndroidUtils androidUtils) {
+    public AlertDialogsHelperImpl(Activity activity) {
         this.activity = activity;
-        this.androidUtils = androidUtils;
     }
 
     @Override
@@ -37,13 +38,18 @@ public class AlertDialogsHelperImpl implements AlertDialogsHelper {
     }
 
     private void showDialog(Throwable e) {
-        String error = e.getMessage();
-        if (!androidUtils.isNetworkConnected()) {
-            error = activity.getResources().getText(R.string.error_message_network).toString();
-        } else if (e instanceof IOException) {
-            error = activity.getResources().getText(R.string.error_message_service).toString();
+        String msg;
+        if (e instanceof IOException) {
+            if (e instanceof UnknownHostException) {
+                msg = activity.getResources().getText(R.string.error_message_network).toString();
+            } else {
+                msg = activity.getResources().getText(R.string.error_message_service).toString();
+            }
+        } else {
+            msg = e.getMessage();
         }
-        showAlertDialog(error);
+
+        showAlertDialog(msg);
     }
 
     private void showAlertDialog(String error) {

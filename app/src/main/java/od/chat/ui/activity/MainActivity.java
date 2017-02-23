@@ -79,6 +79,8 @@ public class MainActivity extends BaseActivity
             presenter.openPrivateCabinet();
         } else if (id == R.id.nav_exit) {
             presenter.openLoginScreen();
+        } else if (id == R.id.nav_chat) {
+            presenter.openChatScreen();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -87,16 +89,20 @@ public class MainActivity extends BaseActivity
     }
 
     @Override
-    protected void onStart() {
+    public void onStart() {
         super.onStart();
-        EventBus.getDefault().register(this);
+        if (!EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().register(this);
+        }
     }
 
     @Override
     protected void onDestroy() {
         presenter.detachView();
         super.onDestroy();
-        EventBus.getDefault().unregister(this);
+        if (EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().unregister(this);
+        }
     }
 
     @Override

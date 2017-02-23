@@ -92,6 +92,12 @@ public class LoginFragment extends BaseFragment implements LoginView {
     }
 
     @Override
+    public void onPause() {
+        super.onPause();
+        androidUtils.hideKeyboard(getView());
+    }
+
+    @Override
     public void onDestroy() {
         presenter.detachView();
         super.onDestroy();

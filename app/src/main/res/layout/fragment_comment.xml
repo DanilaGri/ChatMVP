@@ -17,7 +17,7 @@
         android:layout_above="@+id/et_add_comment"
         android:visibility="gone"
         android:gravity="center" />
-    <include layout="@layout/fragment_chat"
+    <include layout="@layout/recycler"
         android:layout_above="@+id/et_add_comment"
         android:layout_height="match_parent"
         android:layout_width="wrap_content" />

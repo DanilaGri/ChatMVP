@@ -76,16 +76,19 @@ public class Navigator {
     }
 
     public void openChatScreen() {
-        ChatFragment chatFragment;
-        if (getFragmentByTag(ChatFragment.TAG) != null) {
-            chatFragment = (ChatFragment) getFragmentByTag(ChatFragment.TAG);
-        } else {
-            chatFragment = ChatFragment.newInstance("title_item");
-        }
+        getFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+//        ChatFragment chatFragment;
+//        if (getFragmentByTag(ChatFragment.TAG) != null) {
+//            chatFragment = (ChatFragment) getFragmentByTag(ChatFragment.TAG);
+//        } else {
+//            ChatFragment  chatFragment = ChatFragment.newInstance("title_item");
+//        }
+        ChatFragment  chatFragment = ChatFragment.newInstance("title_item");
         replaceFragment(chatFragment, ChatFragment.TAG);
     }
 
     public void openPrivateCabinetScreen() {
+        getFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
 //        PrivateCabinetFragment fragment;
 //        if (getFragmentByTag(PrivateCabinetFragment.TAG) == null) {
             PrivateCabinetFragment  fragment = new PrivateCabinetFragment();

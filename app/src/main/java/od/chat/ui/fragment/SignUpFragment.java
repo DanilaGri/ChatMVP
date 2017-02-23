@@ -22,6 +22,7 @@ import od.chat.R;
 import od.chat.model.User;
 import od.chat.presenter.SignUpPresenter;
 import od.chat.ui.view.SignUpView;
+import od.chat.utils.AndroidUtils;
 
 /**
  * Created by danila on 22.10.16.
@@ -46,9 +47,13 @@ public class SignUpFragment extends BaseFragment implements SignUpView {
     AutoCompleteTextView avatar;
     @Bind(R.id.ll_user)
     LinearLayout llUser;
+    @Bind(R.id.ll_progress_bar)
+    LinearLayout llProgressBar;
     private boolean isSign;
     @Inject
     SignUpPresenter presenter;
+    @Inject
+    AndroidUtils androidUtils;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -86,6 +91,12 @@ public class SignUpFragment extends BaseFragment implements SignUpView {
     }
 
     @Override
+    public void onPause() {
+        super.onPause();
+        androidUtils.hideKeyboard(getView());
+    }
+
+    @Override
     public void onDestroy() {
         presenter.detachView();
         super.onDestroy();
@@ -104,6 +115,8 @@ public class SignUpFragment extends BaseFragment implements SignUpView {
 
             case R.id.menu_save:
                 if (setupInputValues()) {
+                    androidUtils.hideKeyboard(getView());
+                    llProgressBar.setVisibility(View.VISIBLE);
                     presenter.signUp(email.getText().toString(), password.getText().toString(),
                             name.getText().toString(), sureName.getText().toString(),
                             avatar.getText().toString(), isSign);
@@ -176,5 +189,10 @@ public class SignUpFragment extends BaseFragment implements SignUpView {
     public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.unbind(this);
+    }
+
+    @Override
+    public void showError() {
+        llProgressBar.setVisibility(View.GONE);
     }
 }

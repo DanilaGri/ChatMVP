@@ -11,6 +11,11 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -22,8 +27,10 @@ import javax.inject.Inject;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import od.chat.R;
 import od.chat.event.UpdateEvent;
+import od.chat.helper.AlertDialogsHelper;
 import od.chat.listener.OnAdapterListener;
 import od.chat.listener.OnChatAdapterListener;
 import od.chat.model.Chat;
@@ -43,12 +50,23 @@ public class ChatFragment extends BaseFragment implements ChatView, OnAdapterLis
     RecyclerView rvChat;
     @Bind(R.id.swipe_chat)
     SwipeRefreshLayout swipeChat;
+    @Bind(R.id.tv_no_data)
+    TextView tvNoData;
+    @Bind(R.id.progress)
+    ProgressBar progress;
+    @Bind(R.id.btn_update)
+    Button btnUpdate;
+    @Bind(R.id.ll_progress_bar)
+    LinearLayout llProgressBar;
     private String mParam1;
     private boolean isFromCache = false;
 
     @Inject
     ChatPresenter presenter;
     private LinearLayoutManager mLayoutManager;
+
+    @Inject
+    AlertDialogsHelper alertDialogsHelper;
 
     public ChatFragment() {
         // Required empty public constructor
@@ -86,7 +104,7 @@ public class ChatFragment extends BaseFragment implements ChatView, OnAdapterLis
         ButterKnife.bind(this, view);
         getComponent().inject(this);
         presenter.attachView(this);
-
+        progress.setVisibility(View.GONE);
         mLayoutManager = new LinearLayoutManager(getActivity());
         rvChat.setLayoutManager(mLayoutManager);
         swipeChat.setOnRefreshListener(() -> {
@@ -106,14 +124,18 @@ public class ChatFragment extends BaseFragment implements ChatView, OnAdapterLis
     @Override
     public void onStart() {
         super.onStart();
-        EventBus.getDefault().register(this);
+        if (!EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().register(this);
+        }
     }
 
 
     @Override
     public void onStop() {
         swipeChat.setRefreshing(false);
-        EventBus.getDefault().unregister(this);
+        if (EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().unregister(this);
+        }
         super.onStop();
     }
 
@@ -175,10 +197,13 @@ public class ChatFragment extends BaseFragment implements ChatView, OnAdapterLis
     @Override
     public void showError() {
         swipeChat.setRefreshing(false);
+        tvNoData.setVisibility(View.VISIBLE);
+        btnUpdate.setVisibility(View.VISIBLE);
+        llProgressBar.setVisibility(View.VISIBLE);
     }
 
     @Subscribe(sticky = true)
-    public void onUpdateEvent(UpdateEvent event){
+    public void onUpdateEvent(UpdateEvent event) {
         EventBus.getDefault().removeStickyEvent(event);
         presenter.loadChat(0, false);
     }
@@ -213,4 +238,11 @@ public class ChatFragment extends BaseFragment implements ChatView, OnAdapterLis
         }
 
     };
+
+    @OnClick(R.id.btn_update)
+    public void onClick() {
+        presenter.loadChat(0, false);
+        llProgressBar.setVisibility(View.GONE);
+        swipeChat.setRefreshing(true);
+    }
 }

@@ -6,6 +6,10 @@
             android:id="@+id/nav_private_cabinet"
             android:icon="@drawable/ic_account_box_black_24dp"
             android:title="Личный кабинет" />
+        <item
+            android:id="@+id/nav_chat"
+            android:icon="@drawable/ic_wechat_black_24dp"
+            android:title="Посты" />
     </group>
     <group
         android:id="@+id/menu_bottom"

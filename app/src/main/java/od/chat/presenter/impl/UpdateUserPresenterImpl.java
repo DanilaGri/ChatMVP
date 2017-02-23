@@ -49,8 +49,8 @@ public class UpdateUserPresenterImpl extends UpdateUserPresenter {
                     @Override
                     public void onNext(User user) {
                         if (user != null) {
-                            view.onSuccessUpdate(user);
                             preferencesUtils.saveUser(user);
+                            view.onSuccessUpdate(user);
                         } else {
                             alertDialogsHelper.errorTxtMsg("Ошибка обновления");
                         }

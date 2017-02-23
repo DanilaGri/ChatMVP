@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import od.chat.helper.AlertDialogsHelper;
 import od.chat.helper.ChatHelper;
 import od.chat.model.Chat;
 import od.chat.presenter.ChatPresenter;
@@ -22,13 +23,16 @@ public class ChatPresenterImpl extends ChatPresenter {
     private Navigator navigator;
     private int zero;
     private List<Chat> chatList = new ArrayList<>();
+    private AlertDialogsHelper alertDialogsHelper;
 
     @Inject
     public ChatPresenterImpl(SharedPreferencesUtils preferencesUtils,
-                             ChatHelper chatHelper, Navigator navigator) {
+                             ChatHelper chatHelper, Navigator navigator,
+                             AlertDialogsHelper alertDialogsHelper) {
         this.preferencesUtils = preferencesUtils;
         this.chatHelper = chatHelper;
         this.navigator = navigator;
+        this.alertDialogsHelper = alertDialogsHelper;
     }
 
     @Override
@@ -53,7 +57,7 @@ public class ChatPresenterImpl extends ChatPresenter {
           return;
         }
         if (subscription != null) subscription.unsubscribe();
-        subscription = chatHelper.getChat(zero).subscribe(new Observer<List<Chat>>() {
+        subscription = chatHelper.getChat(zero).cache().subscribe(new Observer<List<Chat>>() {
             @Override
             public void onCompleted() {
 
@@ -61,14 +65,19 @@ public class ChatPresenterImpl extends ChatPresenter {
 
             @Override
             public void onError(Throwable e) {
-                view.showError();
+                if(isViewAttached()) {
+                    view.showError();
+                    alertDialogsHelper.errorMsg(e);
+                }
             }
 
             @Override
             public void onNext(List<Chat> chatResponse) {
-                chatList.clear();
-                chatList.addAll(chatResponse);
-                view.showChat(chatList);
+                if(isViewAttached()) {
+                    chatList.clear();
+                    chatList.addAll(chatResponse);
+                    view.showChat(chatList);
+                }
             }
         });
     }
