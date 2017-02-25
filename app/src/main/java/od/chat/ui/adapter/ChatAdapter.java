@@ -9,13 +9,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.BitmapImageViewTarget;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
@@ -27,10 +28,17 @@ import od.chat.model.Chat;
 /**
  * Created by danila on 18.09.16.
  */
-public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
+public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-     private LayoutInflater mLayoutInflater;
-    private List<Chat> chatList;
+    private final int VIEW_TYPE_ITEM = 0;
+    private final int VIEW_TYPE_LOADING = 1;
+
+//    private boolean isLoading;
+//    private int visibleThreshold = 5;
+//    private int lastVisibleItem, totalItemCount;
+
+    private LayoutInflater mLayoutInflater;
+    private List<Chat> chatList = new ArrayList<>();
     private Context context;
     private OnChatAdapterListener listener;
     private String userId;
@@ -45,55 +53,86 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
         this.userId = userId;
     }
 
-    public void setDoctorList(List<Chat> chatList) {
+    public void setChatList(List<Chat> chatList) {
         this.chatList = chatList;
+        notifyDataSetChanged();
     }
 
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = mLayoutInflater.inflate(R.layout.item_chat, parent, false);
-        return new ViewHolder(view);
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view;
+
+        if (viewType == VIEW_TYPE_ITEM) {
+            view = mLayoutInflater.inflate(R.layout.item_chat, parent, false);
+            return new ViewHolder(view);
+        } else if (viewType == VIEW_TYPE_LOADING) {
+            view = mLayoutInflater.inflate(R.layout.progress, parent, false);
+            return new FooterHolder(view);
+        }
+        return null;
+
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
-        Chat item = chatList.get(position);
-        holder.tvUsername.setText(item.getUserName() != null && item.getUserSurname() != null
-                ? item.getUserName() + " " + item.getUserSurname() : "");
-        holder.tvCreateDate.setText(item.getTimestamp() != null ? item.getTimestamp() : "");
-        holder.tvSubscription.setText(item.getDescription() != null ? item.getDescription() : "");
-        holder.tvTitle.setText(item.getTitle() != null ? item.getTitle() : "");
-        holder.tvCountComment.setText(item.getCommentsCount() != null ? item.getCommentsCount() : "");
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+        if (holder instanceof ViewHolder) {
+            Chat item = chatList.get(position);
+            ViewHolder viewHolder = (ViewHolder) holder;
+            viewHolder.tvUsername.setText(item.getUserName() != null && item.getUserSurname() != null
+                    ? item.getUserName() + " " + item.getUserSurname() : "");
+            viewHolder.tvCreateDate.setText(item.getTimestamp() != null ? item.getTimestamp() : "");
+            viewHolder.tvSubscription.setText(item.getDescription() != null ? item.getDescription() : "");
+            viewHolder.tvTitle.setText(item.getTitle() != null ? item.getTitle() : "");
+            viewHolder.tvCountComment.setText(item.getCommentsCount() != null ? item.getCommentsCount() : "");
 
-        Glide.with(context)
-                .load(item.getUserAvatar()).asBitmap().centerCrop()
-                .into(new BitmapImageViewTarget(holder.ivIcon) {
-                    @Override
-                    protected void setResource(Bitmap resource) {
-                        RoundedBitmapDrawable circularBitmapDrawable =
-                                RoundedBitmapDrawableFactory.create(context.getResources(), resource);
-                        circularBitmapDrawable.setCircular(true);
-                        holder.ivIcon.setImageDrawable(circularBitmapDrawable);
-                    }
-                });
+            Glide.with(context)
+                    .load(item.getUserAvatar()).asBitmap().centerCrop()
+                    .into(new BitmapImageViewTarget(viewHolder.ivIcon) {
+                        @Override
+                        protected void setResource(Bitmap resource) {
+                            RoundedBitmapDrawable circularBitmapDrawable =
+                                    RoundedBitmapDrawableFactory.create(context.getResources(), resource);
+                            circularBitmapDrawable.setCircular(true);
+                            viewHolder.ivIcon.setImageDrawable(circularBitmapDrawable);
+                        }
+                    });
 
-        Glide.with(context)
-                .load(item.getImage()).asBitmap()
-                .into(holder.ivPostImage);
+            Glide.with(context)
+                    .load(item.getImage()).asBitmap()
+                    .into(viewHolder.ivPostImage);
 
-        if (item.getUserId().equals(userId)) {
-            holder.imgEdit.setVisibility(View.VISIBLE);
-            holder.imgDelete.setVisibility(View.VISIBLE);
-        } else {
-            holder.imgEdit.setVisibility(View.GONE);
-            holder.imgDelete.setVisibility(View.GONE);
+            if (item.getUserId().equals(userId)) {
+                viewHolder.imgEdit.setVisibility(View.VISIBLE);
+                viewHolder.imgDelete.setVisibility(View.VISIBLE);
+            } else {
+                viewHolder.imgEdit.setVisibility(View.GONE);
+                viewHolder.imgDelete.setVisibility(View.GONE);
+            }
+        } else if (holder instanceof FooterHolder) {
+            FooterHolder loadingViewHolder = (FooterHolder) holder;
+            loadingViewHolder.progressLoadMore.setIndeterminate(true);
         }
 
     }
 
     @Override
+    public int getItemViewType(int position) {
+        return chatList.get(position) == null ? VIEW_TYPE_LOADING : VIEW_TYPE_ITEM;
+    }
+
+    @Override
     public int getItemCount() {
-        return chatList.size();
+        return chatList == null ? 0 : chatList.size();
+    }
+
+    public class FooterHolder extends RecyclerView.ViewHolder {
+        @Bind(R.id.progressLoadMore)
+        ProgressBar progressLoadMore;
+
+        public FooterHolder(View view) {
+            super(view);
+            ButterKnife.bind(this, view);
+        }
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -143,5 +182,15 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
 
 
         }
+    }
+
+    public void loadMore(){
+        chatList.add(null);
+        notifyItemInserted(chatList.size() - 1);
+    }
+
+    public void deleteLoadMore(){
+//        chatList.remove(chatList.size() - 1);
+//        notifyItemRemoved(chatList.size());
     }
 }

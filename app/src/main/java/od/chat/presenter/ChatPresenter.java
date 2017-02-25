@@ -7,7 +7,7 @@ import od.chat.ui.view.ChatView;
  * Created by danila on 18.09.16.
  */
 public abstract class ChatPresenter extends BasePresenter<ChatView> {
-    public abstract void loadChat(int zero, boolean isFromCache);
+    public abstract void loadChat(int zero, boolean isFromCache, boolean swipe);
 
     public abstract void viewPost(Chat chat);
 

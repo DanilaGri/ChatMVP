@@ -15,7 +15,6 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -60,7 +59,9 @@ public class ChatFragment extends BaseFragment implements ChatView, OnAdapterLis
     LinearLayout llProgressBar;
     private String mParam1;
     private boolean isFromCache = false;
-
+    private boolean isLoading = false;
+    public static final int PAGE_SIZE = 2;
+    private ChatAdapter chatAdapter;
     @Inject
     ChatPresenter presenter;
     private LinearLayoutManager mLayoutManager;
@@ -106,13 +107,16 @@ public class ChatFragment extends BaseFragment implements ChatView, OnAdapterLis
         presenter.attachView(this);
         progress.setVisibility(View.GONE);
         mLayoutManager = new LinearLayoutManager(getActivity());
+        chatAdapter
+                = new ChatAdapter(getActivity(), new ArrayList<>(), this, presenter.getUserId());
+        rvChat.setAdapter(chatAdapter);
         rvChat.setLayoutManager(mLayoutManager);
         swipeChat.setOnRefreshListener(() -> {
-            presenter.loadChat(0, false);
+            presenter.loadChat(0, false, true);
         });
         swipeChat.post(() -> {
             swipeChat.setRefreshing(true);
-            presenter.loadChat(0, isFromCache);
+            presenter.loadChat(0, isFromCache, true);
             isFromCache = true;
         });
 
@@ -167,10 +171,11 @@ public class ChatFragment extends BaseFragment implements ChatView, OnAdapterLis
 
     @Override
     public void showChat(List<Chat> chatList) {
-        if (chatList == null) chatList = new ArrayList<>();
-        ChatAdapter chatAdapter
-                = new ChatAdapter(getActivity(), chatList, this, presenter.getUserId());
-        rvChat.setAdapter(chatAdapter);
+        if (chatList == null) {
+            chatList = new ArrayList<>();
+        }
+        isLoading = !(chatList.size() <= 20);
+        chatAdapter.setChatList(chatList);
         swipeChat.setRefreshing(false);
     }
 
@@ -205,43 +210,35 @@ public class ChatFragment extends BaseFragment implements ChatView, OnAdapterLis
     @Subscribe(sticky = true)
     public void onUpdateEvent(UpdateEvent event) {
         EventBus.getDefault().removeStickyEvent(event);
-        presenter.loadChat(0, false);
+        presenter.loadChat(0, false,true);
     }
 
-    int totalItemCount = 0;
 
     final RecyclerView.OnScrollListener onScrollListener = new RecyclerView.OnScrollListener() {
         @Override
         public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-//            int position = mLayoutManager.findLastVisibleItemPosition();
-//            Log.e("totalItemCountDOooo", String.valueOf(totalItemCount));
-//            if (totalItemCount < position) {
-//                Log.e("totalItemCount", String.valueOf(totalItemCount));
-//                totalItemCount = position;
-//                int updatePosition = recyclerView.getAdapter().getItemCount() - 1;
-//                Log.e("RecyclerView", String.valueOf(dy));
-//                if (position >= updatePosition && dy > 0) {
-//                    presenter.loadChat(updatePosition + 6);
-//                    swipeChat.setRefreshing(true);
-//                }
-//            }
-            /**      int updatePosition = recyclerView.getAdapter().getItemCount() - 1;
-             int visibleItemCount = mLayoutManager.getChildCount();
-             int totalItemCount = mLayoutManager.getItemCount();
-             int pastVisibleItemPosition = mLayoutManager.findFirstVisibleItemPosition();
+            int visibleItemCount = mLayoutManager.getChildCount();
+            int totalItemCount = mLayoutManager.getItemCount();
+            int firstVisibleItemPosition = mLayoutManager.findFirstVisibleItemPosition();
 
-             if (pastVisibleItemPosition + visibleItemCount > totalItemCount) {
-             presenter.loadChat(updatePosition + 6);
-             swipeChat.setRefreshing(true);
-             }*/
-
+            if (!isLoading ) {
+                if ((visibleItemCount + firstVisibleItemPosition) >= totalItemCount
+                        && firstVisibleItemPosition >= 0
+                        && totalItemCount >= PAGE_SIZE) {
+                    chatAdapter.loadMore();
+                    presenter.loadChat(totalItemCount, false, false);
+                    isLoading = true;
+                }
+            }
         }
+
+
 
     };
 
     @OnClick(R.id.btn_update)
     public void onClick() {
-        presenter.loadChat(0, false);
+        presenter.loadChat(0, false, true);
         llProgressBar.setVisibility(View.GONE);
         swipeChat.setRefreshing(true);
     }

@@ -36,7 +36,7 @@ public class ChatPresenterImpl extends ChatPresenter {
     }
 
     @Override
-    public void loadChat(int zero, boolean isFromCache) {
+    public void loadChat(int zero, boolean isFromCache, boolean swipe) {
         this.zero = zero;
 //        Gson gson = new Gson();
 //        Chat list1 = null;
@@ -74,8 +74,13 @@ public class ChatPresenterImpl extends ChatPresenter {
             @Override
             public void onNext(List<Chat> chatResponse) {
                 if(isViewAttached()) {
-                    chatList.clear();
-                    chatList.addAll(chatResponse);
+                    if(swipe){chatList.clear();}
+                    if(chatList.size() > 0){
+                        chatList.remove(chatList.size() - 1);
+                    }
+                    if(chatResponse != null) {
+                        chatList.addAll(chatResponse);
+                    }
                     view.showChat(chatList);
                 }
             }
@@ -103,7 +108,7 @@ public class ChatPresenterImpl extends ChatPresenter {
 
             @Override
             public void onNext(String response) {
-                loadChat(zero,false);
+                loadChat(zero,false,true);
             }
         });
     }
