@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -41,6 +42,8 @@ import od.chat.utils.AndroidUtils;
 public class CommentFragment extends BaseFragment implements CommentView, OnCommentAdapterListener {
     private static final String ARG_ID = "ARG_ID";
     public static final String TAG = CommentFragment.class.getSimpleName();
+    private boolean isLoading = false;
+    public static final int PAGE_SIZE = 2;
     @Bind(R.id.rv_chat)
     RecyclerView rvChat;
     @Bind(R.id.swipe_chat)
@@ -54,7 +57,8 @@ public class CommentFragment extends BaseFragment implements CommentView, OnComm
     @Bind(R.id.tv_no_comments)
     TextView tvNoComments;
     private String id;
-
+    private LinearLayoutManager mLayoutManager;
+    private CommentAdapter commentAdapter;
     @Inject
     CommentPresenter presenter;
 
@@ -91,12 +95,17 @@ public class CommentFragment extends BaseFragment implements CommentView, OnComm
         presenter.attachView(this);
         swipeChat.post(() -> {
             swipeChat.setRefreshing(true);
-            presenter.loadComments(id);
+            presenter.loadComments(id, 0);
         });
-        rvChat.setLayoutManager(new LinearLayoutManager(getActivity()));
+        commentAdapter =
+                new CommentAdapter(getActivity(), new ArrayList<>(), this, presenter.getUserId());
+        rvChat.setAdapter(commentAdapter);
+        mLayoutManager = new LinearLayoutManager(getActivity());
+        rvChat.setLayoutManager(mLayoutManager);
         swipeChat.setOnRefreshListener(() -> {
-            presenter.loadComments(id);
+            presenter.loadComments(id,0);
         });
+        rvChat.addOnScrollListener(onScrollListener);
         setupTitle("Комментарии");
         return view;
     }
@@ -109,14 +118,17 @@ public class CommentFragment extends BaseFragment implements CommentView, OnComm
 
     @Override
     public void showComments(List<Comment> commentList) {
+        if (commentList == null) {
+            commentList = new ArrayList<>();
+        }
+        isLoading = !(commentList.size() <= 20);
+        commentAdapter.setCommentList(commentList);
+        swipeChat.setRefreshing(false);
         if(commentList.isEmpty()){
             tvNoComments.setVisibility(View.VISIBLE);
         } else {
             tvNoComments.setVisibility(View.GONE);
         }
-        CommentAdapter commentAdapter =
-                new CommentAdapter(getActivity(), commentList, this, presenter.getUserId());
-        rvChat.setAdapter(commentAdapter);
         swipeChat.setRefreshing(false);
         llProgressBar.setVisibility(View.GONE);
         androidUtils.hideKeyboard(getView());
@@ -178,4 +190,26 @@ public class CommentFragment extends BaseFragment implements CommentView, OnComm
     public void editComment(String id, String text) {
         presenter.editComment(id, text);
     }
+
+    final RecyclerView.OnScrollListener onScrollListener = new RecyclerView.OnScrollListener() {
+        @Override
+        public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+            int visibleItemCount = mLayoutManager.getChildCount();
+            int totalItemCount = mLayoutManager.getItemCount();
+            int firstVisibleItemPosition = mLayoutManager.findFirstVisibleItemPosition();
+
+            if (!isLoading ) {
+                if ((visibleItemCount + firstVisibleItemPosition) >= totalItemCount
+                        && firstVisibleItemPosition >= 0
+                        && totalItemCount >= PAGE_SIZE) {
+                    commentAdapter.loadMore();
+                    presenter.loadComments(id, totalItemCount);
+                    isLoading = true;
+                }
+            }
+        }
+
+
+
+    };
 }

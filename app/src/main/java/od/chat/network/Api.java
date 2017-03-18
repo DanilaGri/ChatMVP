@@ -25,8 +25,8 @@ public interface Api {
     Observable<User> auth(@Query("email") String email,
                           @Query("password") String password);
 
-    @GET("read_comments.php")
-    Observable<List<Comment>> getComments(@Query("id") String id);
+    @GET("read_comments_on_range.php")
+    Observable<List<Comment>> getComments(@Query("id") String id, @Query("zero") int zero);
 
     @GET("create_comment.php")
     Observable<String> sendComment(@Query("user_id") String userId,

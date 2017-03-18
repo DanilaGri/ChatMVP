@@ -10,7 +10,7 @@ import rx.Observable;
  */
 
 public interface CommentHelper {
-    Observable<List<Comment>> getComments(String id);
+    Observable<List<Comment>> getComments(String id, int zero);
 
     Observable<String> sendComment(String user_id, String post_id, String text);
 

@@ -6,6 +6,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 import od.chat.helper.CommentHelper;
+import od.chat.model.Chat;
 import od.chat.model.Comment;
 import od.chat.presenter.CommentPresenter;
 import od.chat.ui.Navigator;
@@ -21,6 +22,8 @@ public class CommentPresenterImpl extends CommentPresenter {
     private CommentHelper commentHelper;
     private String postId;
     private Navigator navigator;
+    private int zero;
+    private List<Comment> commentList = new ArrayList<>();
 
     @Inject
     public CommentPresenterImpl(SharedPreferencesUtils preferencesUtils,
@@ -31,10 +34,11 @@ public class CommentPresenterImpl extends CommentPresenter {
     }
 
     @Override
-    public void loadComments(String id) {
+    public void loadComments(String id, int zero) {
         postId = id;
+        this.zero = zero;
         if (subscription != null) subscription.unsubscribe();
-        subscription = commentHelper.getComments(id)
+        subscription = commentHelper.getComments(id, zero)
                 .subscribe(new Observer<List<Comment>>() {
                     @Override
                     public void onCompleted() {
@@ -47,10 +51,17 @@ public class CommentPresenterImpl extends CommentPresenter {
                     }
 
                     @Override
-                    public void onNext(List<Comment> commentList) {
-                        if (commentList == null) {
-                            view.showComments(new ArrayList<>());
-                        } else {
+                    public void onNext(List<Comment> response) {
+                        if (isViewAttached()) {
+                            if (zero == 0) {
+                                commentList.clear();
+                            }
+                            if (commentList.size() > 0) {
+                                commentList.remove(commentList.size() - 1);
+                            }
+                            if (response != null) {
+                                commentList.addAll(response);
+                            }
                             view.showComments(commentList);
                         }
                     }
@@ -74,7 +85,7 @@ public class CommentPresenterImpl extends CommentPresenter {
 
             @Override
             public void onNext(String response) {
-                loadComments(postId);
+                loadComments(postId, 0);
                 view.update();
 
             }
@@ -105,7 +116,7 @@ public class CommentPresenterImpl extends CommentPresenter {
             @Override
             public void onNext(String s) {
                 if (s.equals("true")) {
-                    loadComments(postId);
+                    loadComments(postId, 0);
                     view.update();
                 }
             }

@@ -9,7 +9,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -24,6 +23,7 @@ import butterknife.ButterKnife;
 import od.chat.R;
 import od.chat.listener.OnChatAdapterListener;
 import od.chat.model.Chat;
+import od.chat.ui.adapter.hoder.FooterHolder;
 
 /**
  * Created by danila on 18.09.16.
@@ -123,16 +123,6 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     @Override
     public int getItemCount() {
         return chatList == null ? 0 : chatList.size();
-    }
-
-    public class FooterHolder extends RecyclerView.ViewHolder {
-        @Bind(R.id.progressLoadMore)
-        ProgressBar progressLoadMore;
-
-        public FooterHolder(View view) {
-            super(view);
-            ButterKnife.bind(this, view);
-        }
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
