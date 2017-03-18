@@ -34,5 +34,7 @@
     <string name="msg_error_load_data">Error load data!</string>
     <string name="msg_empty_comments">List comments is empty!</string>
     <string name="update">try again</string>
+    <string name="error.msg.post.name">Введите название поста</string>
+    <string name="error.msg.post.subscription">Введите описание поста</string>
 
 </resources>

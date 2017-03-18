@@ -2,6 +2,7 @@ package od.chat.ui.fragment;
 
 
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -20,9 +21,9 @@ import javax.inject.Inject;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 import od.chat.R;
 import od.chat.event.UpdateEvent;
+import od.chat.helper.AlertDialogsHelper;
 import od.chat.model.Chat;
 import od.chat.presenter.PostEditPresenter;
 import od.chat.ui.view.PostEditView;
@@ -60,6 +61,8 @@ public class PostEditFragment extends BaseFragment implements PostEditView {
     AndroidUtils androidUtils;
     @Inject
     PostEditPresenter presenter;
+    @Inject
+    AlertDialogsHelper dialogsHelper;
 
     public PostEditFragment() {
         // Required empty public constructor
@@ -127,17 +130,32 @@ public class PostEditFragment extends BaseFragment implements PostEditView {
         switch (item.getItemId()) {
             case R.id.menu_save:
                 if (chat != null) {
-                    presenter.edit(chat.getId(), title.getText().toString(),
-                            subscription.getText().toString(), imageUrl.getText().toString());
+                    if (chekInputText()) {
+                        presenter.edit(chat.getId(), title.getText().toString(),
+                                subscription.getText().toString(), imageUrl.getText().toString());
+                    }
                 } else {
-                    presenter.add(title.getText().toString(),
-                            subscription.getText().toString(), imageUrl.getText().toString());
+                    if (chekInputText()) {
+                        presenter.add(title.getText().toString(),
+                                subscription.getText().toString(), imageUrl.getText().toString());
+                    }
                 }
             default:
                 break;
         }
 
         return false;
+    }
+
+    private boolean chekInputText() {
+        if (TextUtils.isEmpty(title.getText())) {
+            dialogsHelper.errorTxtMsg(getString(R.string.error_msg_post_name));
+            return false;
+        } else if (TextUtils.isEmpty(subscription.getText())) {
+            dialogsHelper.errorTxtMsg(getString(R.string.error_msg_post_subscription));
+            return false;
+        }
+        return true;
     }
 
     @Override
