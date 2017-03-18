@@ -13,6 +13,7 @@ import od.chat.helper.ChatHelper;
 import od.chat.helper.CommentHelper;
 import od.chat.helper.UserHelper;
 import od.chat.ui.Navigator;
+import od.chat.ui.activity.BaseActivity;
 import od.chat.ui.activity.MainActivity;
 import od.chat.ui.activity.StartActivity;
 import od.chat.utils.AndroidUtils;
@@ -56,4 +57,6 @@ public interface ActivityComponent {
     void inject(StartActivity loginActivity);
 
     void inject(MainActivity mainActivity);
+
+    void inject(BaseActivity mainActivity);
 }

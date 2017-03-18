@@ -1,21 +1,9 @@
 package od.chat.ui.activity;
 
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
-import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
-import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
-import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
-import android.view.MenuItem;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
-
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.target.BitmapImageViewTarget;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -26,12 +14,10 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import od.chat.R;
 import od.chat.event.UpdateUser;
-import od.chat.model.User;
 import od.chat.presenter.MainActivityPresenter;
 import od.chat.ui.view.MainActivityView;
 
-public class MainActivity extends BaseActivity
-        implements NavigationView.OnNavigationItemSelectedListener, MainActivityView {
+public class MainActivity extends BaseActivity implements MainActivityView {
 
     @Bind(R.id.toolbar)
     Toolbar toolbar;
@@ -41,7 +27,6 @@ public class MainActivity extends BaseActivity
     NavigationView navView;
     @Bind(R.id.drawer_layout)
     DrawerLayout drawerLayout;
-    LinearLayout hView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,85 +34,10 @@ public class MainActivity extends BaseActivity
         ButterKnife.bind(this);
         getComponent().inject(this);
         setupToolbar("News feed", toolbar);
+        setupDrawer(navView, drawerLayout, toolbar);
         presenter.attachView(this);
-        presenter.setupUserInfo();
         presenter.openChatScreen();
 
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawerLayout.setDrawerListener(toggle);
-        toggle.syncState();
-        navView.setNavigationItemSelectedListener(this);
-    }
-
-    @Override
-    public void onBackPressed() {
-        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
-            drawerLayout.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
-        }
-    }
-
-    @SuppressWarnings("StatementWithEmptyBody")
-    @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
-        int id = item.getItemId();
-
-        if (id == R.id.nav_private_cabinet) {
-            presenter.openPrivateCabinet();
-        } else if (id == R.id.nav_exit) {
-            presenter.openLoginScreen();
-        } else if (id == R.id.nav_chat) {
-            presenter.openChatScreen();
-        }
-
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
-        return true;
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        if (!EventBus.getDefault().isRegistered(this)) {
-            EventBus.getDefault().register(this);
-        }
-    }
-
-    @Override
-    protected void onDestroy() {
-        presenter.detachView();
-        super.onDestroy();
-        if (EventBus.getDefault().isRegistered(this)) {
-            EventBus.getDefault().unregister(this);
-        }
-    }
-
-    @Override
-    public void setupUserInfo(User user) {
-        if(hView == null) {
-            hView = (LinearLayout) navView.inflateHeaderView(R.layout.nav_header_main);
-        }
-        TextView tvUser = (TextView) hView.findViewById(R.id.tv_username);
-        TextView tvMail = (TextView) hView.findViewById(R.id.tv_user_mail);
-        ImageView imgUser = (ImageView) hView.findViewById(R.id.image_user);
-              Glide.with(this)
-                .load(user.getAvatar()).asBitmap()
-                .into(new BitmapImageViewTarget(imgUser) {
-                    @Override
-                    protected void setResource(Bitmap resource) {
-                        RoundedBitmapDrawable circularBitmapDrawable =
-                                RoundedBitmapDrawableFactory.create(getApplication().getResources(), resource);
-                        circularBitmapDrawable.setCircular(true);
-                        imgUser.setImageDrawable(circularBitmapDrawable);
-                    }
-                });
-
-        tvUser.setText(user.getName() != null && user.getSurname() != null
-                ? user.getName() + " " + user.getSurname() : "");
-        tvMail.setText(user.getEmail() != null ? user.getEmail() : "");
     }
     @Subscribe(sticky = true)
     public void updateUser(UpdateUser user){
