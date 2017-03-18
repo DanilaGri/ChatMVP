@@ -41,13 +41,4 @@ public class BaseFragment extends Fragment implements HasComponent<FragmentCompo
     public void setupTitle(String title) {
         getActivity().setTitle(title);
     }
-
-    protected void setupToolbar(String title, android.support.v7.widget.Toolbar toolbar) {
-        toolbar.setNavigationIcon(R.drawable.ic_chevron_left_white_36dp);
-        toolbar.setNavigationOnClickListener((View v) -> {
-            getFragmentManager().popBackStack();
-        });
-
-        setupTitle(title);
-    }
 }

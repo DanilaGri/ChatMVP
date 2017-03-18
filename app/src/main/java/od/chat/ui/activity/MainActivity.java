@@ -27,6 +27,7 @@ public class MainActivity extends BaseActivity implements MainActivityView {
     NavigationView navView;
     @Bind(R.id.drawer_layout)
     DrawerLayout drawerLayout;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,9 +40,27 @@ public class MainActivity extends BaseActivity implements MainActivityView {
         presenter.openChatScreen();
 
     }
+
     @Subscribe(sticky = true)
-    public void updateUser(UpdateUser user){
+    public void updateUser(UpdateUser user) {
         EventBus.getDefault().removeStickyEvent(user);
         setupUserInfo(user.getUser());
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        if (!EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().register(this);
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        presenter.detachView();
+        super.onDestroy();
+        if (EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().unregister(this);
+        }
     }
 }
