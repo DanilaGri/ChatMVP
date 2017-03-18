@@ -23,7 +23,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 @Module
 public class ApiModule {
-    private final static String BASE_URL = "http://merkulov.net16.net/api-for-posts/";
+    private final static String BASE_URL = "http://merkulov.net16.net/projects/api-for-posts/";
 
     @Provides
     @Singleton
