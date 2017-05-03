@@ -25,6 +25,7 @@ import od.chat.model.User;
 import od.chat.presenter.UpdateUserPresenter;
 import od.chat.ui.view.UpdateUserView;
 import od.chat.utils.AndroidUtils;
+import od.chat.utils.ValidUser;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -46,7 +47,7 @@ public class UpdateUserFragment extends BaseFragment implements UpdateUserView {
     @Bind(R.id.name)
     AutoCompleteTextView name;
     @Bind(R.id.sure_name)
-    AutoCompleteTextView sureName;
+    AutoCompleteTextView surname;
     @Bind(R.id.avatar)
     AutoCompleteTextView avatar;
     @Bind(R.id.ll_progress_bar)
@@ -71,7 +72,7 @@ public class UpdateUserFragment extends BaseFragment implements UpdateUserView {
         getComponent().inject(this);
         presenter.attachView(this);
         presenter.setupUserInfo();
-        setupTitle("Edit User");
+        setupTitle(getString(R.string.title_edit_user));
         return view;
     }
 
@@ -99,63 +100,17 @@ public class UpdateUserFragment extends BaseFragment implements UpdateUserView {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_save:
-                if (setupInputValues()) {
+                if (ValidUser.setupInputValues(getActivity(), email, password, passwordRepeat, name,
+                        surname, avatar)) {
                     llProgressBar.setVisibility(View.VISIBLE);
                     androidUtils.hideKeyboard(getView());
                     presenter.updateUser(email.getText().toString(), password.getText().toString(),
-                            name.getText().toString(), sureName.getText().toString(),
+                            name.getText().toString(), surname.getText().toString(),
                             avatar.getText().toString());
                 }
         }
 
         return false;
-    }
-
-    private boolean setupInputValues() {
-        boolean flag;
-        String field = "";
-        if ("".equals(email.getText().toString())) {
-            field = "Email";
-            flag = false;
-        } else if ("".equals(password.getText().toString())) {
-            field = "Пароль";
-            flag = false;
-        } else if ("".equals(passwordRepeat.getText().toString())) {
-            field = "Пароль повторно";
-            flag = false;
-        } else if ("".equals(name.getText().toString())) {
-            field = "имя";
-            flag = false;
-        } else if ("".equals(sureName.getText().toString())) {
-            field = "фамилия";
-            flag = false;
-        } else if ("".equals(avatar.getText().toString())) {
-            field = "аватар";
-            flag = false;
-        } else {
-
-            flag = true;
-        }
-
-        if (!flag) {
-            String msg;
-            if (password.length() < 4) {
-                msg = "Пароль слишком короткий. Введите минимум 4 символа";
-            } else if (!(password.getText().toString().equals(passwordRepeat.getText().toString()))) {
-                msg = "Пароли не совпадают";
-            } else {
-                msg = "Заполните поле: " + field;
-            }
-
-            new AlertDialog.Builder(getActivity())
-                    .setMessage(msg)
-                    .setCancelable(false)
-                    .setPositiveButton(android.R.string.ok,
-                            (dialog, which) -> {
-                            }).show();
-        }
-
-        return flag;
     }
 
     @Override
@@ -164,7 +119,7 @@ public class UpdateUserFragment extends BaseFragment implements UpdateUserView {
         passwordRepeat.setText(user.getPassword() != null ? user.getPassword() : "");
         email.setText(user.getEmail() != null ? user.getEmail() : "");
         name.setText(user.getName() != null ? user.getName() : "");
-        sureName.setText(user.getSurname() != null ? user.getSurname() : "");
+        surname.setText(user.getSurname() != null ? user.getSurname() : "");
         avatar.setText(user.getAvatar() != null ? user.getAvatar() : "");
     }
 

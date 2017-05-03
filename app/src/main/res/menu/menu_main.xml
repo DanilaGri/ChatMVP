@@ -6,6 +6,6 @@
         android:id="@+id/menu_add"
         android:icon="@drawable/ic_plus_white_24dp"
         app:showAsAction="always"
-        android:title="добавить">
+        android:title="add">
     </item>
 </menu>

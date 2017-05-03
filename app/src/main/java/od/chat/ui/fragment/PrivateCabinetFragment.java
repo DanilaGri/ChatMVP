@@ -35,7 +35,7 @@ import od.chat.ui.view.PrivateCabinetView;
 public class PrivateCabinetFragment extends BaseFragment implements PrivateCabinetView {
 
     public static final String TAG = PrivateCabinetFragment.class.getSimpleName();
-    private static final String ARG_ID_USER = "arg_id_user";
+    private static final String ARGUMENT_ID_USER = "arg_id_user";
 
     @Inject
     UserPresenter presenter;
@@ -66,7 +66,7 @@ public class PrivateCabinetFragment extends BaseFragment implements PrivateCabin
     public static PrivateCabinetFragment newInstance(String idUser) {
         PrivateCabinetFragment fragment = new PrivateCabinetFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_ID_USER, idUser);
+        args.putString(ARGUMENT_ID_USER, idUser);
         fragment.setArguments(args);
         return fragment;
     }
@@ -75,7 +75,7 @@ public class PrivateCabinetFragment extends BaseFragment implements PrivateCabin
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            idUser = getArguments().getString(ARG_ID_USER);
+            idUser = getArguments().getString(ARGUMENT_ID_USER);
             setHasOptionsMenu(false);
         } else {
             setHasOptionsMenu(true);
@@ -91,9 +91,9 @@ public class PrivateCabinetFragment extends BaseFragment implements PrivateCabin
         getComponent().inject(this);
         presenter.attachView(this);
         if (idUser != null) {
-            setupTitle("Просмотр пользователя");
+            setupTitle(getString(R.string.title_view_user));
         } else {
-            setupTitle("Личный кабинет");
+            setupTitle(getString(R.string.title_private_cabinet));
         }
         llUser.setVisibility(View.GONE);
         llProgressBar.setVisibility(View.VISIBLE);

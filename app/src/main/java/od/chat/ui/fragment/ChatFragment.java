@@ -43,7 +43,6 @@ import od.chat.ui.view.ChatView;
  * create an instance of this fragment.
  */
 public class ChatFragment extends BaseFragment implements ChatView, OnAdapterListener, OnChatAdapterListener {
-    private static final String ARG_PARAM1 = "param1";
     public static final String TAG = ChatFragment.class.getSimpleName();
     @Bind(R.id.rv_chat)
     RecyclerView rvChat;
@@ -57,7 +56,6 @@ public class ChatFragment extends BaseFragment implements ChatView, OnAdapterLis
     Button btnUpdate;
     @Bind(R.id.ll_progress_bar)
     LinearLayout llProgressBar;
-    private String mParam1;
     private boolean isFromCache = false;
     private boolean isLoading = false;
     public static final int PAGE_SIZE = 2;
@@ -72,18 +70,9 @@ public class ChatFragment extends BaseFragment implements ChatView, OnAdapterLis
     public ChatFragment() {
         // Required empty public constructor
     }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @return A new instance of fragment ChatFragment.
-     */
-    public static ChatFragment newInstance(String param1) {
+    public static ChatFragment newInstance() {
         ChatFragment fragment = new ChatFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
         fragment.setArguments(args);
         return fragment;
     }
@@ -91,9 +80,6 @@ public class ChatFragment extends BaseFragment implements ChatView, OnAdapterLis
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-        }
         setHasOptionsMenu(true);
     }
 
@@ -121,7 +107,7 @@ public class ChatFragment extends BaseFragment implements ChatView, OnAdapterLis
         });
 
         rvChat.addOnScrollListener(onScrollListener);
-        setupTitle("Посты");
+        setupTitle(getString(R.string.title_chat));
         return view;
     }
 

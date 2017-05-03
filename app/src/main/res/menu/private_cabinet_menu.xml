@@ -6,13 +6,13 @@
         android:id="@+id/menu_edit"
         android:icon="@drawable/ic_account_edit_white_24dp"
         app:showAsAction="always"
-        android:title="редактировать">
+        android:title="edit">
     </item>
 
     <item
         android:id="@+id/menu_delete"
         android:icon="@drawable/ic_account_remove_white_24dp"
         app:showAsAction="always"
-        android:title="удалить">
+        android:title="remove">
     </item>
 </menu>

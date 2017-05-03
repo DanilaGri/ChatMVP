@@ -37,4 +37,18 @@
     <string name="error.msg.post.name">Введите название поста</string>
     <string name="error.msg.post.subscription">Введите описание поста</string>
 
+    <string name="title_chat">Chat</string>
+    <string name="title_comments">Comments</string>
+    <string name="title_edit_comment">Edit</string>
+    <string name="title_edit_post">Edit post</string>
+    <string name="title_add_post">Add post</string>
+    <string name="title_private_cabinet">Private cabinet</string>
+    <string name="title_view_user">View user</string>
+    <string name="title_sign_up">Sign up</string>
+    <string name="title_edit_user">Edit user</string>
+    <string name="error_password_length">The password is too short. Please enter at least 4 characters</string>
+    <string name="error_password_match">Passwords do not match</string>
+    <string name="error_fill_field">Fill in the field:</string>
+    <string name="error_empty_text">Comment text can not be empty</string>
+
 </resources>

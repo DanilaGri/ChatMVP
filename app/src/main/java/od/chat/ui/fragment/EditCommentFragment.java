@@ -25,8 +25,8 @@ import od.chat.utils.AndroidUtils;
  * A simple {@link BaseFragment} subclass.
  */
 public class EditCommentFragment extends BaseFragment implements EditView {
-    private static final String ARG_TEXT = "text";
-    private static final String ARG_ID = "id";
+    private static final String ARGUMENT_COMMENT_TEXT = "text";
+    private static final String ARGUMENT_COMMENT_ID = "id";
     public static final String TAG = EditCommentFragment.class.getSimpleName();
     @Bind(R.id.edit_comment)
     EditText editComment;
@@ -49,8 +49,8 @@ public class EditCommentFragment extends BaseFragment implements EditView {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            text = getArguments().getString(ARG_TEXT);
-            id = getArguments().getString(ARG_ID);
+            text = getArguments().getString(ARGUMENT_COMMENT_TEXT);
+            id = getArguments().getString(ARGUMENT_COMMENT_ID);
         }
         setHasOptionsMenu(true);
     }
@@ -58,8 +58,8 @@ public class EditCommentFragment extends BaseFragment implements EditView {
     public static EditCommentFragment newInstance(String id, String text) {
         EditCommentFragment fragment = new EditCommentFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_TEXT, text);
-        args.putString(ARG_ID, id);
+        args.putString(ARGUMENT_COMMENT_TEXT, text);
+        args.putString(ARGUMENT_COMMENT_ID, id);
         fragment.setArguments(args);
         return fragment;
     }
@@ -70,7 +70,7 @@ public class EditCommentFragment extends BaseFragment implements EditView {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_edit_comment, container, false);
         getComponent().inject(this);
-        setupTitle("Edit");
+        setupTitle(getString(R.string.title_edit_comment));
         presenter.attachView(this);
         ButterKnife.bind(this, view);
         if (text != null) {
@@ -109,7 +109,7 @@ public class EditCommentFragment extends BaseFragment implements EditView {
     private void editComment() {
         String txtEdit = editComment.getText().toString();
         if(txtEdit.length() == 0) {
-            Toast.makeText(getActivity(), "Comment text can not be empty", Toast.LENGTH_SHORT)
+            Toast.makeText(getActivity(), R.string.error_empty_text, Toast.LENGTH_SHORT)
                     .show();
             return;
         }

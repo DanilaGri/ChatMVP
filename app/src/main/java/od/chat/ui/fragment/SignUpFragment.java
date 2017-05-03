@@ -23,6 +23,7 @@ import od.chat.model.User;
 import od.chat.presenter.SignUpPresenter;
 import od.chat.ui.view.SignUpView;
 import od.chat.utils.AndroidUtils;
+import od.chat.utils.ValidUser;
 
 /**
  * Created by danila on 22.10.16.
@@ -42,7 +43,7 @@ public class SignUpFragment extends BaseFragment implements SignUpView {
     @Bind(R.id.name)
     AutoCompleteTextView name;
     @Bind(R.id.sure_name)
-    AutoCompleteTextView sureName;
+    AutoCompleteTextView surname;
     @Bind(R.id.avatar)
     AutoCompleteTextView avatar;
     @Bind(R.id.ll_user)
@@ -86,7 +87,8 @@ public class SignUpFragment extends BaseFragment implements SignUpView {
         }
         Toolbar toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
         toolbar.setVisibility(View.VISIBLE);
-        setupTitle(isSign ? "Регистрация" : "Личный кабинет");
+        setupTitle(isSign ? getString(R.string.title_sign_up) :
+                getString(R.string.title_private_cabinet));
         return view;
     }
 
@@ -114,11 +116,12 @@ public class SignUpFragment extends BaseFragment implements SignUpView {
         switch (item.getItemId()) {
 
             case R.id.menu_save:
-                if (setupInputValues()) {
+                if (ValidUser.setupInputValues(getActivity(), email, password, passwordRepeat, name,
+                        surname, avatar)) {
                     androidUtils.hideKeyboard(getView());
                     llProgressBar.setVisibility(View.VISIBLE);
                     presenter.signUp(email.getText().toString(), password.getText().toString(),
-                            name.getText().toString(), sureName.getText().toString(),
+                            name.getText().toString(), surname.getText().toString(),
                             avatar.getText().toString(), isSign);
                 }
             default:
@@ -128,52 +131,6 @@ public class SignUpFragment extends BaseFragment implements SignUpView {
         return super.onOptionsItemSelected(item);
     }
 
-    private boolean setupInputValues() {
-        boolean flag;
-        String field = "";
-        if ("".equals(email.getText().toString())) {
-            field = "Email";
-            flag = false;
-        } else if ("".equals(password.getText().toString())) {
-            field = "Пароль";
-            flag = false;
-        } else if ("".equals(passwordRepeat.getText().toString())) {
-            field = "Пароль повторно";
-            flag = false;
-        } else if ("".equals(name.getText().toString())) {
-            field = "имя";
-            flag = false;
-        } else if ("".equals(sureName.getText().toString())) {
-            field = "фамилия";
-            flag = false;
-        } else if ("".equals(avatar.getText().toString())) {
-            field = "аватар";
-            flag = false;
-        } else {
-
-            flag = true;
-        }
-
-        if (!flag) {
-            String msg;
-            if (password.length() < 4) {
-                msg = "Пароль слишком короткий. Введите минимум 4 символа";
-            } else if (!(password.getText().toString().equals(passwordRepeat.getText().toString()))) {
-                msg = "Пароли не совпадают";
-            } else {
-                msg = "Заполните поле: " + field;
-            }
-
-            new AlertDialog.Builder(getActivity())
-                    .setMessage(msg)
-                    .setCancelable(false)
-                    .setPositiveButton(android.R.string.ok,
-                            (dialog, which) -> {
-                            }).show();
-        }
-
-        return flag;
-    }
 
     @Override
     public void setupUser(User user) {
@@ -181,7 +138,7 @@ public class SignUpFragment extends BaseFragment implements SignUpView {
         password.setText(user.getPassword());
         passwordRepeat.setText(user.getPassword());
         name.setText(user.getName());
-        sureName.setText(user.getSurname());
+        surname.setText(user.getSurname());
         avatar.setText(user.getAvatar());
     }
 

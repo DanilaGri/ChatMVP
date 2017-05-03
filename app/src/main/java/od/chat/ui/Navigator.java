@@ -77,23 +77,14 @@ public class Navigator {
 
     public void openChatScreen() {
         getFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-//        ChatFragment chatFragment;
-//        if (getFragmentByTag(ChatFragment.TAG) != null) {
-//            chatFragment = (ChatFragment) getFragmentByTag(ChatFragment.TAG);
-//        } else {
-//            ChatFragment  chatFragment = ChatFragment.newInstance("title_item");
-//        }
-        ChatFragment  chatFragment = ChatFragment.newInstance("title_item");
+        ChatFragment chatFragment = ChatFragment.newInstance();
         replaceFragment(chatFragment, ChatFragment.TAG);
     }
 
     public void openPrivateCabinetScreen() {
         getFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-//        PrivateCabinetFragment fragment;
-//        if (getFragmentByTag(PrivateCabinetFragment.TAG) == null) {
-            PrivateCabinetFragment  fragment = new PrivateCabinetFragment();
-            replaceFragment(fragment, PrivateCabinetFragment.TAG);
-//        }
+        PrivateCabinetFragment fragment = new PrivateCabinetFragment();
+        replaceFragment(fragment, PrivateCabinetFragment.TAG);
     }
 
     public void openReadUser(String id) {

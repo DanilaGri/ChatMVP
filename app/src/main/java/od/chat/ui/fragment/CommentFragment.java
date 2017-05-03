@@ -40,7 +40,7 @@ import od.chat.utils.AndroidUtils;
  * create an instance of this fragment.
  */
 public class CommentFragment extends BaseFragment implements CommentView, OnCommentAdapterListener {
-    private static final String ARG_ID = "ARG_ID";
+    private static final String ARGUMENT_ID = "ARGUMENT_ID";
     public static final String TAG = CommentFragment.class.getSimpleName();
     private boolean isLoading = false;
     public static final int PAGE_SIZE = 2;
@@ -72,7 +72,7 @@ public class CommentFragment extends BaseFragment implements CommentView, OnComm
     public static CommentFragment newInstance(String id) {
         CommentFragment fragment = new CommentFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_ID, id);
+        args.putString(ARGUMENT_ID, id);
         fragment.setArguments(args);
         return fragment;
     }
@@ -81,7 +81,7 @@ public class CommentFragment extends BaseFragment implements CommentView, OnComm
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            id = getArguments().getString(ARG_ID);
+            id = getArguments().getString(ARGUMENT_ID);
         }
     }
 
@@ -106,7 +106,7 @@ public class CommentFragment extends BaseFragment implements CommentView, OnComm
             presenter.loadComments(id,0);
         });
         rvChat.addOnScrollListener(onScrollListener);
-        setupTitle("Комментарии");
+        setupTitle(getString(R.string.title_comments));
         return view;
     }
 

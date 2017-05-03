@@ -6,6 +6,6 @@
         android:id="@+id/menu_save"
         android:icon="@drawable/ic_content_save_white_24dp"
         app:showAsAction="always"
-        android:title="добавить вопрос">
+        android:title="save">
     </item>
 </menu>

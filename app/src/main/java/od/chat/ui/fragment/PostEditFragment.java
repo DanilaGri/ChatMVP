@@ -35,7 +35,7 @@ import od.chat.utils.AndroidUtils;
  * create an instance of this fragment.
  */
 public class PostEditFragment extends BaseFragment implements PostEditView {
-    private static final String ARG_POST = "arg_post";
+    private static final String ARGUMENT_POST = "arg_post";
     public static final String TAG = PostEditFragment.class.getSimpleName();
 
     @Bind(R.id.ll_post)
@@ -71,7 +71,7 @@ public class PostEditFragment extends BaseFragment implements PostEditView {
     public static PostEditFragment newInstance(Chat chat) {
         PostEditFragment fragment = new PostEditFragment();
         Bundle args = new Bundle();
-        args.putParcelable(ARG_POST, chat);
+        args.putParcelable(ARGUMENT_POST, chat);
         fragment.setArguments(args);
         return fragment;
     }
@@ -80,7 +80,7 @@ public class PostEditFragment extends BaseFragment implements PostEditView {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            chat = getArguments().getParcelable(ARG_POST);
+            chat = getArguments().getParcelable(ARGUMENT_POST);
         }
         setHasOptionsMenu(true);
     }
@@ -95,12 +95,12 @@ public class PostEditFragment extends BaseFragment implements PostEditView {
         presenter.attachView(this);
         llProgressBar.setVisibility(View.GONE);
         if (chat != null) {
-            setupTitle("Редактирование поста");
+            setupTitle(getString(R.string.title_edit_post));
             subscription.setText(chat.getDescription() != null ? chat.getDescription() : "");
             title.setText(chat.getTitle() != null ? chat.getTitle() : "");
             imageUrl.setText(chat.getImage() != null ? chat.getImage() : "");
         } else {
-            setupTitle("Добавление поста");
+            setupTitle(getString(R.string.title_add_post));
         }
 
         return view;

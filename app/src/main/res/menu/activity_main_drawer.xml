@@ -4,20 +4,19 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_chat"
-            android:icon="@drawable/ic_wechat_black_24dp"
-            android:title="Посты" />
+            android:icon="@drawable/ic_chat_black_24dp"
+            android:title="@string/title_chat" />
         <item
             android:id="@+id/nav_private_cabinet"
             android:icon="@drawable/ic_account_box_black_24dp"
-            android:title="Личный кабинет" />
+            android:title="@string/title_private_cabinet" />
       </group>
     <group
         android:id="@+id/menu_bottom"
         android:checkableBehavior="none">
         <item android:id="@+id/nav_exit"
             android:icon="@drawable/ic_exit_to_app_white_36dp"
-
-            android:title="Выход" />
+            android:title="Logout" />
     </group>
 
 </menu>
