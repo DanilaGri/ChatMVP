@@ -30,7 +30,6 @@ import od.chat.ChatApp;
 import od.chat.R;
 import od.chat.di.HasComponent;
 import od.chat.di.component.ActivityComponent;
-import od.chat.di.component.DaggerActivityComponent;
 import od.chat.di.module.ActivityModule;
 import od.chat.event.UpdateUser;
 import od.chat.model.User;
@@ -59,10 +58,8 @@ public class BaseActivity extends AppCompatActivity implements HasComponent<Acti
     }
 
     private void initActivityComponent() {
-        activityComponent = DaggerActivityComponent.builder()
-                .appComponent(ChatApp.getInstance().getComponent())
-                .activityModule(new ActivityModule(this))
-                .build();
+        ChatApp.getInstance().getComponent().plus(new ActivityModule(this));
+        activityComponent = ChatApp.getInstance().getComponent().plus(new ActivityModule(this));
     }
 
     @Override

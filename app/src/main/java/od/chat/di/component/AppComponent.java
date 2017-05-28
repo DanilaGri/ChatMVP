@@ -7,6 +7,7 @@ import android.content.res.Resources;
 import javax.inject.Singleton;
 
 import dagger.Component;
+import od.chat.di.module.ActivityModule;
 import od.chat.di.module.ApiModule;
 import od.chat.di.module.AppModule;
 import od.chat.di.module.HelperModule;
@@ -30,24 +31,5 @@ import od.chat.utils.SharedPreferencesUtils;
         UtilsModule.class
 })
 public interface AppComponent {
-
-    Application getApplication();
-
-    Resources getResource();
-
-    Context getContext();
-
-    SharedPreferencesUtils getSharedPreferencesUtils();
-
-    RxUtil getRxUtil();
-
-    ChatHelper getChatHelper();
-
-    CommentHelper getCommentHelper();
-
-    AuthHelper getAuthHelper();
-
-    UserHelper getSignUpHelper();
-
-    AndroidUtils getAndroidUtils();
+    ActivityComponent plus(ActivityModule activityModule);
 }
